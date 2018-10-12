@@ -8,6 +8,6 @@
 </head>
 <body>
 <h3>Hi Evan, Login successful.</h3>
-<a href="login.html">Login Page</a>
+<a href="<%=request.getContextPath()%>/login.html">Login Page</a>
 </body>
 </html>
