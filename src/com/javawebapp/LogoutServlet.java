@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(description = "Logout Servlet", urlPatterns = { "/LogoutServlet" })
 public class LogoutServlet extends HttpServlet {
@@ -23,25 +24,25 @@ public class LogoutServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		response.setContentType("text/html");
-		Cookie loginCookie = null;
 		Cookie[] cookies = request.getCookies();
 		if(cookies!=null)
 		{
 			for(Cookie c : cookies)
 			{
-				if(c.getName().equals("user"))
+				if(c.getName().equals("JSESSIONID"))
 				{
-					loginCookie = c;
+					System.out.println("JSESSIONID=" + c.getValue());
 					break;
 				}
 			}
 		}
-		if(loginCookie != null)
+		
+		//invalidate the session if exists
+		HttpSession session = request.getSession(false);
+		System.out.println("User=" + session.getAttribute("user"));
+		if(session != null)
 		{
-			// doesn't delete cookie, but it will be removed from the client's 
-			// browser immediately
-			loginCookie.setMaxAge(0);
-			response.addCookie(loginCookie);
+			session.invalidate();
 		}
 		
 		response.sendRedirect("login.html");

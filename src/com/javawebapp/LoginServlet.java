@@ -53,10 +53,11 @@ public class LoginServlet extends HttpServlet {
 			//setting session to expire in 30 minutes
 			session.setMaxInactiveInterval(30*60);
 			Cookie userName = new Cookie("user", user);
+			userName.setMaxAge(30*60);
 			response.addCookie(userName);
-			String encodedURL = response.encodeRedirectURL("jsps/LoginSuccess.jsp");
+			//String encodedURL = response.encodeRedirectURL("jsps/LoginSuccess.jsp");
 			
-			response.sendRedirect(encodedURL);
+			response.sendRedirect("jsps/LoginSuccess.jsp");
 		} else {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
 			PrintWriter out = response.getWriter();

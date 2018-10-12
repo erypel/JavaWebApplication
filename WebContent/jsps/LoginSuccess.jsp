@@ -13,7 +13,6 @@
 	if(session.getAttribute("user") == null) 
 	{
 		response.sendRedirect("login.html");
-		
 	}
 	else
 	{
@@ -37,8 +36,9 @@
 		sessionID = session.getId();
 	}
 	%>
-	<h3>Hi <%=userName %>, Login successful.</h3>
+	<h3>Hi <%=userName %>, Login successful. Your Session ID=<%=sessionID %></h3>
 <br>
+<a href="CheckoutPage.jsp">Checkout Page</a>
 <form action="${pageContext.request.contextPath}/LogoutServlet" method="post">
 <input type="submit" value="Logout" >
 </form>
