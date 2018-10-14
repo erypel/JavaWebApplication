@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpSession;
 		@WebInitParam(name = "user", value = "admin"), @WebInitParam(name = "password", value = "password") })
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	private final String userID = "admin";
 	private final String password = "password";
 
@@ -50,13 +51,13 @@ public class LoginServlet extends HttpServlet {
 		if (userID.equals(user) && password.equals(pwd)) {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user);
-			//setting session to expire in 30 minutes
-			session.setMaxInactiveInterval(30*60);
+			// setting session to expire in 30 minutes
+			session.setMaxInactiveInterval(30 * 60);
 			Cookie userName = new Cookie("user", user);
-			//userName.setMaxAge(30*60);
+			// userName.setMaxAge(30*60);
 			response.addCookie(userName);
 			String encodedURL = response.encodeRedirectURL("jsps/LoginSuccess.jsp");
-			
+
 			response.sendRedirect(encodedURL);
 		} else {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
@@ -69,7 +70,21 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		testWhileDeveloping(request, response);
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
 		rd.include(request, response);
+	}
+
+	protected void testWhileDeveloping(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// For testing while developing
+		ServletContext context = request.getServletContext();
+		context.setAttribute("User", "admin");
+		String user = (String) context.getAttribute("User");
+		context.removeAttribute("User");
+		HttpSession session = request.getSession();
+		session.invalidate();
+		PrintWriter out = response.getWriter();
+		out.write("TESTING::Hi " + user);
 	}
 }
