@@ -8,11 +8,6 @@
 </head>
 <body>
 <%
-	//allow access only if a session exists
-	if(session.getAttribute("user") == null)
-	{
-		response.sendRedirect("login.html");
-	}
 	String userName = null;
 	String sessionID = null;
 	Cookie[] cookies = request.getCookies();

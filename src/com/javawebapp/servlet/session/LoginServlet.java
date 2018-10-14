@@ -1,4 +1,4 @@
-package com.javawebapp;
+package com.javawebapp.servlet.session;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  * Servlet Tutorial - Servlet Example
  */
 @WebServlet(description = "Login Servlet", urlPatterns = { "/LoginServlet" }, initParams = {
-		@WebInitParam(name = "user", value = "evan"), @WebInitParam(name = "password", value = "password") })
+		@WebInitParam(name = "user", value = "admin"), @WebInitParam(name = "password", value = "password") })
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

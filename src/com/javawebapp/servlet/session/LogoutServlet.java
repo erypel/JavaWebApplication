@@ -1,4 +1,4 @@
-package com.javawebapp;
+package com.javawebapp.servlet.session;
 
 import java.io.IOException;
 
@@ -31,17 +31,15 @@ public class LogoutServlet extends HttpServlet {
 			{
 				if(c.getName().equals("JSESSIONID"))
 				{
-					System.out.println("JSESSIONID=" + c.getValue());
+					log("JSESSIONID=" + c.getValue());
+					break;
 				}
-				// can't delete cookie, so have it time out immediately
-				c.setMaxAge(0);
-				response.addCookie(c);
 			}
 		}
 		
 		//invalidate the session if exists
 		HttpSession session = request.getSession(false);
-		System.out.println("User=" + session.getAttribute("user"));
+		log("User=" + session.getAttribute("user"));
 		if(session != null)
 		{
 			session.invalidate();
