@@ -19,13 +19,11 @@ public class AuthenticationFilter implements Filter{
 
 	private ServletContext context;
 	
-	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
 		//we can close any resources here
 	}
 
-	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
@@ -48,7 +46,6 @@ public class AuthenticationFilter implements Filter{
 		}
 	}
 
-	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.context = filterConfig.getServletContext();
 		this.context.log("AuthenticationFilter initialized");
