@@ -23,13 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 public class RequestLoggingFilter implements Filter{
 	private ServletContext context;
 
-	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
 		//we can close resourses here
 	}
 
-	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
@@ -51,7 +49,6 @@ public class RequestLoggingFilter implements Filter{
 		chain.doFilter(request, response);
 	}
 
-	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.context = filterConfig.getServletContext();
 		this.context.log("RequestLoggingFilter initialized");

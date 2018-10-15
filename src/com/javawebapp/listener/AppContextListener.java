@@ -10,7 +10,6 @@ import com.javawebapp.db.DBConnectionManager;
 @WebListener
 public class AppContextListener implements ServletContextListener{
 
-	@Override
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
 		ServletContext context = servletContextEvent.getServletContext();
 		DBConnectionManager dbManager = (DBConnectionManager) context.getAttribute("DBManager");
@@ -18,7 +17,6 @@ public class AppContextListener implements ServletContextListener{
 		context.log("Database connection closed for Application");
 	}
 
-	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		ServletContext context = servletContextEvent.getServletContext();
 		
