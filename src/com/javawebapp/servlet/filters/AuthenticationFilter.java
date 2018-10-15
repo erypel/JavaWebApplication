@@ -33,6 +33,8 @@ public class AuthenticationFilter implements Filter{
 		this.context.log("Requested Resource::" + URI);
 		
 		HttpSession session = req.getSession(false);
+		
+		// don't need to be logged in to create a new user
 		if(URI.endsWith("createNewUser"))
 		{
 			chain.doFilter(request, response);

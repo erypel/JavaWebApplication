@@ -8,11 +8,11 @@
 </head>
 <body>
 <form action="createNewUser" method="post">
-    <input type="text" name="username">
-    <input type="text" name = "password">
-    <input type="text" name = "verifyPwd">
-    <input type="text" name = "email">
-    <input type="submit">
+    UserName: <input type="text" name="username">
+    Password: <input type="text" name = "password">
+    Confirm Password: <input type="text" name = "verifyPwd">
+    Email: <input type="text" name = "email">
+    <input type="submit" value="Submit">
 </form>
 </body>
 </html>
