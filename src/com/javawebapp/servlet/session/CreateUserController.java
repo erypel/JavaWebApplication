@@ -15,27 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 public class CreateUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public void init() throws ServletException {
-		/*// we can create DB connection resource here and set it to Servlet context
-		if (getServletContext().getInitParameter("dbURL").equals("jdbc:mysql://localhost/mysql_db")
-				&& getServletContext().getInitParameter("dbUser").equals("mysql_user")
-				&& getServletContext().getInitParameter("dbUserPwd").equals("mysql_pwd"))
-			getServletContext().setAttribute("DB_Success", "True");
-		else
-			throw new ServletException("DB Connection error");
-			
-			  <input type="text" name="username">
-    <input type="text" name = "password">
-    <input type="text" name = "verifyPwd">
-    <input type="text" name = "email">
-			*/
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		
-		
 		// get request parameters for new user creation
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");

@@ -36,7 +36,6 @@
 	</filter>
 	
 	<!-- filter mappings -->
-	
 	<filter-mapping>
 		<filter-name>RequestLoggingFilter</filter-name> <!-- mandatory -->
 		<url-pattern>/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
