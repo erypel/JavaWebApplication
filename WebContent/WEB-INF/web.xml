@@ -52,8 +52,8 @@
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>CreateUserFilter</filter-name>
-		<url-pattern>/createNewUser</url-pattern>
-		<servlet-name>CreateUserServlet</servlet-name>
+		<url-pattern>/CreateNewUserServlet</url-pattern>
+		<servlet-name>CreateNewUserServlet</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	
