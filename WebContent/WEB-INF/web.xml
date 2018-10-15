@@ -34,19 +34,9 @@
 		<filter-name>AuthenticationFilter</filter-name>
 		<filter-class>com.javawebapp.servlet.filters.AuthenticationFilter</filter-class>
 	</filter>
-	<filter>
-		<filter-name>CreateUserFilter</filter-name>
-		<filter-class>com.javawebapp.servlet.filters.CreateUserFilter</filter-class>
-	</filter>
 	
 	<!-- filter mappings -->
 	
-	<filter-mapping>
-		<filter-name>CreateUserFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-		<servlet-name>CreateUserController</servlet-name>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
 	<filter-mapping>
 		<filter-name>RequestLoggingFilter</filter-name> <!-- mandatory -->
 		<url-pattern>/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
