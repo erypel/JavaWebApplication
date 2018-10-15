@@ -34,8 +34,14 @@ public class AuthenticationFilter implements Filter{
 		
 		HttpSession session = req.getSession(false);
 		
+		// don't need to be logged in to create a new user
+		//TODO make better
+		if(URI.endsWith("createNewUser"))
+		{
+			chain.doFilter(request, response);
+		}
 		// check if access is authorized
-		if(session == null && !(URI.endsWith("html") || URI.endsWith("LoginServlet"))) {
+		else if(session == null && !(URI.endsWith("html") || URI.endsWith("LoginServlet"))) {
 			this.context.log("Unauthorized access request");
 			res.sendRedirect("login.html");
 		}
