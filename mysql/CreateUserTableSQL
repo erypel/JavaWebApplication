@@ -1,3 +1,5 @@
+//TODO do this via xml. Ant?? Maven??
+
 use javawebappdb;
 CREATE TABLE IF NOT EXISTS User(
 	username VARCHAR(20) NOT NULL,
