@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.javawebapp.dao.UserDao;
 import com.javawebapp.db.ConnectionUtils;
 import com.javawebapp.objects.User;
 
+//TODO after finishing this write some tests!
 public class UserDaoImpl implements UserDao{
 
 	@Override

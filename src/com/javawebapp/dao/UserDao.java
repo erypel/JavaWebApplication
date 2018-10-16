@@ -1,4 +1,4 @@
-package com.javawebapp.dao.impl;
+package com.javawebapp.dao;
 
 import java.util.List;
 
