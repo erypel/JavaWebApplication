@@ -11,7 +11,7 @@ import com.javawebapp.objects.User;
 
 //TODO after finishing this write some tests!
 //TODO queries to a queries.properties file https://stackoverflow.com/questions/370818/cleanest-way-to-build-an-sql-string-in-java
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
 
 	@Override
 	public ResultSet getAllUsers() {
@@ -31,18 +31,17 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs!=null)
+				if (rs != null)
 					rs.close();
-			if(ps!=null)
-				ps.close();
-			if(connection!=null)
-				connection.close(); 
-			} catch(SQLException sqlException)
-			{
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			}
 		}
-		return null; //TODO can we return an empty result set?
+		return null; // TODO can we return an empty result set?
 	}
 
 	@Override
@@ -55,15 +54,12 @@ public class UserDaoImpl implements UserDao{
 			ps = connection.prepareStatement("SELECT * FROM User WHERE id=?;");
 			ps.setLong(1, id);
 			rs = ps.executeQuery();
-			if(rs.next())
-			{
+			if (rs.next()) {
 				String username = rs.getString("USERNAME");
 				String email = rs.getString("EMAIL");
 				String password = rs.getString("PASSWORD");
 				return new User(username, email, password, id);
-			}
-			else
-			{
+			} else {
 				System.out.println("No user found for id=" + Long.toString(id));
 			}
 		} catch (ClassNotFoundException e) {
@@ -74,18 +70,17 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs!=null)
+				if (rs != null)
 					rs.close();
-			if(ps!=null)
-				ps.close();
-			if(connection!=null)
-				connection.close(); 
-			} catch(SQLException sqlException)
-			{
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -99,14 +94,12 @@ public class UserDaoImpl implements UserDao{
 			ps = connection.prepareStatement("SELECT * FROM User WHERE username=?;");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
-			if(rs.next())
-			{	Long id = rs.getLong("ID");
+			if (rs.next()) {
+				Long id = rs.getLong("ID");
 				String email = rs.getString("EMAIL");
 				String password = rs.getString("PASSWORD");
 				return new User(username, email, password, id);
-			}
-			else
-			{
+			} else {
 				System.out.println("No user found for username=" + username);
 			}
 		} catch (ClassNotFoundException e) {
@@ -117,18 +110,17 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs!=null)
+				if (rs != null)
 					rs.close();
-			if(ps!=null)
-				ps.close();
-			if(connection!=null)
-				connection.close(); 
-			} catch(SQLException sqlException)
-			{
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -140,7 +132,7 @@ public class UserDaoImpl implements UserDao{
 			connection = ConnectionUtils.getMyConnection();
 			ps = connection.prepareStatement("UPDATE User SET username=? WHERE username=?;");
 			ps.setString(1, newUsername);
-			ps.setString(2,  oldUsername);
+			ps.setString(2, oldUsername);
 			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
 			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
@@ -152,12 +144,11 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-			if(ps!=null)
-				ps.close();
-			if(connection!=null)
-				connection.close(); 
-			} catch(SQLException sqlException)
-			{
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			}
 		}
@@ -171,7 +162,7 @@ public class UserDaoImpl implements UserDao{
 			connection = ConnectionUtils.getMyConnection();
 			ps = connection.prepareStatement("UPDATE User SET username=? WHERE id=?;");
 			ps.setString(1, newUsername);
-			ps.setLong(2,  id);
+			ps.setLong(2, id);
 			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
 			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
@@ -183,12 +174,11 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-			if(ps!=null)
-				ps.close();
-			if(connection!=null)
-				connection.close(); 
-			} catch(SQLException sqlException)
-			{
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			}
 		}
@@ -213,12 +203,11 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-			if(ps!=null)
-				ps.close();
-			if(connection!=null)
-				connection.close(); 
-			} catch(SQLException sqlException)
-			{
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			}
 		}
@@ -243,12 +232,11 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-			if(ps!=null)
-				ps.close();
-			if(connection!=null)
-				connection.close(); 
-			} catch(SQLException sqlException)
-			{
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			}
 		}
@@ -262,7 +250,7 @@ public class UserDaoImpl implements UserDao{
 			connection = ConnectionUtils.getMyConnection();
 			ps = connection.prepareStatement("UPDATE User SET password=? WHERE username=?;");
 			ps.setString(1, newPassword);
-			ps.setString(2,  username);
+			ps.setString(2, username);
 			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
 			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
@@ -274,12 +262,11 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-			if(ps!=null)
-				ps.close();
-			if(connection!=null)
-				connection.close(); 
-			} catch(SQLException sqlException)
-			{
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			}
 		}
@@ -293,7 +280,7 @@ public class UserDaoImpl implements UserDao{
 			connection = ConnectionUtils.getMyConnection();
 			ps = connection.prepareStatement("UPDATE User SET password=? WHERE username=?;");
 			ps.setString(1, newPassword);
-			ps.setLong(2,  id);
+			ps.setLong(2, id);
 			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
 			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
@@ -305,15 +292,46 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-			if(ps!=null)
-				ps.close();
-			if(connection!=null)
-				connection.close(); 
-			} catch(SQLException sqlException)
-			{
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			}
 		}
 	}
-	
+
+	// TODO logic to handle duplicates
+	@Override
+	public void insertUser(String username, String password, String email, Long id) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+
+		String insertUserSql = "INSERT INTO User (USERNAME, ID, PASSWORD, EMAIL) VALUES (?,?,?,?);";
+		try {
+			connection = ConnectionUtils.getMyConnection();
+			ps = connection.prepareStatement(insertUserSql);
+
+			ps.setString(1, username);
+			ps.setLong(2, id);
+			ps.setString(3, password);
+			ps.setString(4, email);
+
+			ps.executeUpdate();
+
+			System.out.println("Created new user " + username);
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
+				sqlException.printStackTrace();
+			}
+		}
+	}
 }

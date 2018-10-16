@@ -12,8 +12,9 @@ public interface UserDao {
 	public User getUser(String username);
 	public void deleteUser(String username);
 	public void deleteUser(long id);
-	void updateUsername(String oldUsername, String newUsername);
-	void updateUsername(long id, String newUsername);
-	void updateUserPassword(String username, String newPassword);
-	void updateUserPassword(long id, String newPassword);
+	public void updateUsername(String oldUsername, String newUsername);
+	public void updateUsername(long id, String newUsername);
+	public void updateUserPassword(String username, String newPassword);
+	public void updateUserPassword(long id, String newPassword);
+	public void insertUser(String username, String password, String email, Long id);
 }
