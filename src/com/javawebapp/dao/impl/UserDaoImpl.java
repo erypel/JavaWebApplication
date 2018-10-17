@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.db.ConnectionUtils;
@@ -14,21 +16,36 @@ import com.javawebapp.objects.User;
 public class UserDaoImpl implements UserDao {
 
 	@Override
-	public ResultSet getAllUsers() {
+	public List<User> getAllUsers() {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			connection = ConnectionUtils.getMyConnection();
-			ps = connection.prepareStatement("SELECT * FROM User;");
+			connection.setAutoCommit(false); // best practice
+			ps = connection.prepareStatement("SELECT * FROM User ORDER BY id ASC;");
 			rs = ps.executeQuery();
-			return rs;
+			connection.commit();
+			List<User> users = new ArrayList<User>();
+			while (rs.next()) {
+				String username = rs.getString("USERNAME");
+				String password = rs.getString("PASSWORD");
+				String email = rs.getString("EMAIL");
+				Long id = rs.getLong("ID");
+				User user = new User(username, email, password, id);
+				users.add(user);
+			}
+			return users;
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
 		} finally {
 			try {
 				if (rs != null)
@@ -51,9 +68,11 @@ public class UserDaoImpl implements UserDao {
 		ResultSet rs = null;
 		try {
 			connection = ConnectionUtils.getMyConnection();
+			connection.setAutoCommit(false); // best practice
 			ps = connection.prepareStatement("SELECT * FROM User WHERE id=?;");
 			ps.setLong(1, id);
 			rs = ps.executeQuery();
+			connection.commit();
 			if (rs.next()) {
 				String username = rs.getString("USERNAME");
 				String email = rs.getString("EMAIL");
@@ -66,8 +85,12 @@ public class UserDaoImpl implements UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
 		} finally {
 			try {
 				if (rs != null)
@@ -91,9 +114,11 @@ public class UserDaoImpl implements UserDao {
 		ResultSet rs = null;
 		try {
 			connection = ConnectionUtils.getMyConnection();
+			connection.setAutoCommit(false); // best practice
 			ps = connection.prepareStatement("SELECT * FROM User WHERE username=?;");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
+			connection.commit();
 			if (rs.next()) {
 				Long id = rs.getLong("ID");
 				String email = rs.getString("EMAIL");
@@ -106,8 +131,12 @@ public class UserDaoImpl implements UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
 		} finally {
 			try {
 				if (rs != null)
@@ -130,18 +159,23 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement ps = null;
 		try {
 			connection = ConnectionUtils.getMyConnection();
+			connection.setAutoCommit(false); // best practice
 			ps = connection.prepareStatement("UPDATE User SET username=? WHERE username=?;");
 			ps.setString(1, newUsername);
 			ps.setString(2, oldUsername);
-			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
+			connection.commit();
 			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
 		} finally {
 			try {
 				if (ps != null)
@@ -160,18 +194,23 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement ps = null;
 		try {
 			connection = ConnectionUtils.getMyConnection();
+			connection.setAutoCommit(false); // best practice
 			ps = connection.prepareStatement("UPDATE User SET username=? WHERE id=?;");
 			ps.setString(1, newUsername);
 			ps.setLong(2, id);
-			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
+			connection.commit();
 			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
 		} finally {
 			try {
 				if (ps != null)
@@ -190,17 +229,22 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement ps = null;
 		try {
 			connection = ConnectionUtils.getMyConnection();
-			ps = connection.prepareStatement("DELETE User WHERE username=?;");
+			connection.setAutoCommit(false); // best practice
+			ps = connection.prepareStatement("DELETE FROM User WHERE username=?;");
 			ps.setString(1, username);
-			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
+			connection.commit();
 			System.out.println("Deleted " + rowsUpdated + " rows in the User table.");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
 		} finally {
 			try {
 				if (ps != null)
@@ -219,17 +263,22 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement ps = null;
 		try {
 			connection = ConnectionUtils.getMyConnection();
-			ps = connection.prepareStatement("DELETE User WHERE id=?;");
+			connection.setAutoCommit(false); // best practice
+			ps = connection.prepareStatement("DELETE FROM User WHERE id=?;");
 			ps.setLong(1, id);
-			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
+			connection.commit();
 			System.out.println("Deleted " + rowsUpdated + " rows in the User table.");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
 		} finally {
 			try {
 				if (ps != null)
@@ -248,18 +297,23 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement ps = null;
 		try {
 			connection = ConnectionUtils.getMyConnection();
+			connection.setAutoCommit(false); // best practice
 			ps = connection.prepareStatement("UPDATE User SET password=? WHERE username=?;");
 			ps.setString(1, newPassword);
 			ps.setString(2, username);
-			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
+			connection.commit();
 			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
 		} finally {
 			try {
 				if (ps != null)
@@ -278,18 +332,23 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement ps = null;
 		try {
 			connection = ConnectionUtils.getMyConnection();
-			ps = connection.prepareStatement("UPDATE User SET password=? WHERE username=?;");
+			connection.setAutoCommit(false); // best practice
+			ps = connection.prepareStatement("UPDATE User SET password=? WHERE id=?;");
 			ps.setString(1, newPassword);
 			ps.setLong(2, id);
-			ps.executeQuery();
 			int rowsUpdated = ps.executeUpdate();
+			connection.commit();
 			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
 		} finally {
 			try {
 				if (ps != null)
@@ -311,6 +370,7 @@ public class UserDaoImpl implements UserDao {
 		String insertUserSql = "INSERT INTO User (USERNAME, ID, PASSWORD, EMAIL) VALUES (?,?,?,?);";
 		try {
 			connection = ConnectionUtils.getMyConnection();
+			connection.setAutoCommit(false); // best practice
 			ps = connection.prepareStatement(insertUserSql);
 
 			ps.setString(1, username);
@@ -319,9 +379,17 @@ public class UserDaoImpl implements UserDao {
 			ps.setString(4, email);
 
 			ps.executeUpdate();
+			connection.commit();
 
 			System.out.println("Created new user " + username);
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			try {

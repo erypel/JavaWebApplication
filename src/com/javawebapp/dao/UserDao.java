@@ -6,8 +6,8 @@ import java.util.List;
 import com.javawebapp.objects.User;
 
 public interface UserDao {
-	//TODO potential security flaw?
-	public ResultSet getAllUsers();
+	//TODO potential security flaw with passwords?
+	public List<User> getAllUsers();
 	public User getUser(long id);
 	public User getUser(String username);
 	public void deleteUser(String username);
