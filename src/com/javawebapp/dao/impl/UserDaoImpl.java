@@ -11,7 +11,6 @@ import com.javawebapp.dao.UserDao;
 import com.javawebapp.db.ConnectionUtils;
 import com.javawebapp.objects.User;
 
-//TODO after finishing this write some tests!
 //TODO queries to a queries.properties file https://stackoverflow.com/questions/370818/cleanest-way-to-build-an-sql-string-in-java
 public class UserDaoImpl implements UserDao {
 
