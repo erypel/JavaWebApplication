@@ -11,10 +11,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(description = "Create User Servlet", urlPatterns = { "/createNewUser" })
-public class CreateUserController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+import com.javawebapp.dao.UserDao;
+import com.javawebapp.dao.impl.UserDaoImpl;
 
+@WebServlet(description = "Create User Servlet", urlPatterns = { "/createNewUser" })
+public class CreateUserServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	public CreateUserServlet() {
+		super();
+	}
+
+	// When the user enters the new user info and clicks submit,
+	// this method will be called
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// get request parameters for new user creation
@@ -36,8 +46,10 @@ public class CreateUserController extends HttpServlet {
 			out.println("<font color=red>Please enter an email.</font>");
 		// everything is good, send user to login page
 		else if (pwd.equals(verify)) {
+			UserDao userDao = new UserDaoImpl();
+			userDao.insertUser(username, pwd, email);
 			// logging the new user's details
-			log("Creating User=" + username + "::password=" + pwd +"::email=" + email);
+			log("Created User=" + username + "::password=" + pwd +"::email=" + email);
 			String encodedURL = response.encodeRedirectURL("/login.html");
 			response.sendRedirect(encodedURL);
 		} else {
@@ -46,7 +58,9 @@ public class CreateUserController extends HttpServlet {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsps/CreateNewUserPage.jsp");
 		rd.include(request, response);
 	}
-
+	
+	// show the user creation page
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("jsps/CreateNewUserPage.jsp");

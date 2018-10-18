@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.javawebapp.dao.UserDao;
+import com.javawebapp.dao.impl.UserDaoImpl;
+
 /**
  * Servlet Tutorial - Servlet Example
  */
@@ -47,8 +50,10 @@ public class LoginServlet extends HttpServlet {
 		String password = getServletConfig().getInitParameter("password");
 		// logging example
 		log("User=" + user + "::password=" + pwd);
+		
+		UserDao userDao = new UserDaoImpl();
 
-		if (userID.equals(user) && password.equals(pwd)) {
+		if (userDao.getUser(user, password) != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user);
 			// setting session to expire in 30 minutes
