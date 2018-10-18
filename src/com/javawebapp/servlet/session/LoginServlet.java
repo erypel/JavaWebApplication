@@ -26,9 +26,6 @@ import com.javawebapp.objects.User;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private final String userID = "admin";
-	private final String password = "password";
-
 	public void init() throws ServletException {
 		// we can create DB connection resource here and set it to Servlet context
 		if (getServletContext().getInitParameter("dbURL").equals("jdbc:mysql://localhost/mysql_db")
