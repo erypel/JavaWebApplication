@@ -22,7 +22,8 @@ public class MySQLConnectionUtils {
 		 * Java 6 and newer will automatically find the appropriate driver the following
 		 * line isn't necessary if using > Java 5
 		 */
-		// Class.forName("com.mysql.cj.jdbc.Driver");
+		//necessary for Tomcat 7 :( upgrade in the future
+		Class.forName("com.mysql.cj.jdbc.Driver");
 
 		String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
 

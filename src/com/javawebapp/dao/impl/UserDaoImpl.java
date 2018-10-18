@@ -413,7 +413,7 @@ public class UserDaoImpl implements UserDao {
 		Connection connection = null;
 		PreparedStatement ps = null;
 
-		String insertUserSql = "INSERT INTO User (USERNAME, ID, PASSWORD, EMAIL) VALUES (?,?,?,?);";
+		String insertUserSql = "INSERT INTO USER (USERNAME, ID, PASSWORD, EMAIL) VALUES (?,?,?,?);";
 		try {
 			connection = ConnectionUtils.getMyConnection();
 			connection.setAutoCommit(false); // best practice
