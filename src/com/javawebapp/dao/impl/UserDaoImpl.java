@@ -6,10 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.db.ConnectionUtils;
 import com.javawebapp.objects.User;
+import com.javawebapp.util.JavaWebAppUtils;
 
 //TODO queries to a queries.properties file https://stackoverflow.com/questions/370818/cleanest-way-to-build-an-sql-string-in-java
 public class UserDaoImpl implements UserDao {
@@ -454,6 +456,6 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	//TODO create test and create a way to programmatically assign ids
 	public void insertUser(String username, String password, String email) {
-		insertUser(username, password, email, 1L);
+		insertUser(username, password, email, JavaWebAppUtils.generateUniqueId());
 	}
 }
