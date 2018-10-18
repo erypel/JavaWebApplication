@@ -19,6 +19,7 @@ public class DBConnectionManager {
 		return this.con;
 	}
 	
+	
 	public void closeConnection() {
 		try {
 			this.con.close();
@@ -28,7 +29,7 @@ public class DBConnectionManager {
 			e.printStackTrace();
 		}
 	}
-	
+	/*
 	public void rollback() {
 		try {
 			this.con.rollback();
@@ -38,5 +39,5 @@ public class DBConnectionManager {
 			e.printStackTrace();
 		}
 	}
-
+	*/
 }
