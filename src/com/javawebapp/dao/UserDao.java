@@ -1,6 +1,5 @@
 package com.javawebapp.dao;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 import com.javawebapp.objects.User;

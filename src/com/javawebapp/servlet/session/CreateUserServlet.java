@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,7 +49,7 @@ public class CreateUserServlet extends HttpServlet {
 			userDao.insertUser(username, pwd, email);
 			// logging the new user's details
 			log("Created User=" + username + "::password=" + pwd +"::email=" + email);
-			String encodedURL = response.encodeRedirectURL("/login.html");
+			String encodedURL = response.encodeRedirectURL("login.html");
 			response.sendRedirect(encodedURL);
 		} else {
 			out.println("<font color=red>Something's up...</font>");

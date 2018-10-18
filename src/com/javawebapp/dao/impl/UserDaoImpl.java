@@ -429,6 +429,7 @@ public class UserDaoImpl implements UserDao {
 
 			System.out.println("Created new user " + username);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			try {
 				if (connection != null)
 					connection.rollback();
