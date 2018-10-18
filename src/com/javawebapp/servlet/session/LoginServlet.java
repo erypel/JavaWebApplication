@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.javawebapp.dao.UserDao;
+import com.javawebapp.dao.impl.UserDaoImpl;
+import com.javawebapp.objects.User;
+
 /**
  * Servlet Tutorial - Servlet Example
  */
@@ -39,21 +43,23 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		// get request parameters for userID and password
-		String user = request.getParameter("user");
+		String username = request.getParameter("user");
 		String pwd = request.getParameter("pwd");
 
 		// get servlet config init params
-		String userID = getServletConfig().getInitParameter("user");
-		String password = getServletConfig().getInitParameter("password");
+		//String userID = getServletConfig().getInitParameter("user");
+		//String password = getServletConfig().getInitParameter("password");
 		// logging example
-		log("User=" + user + "::password=" + pwd);
-
-		if (userID.equals(user) && password.equals(pwd)) {
+		log("User=" + username + "::password=" + pwd);
+		
+		UserDao userDao = new UserDaoImpl();
+		User user = userDao.getUser(username, pwd);
+		if (user != null) {
 			HttpSession session = request.getSession();
-			session.setAttribute("user", user);
+			session.setAttribute("user", user.getUserName());
 			// setting session to expire in 30 minutes
 			session.setMaxInactiveInterval(30 * 60);
-			Cookie userName = new Cookie("user", user);
+			Cookie userName = new Cookie("user", username);
 			// userName.setMaxAge(30*60);
 			response.addCookie(userName);
 			String encodedURL = response.encodeRedirectURL("jsps/LoginSuccess.jsp");

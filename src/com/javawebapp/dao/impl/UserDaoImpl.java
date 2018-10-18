@@ -151,6 +151,53 @@ public class UserDaoImpl implements UserDao {
 
 		return null;
 	}
+	
+	//TODO add test
+	@Override
+	public User getUser(String username, String password) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			connection = ConnectionUtils.getMyConnection();
+			connection.setAutoCommit(false); // best practice
+			ps = connection.prepareStatement("SELECT * FROM User WHERE username=? AND password=?;");
+			ps.setString(1, username);
+			ps.setString(2, password);
+			rs = ps.executeQuery();
+			connection.commit();
+			if (rs.next()) {
+				Long id = rs.getLong("ID");
+				String email = rs.getString("EMAIL");
+				return new User(username, email, password, id);
+			} else {
+				System.out.println("No user found for username=" + username);
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			try {
+				if (connection != null)
+					connection.rollback();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException sqlException) {
+				sqlException.printStackTrace();
+			}
+		}
+
+		return null;
+	}
 
 	@Override
 	public void updateUsername(String oldUsername, String newUsername) {
@@ -366,7 +413,7 @@ public class UserDaoImpl implements UserDao {
 		Connection connection = null;
 		PreparedStatement ps = null;
 
-		String insertUserSql = "INSERT INTO User (USERNAME, ID, PASSWORD, EMAIL) VALUES (?,?,?,?);";
+		String insertUserSql = "INSERT INTO USER (USERNAME, ID, PASSWORD, EMAIL) VALUES (?,?,?,?);";
 		try {
 			connection = ConnectionUtils.getMyConnection();
 			connection.setAutoCommit(false); // best practice
@@ -382,6 +429,7 @@ public class UserDaoImpl implements UserDao {
 
 			System.out.println("Created new user " + username);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			try {
 				if (connection != null)
 					connection.rollback();
@@ -400,5 +448,12 @@ public class UserDaoImpl implements UserDao {
 				sqlException.printStackTrace();
 			}
 		}
+	}
+
+	
+	@Override
+	//TODO create test and create a way to programmatically assign ids
+	public void insertUser(String username, String password, String email) {
+		insertUser(username, password, email, 1L);
 	}
 }

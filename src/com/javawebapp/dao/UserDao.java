@@ -1,6 +1,5 @@
 package com.javawebapp.dao;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 import com.javawebapp.objects.User;
@@ -17,4 +16,6 @@ public interface UserDao {
 	public void updateUserPassword(String username, String newPassword);
 	public void updateUserPassword(long id, String newPassword);
 	public void insertUser(String username, String password, String email, Long id);
+	public void insertUser(String username, String pwd, String email);
+	public User getUser(String username, String password);
 }
