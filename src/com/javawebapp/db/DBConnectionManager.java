@@ -20,8 +20,23 @@ public class DBConnectionManager {
 	}
 	
 	public void closeConnection() {
-		//TODO
-		//close the DB connection here
+		try {
+			this.con.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void rollback() {
+		try {
+			this.con.rollback();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 }
