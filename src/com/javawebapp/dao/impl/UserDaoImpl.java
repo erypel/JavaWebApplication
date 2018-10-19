@@ -8,8 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.query.Query;
+import org.hibernate.Session;
+
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.db.ConnectionUtils;
+import com.javawebapp.hibernate.HibernateUtil;
 import com.javawebapp.objects.User;
 import com.javawebapp.util.JavaWebAppUtils;
 
@@ -18,7 +26,16 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> getAllUsers() {
-		Connection connection = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> root = cq.from(User.class);
+		cq.select(root);
+		Query<User> query = session.createQuery(cq);
+		List<User> results = query.getResultList();
+		//session.close();
+		return results;
+		/*Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
@@ -59,11 +76,26 @@ public class UserDaoImpl implements UserDao {
 				sqlException.printStackTrace();
 			}
 		}
-		return null; // TODO can we return an empty result set?
+		return new ArrayList<User>();*/
 	}
 
 	@Override
 	public User getUser(long id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> root = cq.from(User.class);
+		cq.select(root).where(cb.equal(root.get("ID"), id));
+		Query<User> query = session.createQuery(cq);
+		List<User> results = query.getResultList();
+		session.close();
+		if(results.isEmpty())
+			return null;
+		else
+			return results.get(0);
+		//query.setParameter(param, value)
+		
+		/*
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -106,52 +138,23 @@ public class UserDaoImpl implements UserDao {
 		}
 
 		return null;
+		*/
 	}
 
 	@Override
-	public User getUser(String username) {
-		Connection connection = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			connection = ConnectionUtils.getMyConnection();
-			connection.setAutoCommit(false); // best practice
-			ps = connection.prepareStatement("SELECT * FROM User WHERE username=?;");
-			ps.setString(1, username);
-			rs = ps.executeQuery();
-			connection.commit();
-			if (rs.next()) {
-				Long id = rs.getLong("ID");
-				String email = rs.getString("EMAIL");
-				String password = rs.getString("PASSWORD");
-				return new User(username, email, password, id);
-			} else {
-				System.out.println("No user found for username=" + username);
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			try {
-				if (connection != null)
-					connection.rollback();
-			} catch (SQLException se2) {
-				se2.printStackTrace();
-			}
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (ps != null)
-					ps.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException sqlException) {
-				sqlException.printStackTrace();
-			}
-		}
-
-		return null;
+	public User getUser(String userName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> root = cq.from(User.class);
+		cq.select(root).where(cb.equal(root.get("userName"), userName));
+		Query<User> query = session.createQuery(cq);
+		List<User> results = query.getResultList();
+		session.close();
+		if(results.isEmpty())
+			return null;
+		else
+			return results.get(0);
 	}
 	
 	//TODO add test

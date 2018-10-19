@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.dao.impl.UserDaoImpl;
 import com.javawebapp.objects.User;
+import com.javawebapp.util.JavaWebAppUtils;
 
 //TODO probably use some sort of testing framework. this is fine for now
 // TODO will probably use Mockito
@@ -13,33 +14,33 @@ public class TestUserDao {
 	public final static String TEST_EMAIL = "testEmail@test.com";
 
 	public static void main(String[] args) {
-		System.out.println("===Running unit tests for UserDaoImpl.java===");
-		System.out.println("Test insertUser()");
-		System.out.println("Test successful: " + testInsertUser());
-		System.out.println("Test updateUserPassword(Long)");
-		System.out.println("Test successful: " + testUpdateUserPasswordLong());
-		System.out.println("Test updateUserPassword(String)");
-		System.out.println("Test successful: " + testUpdateUserPasswordString());
-		System.out.println("Test updateUsernameLong(Long)");
-		System.out.println("Test successful: " + testUpdateUsernameLong());
-		System.out.println("Test updateUsername(String)");
+		//System.out.println("===Running unit tests for UserDaoImpl.java===");
+		//System.out.println("Test insertUser()");
+		//System.out.println("Test successful: " + testInsertUser());
+		//System.out.println("Test updateUserPassword(Long)");
+		//System.out.println("Test successful: " + testUpdateUserPasswordLong());
+		//System.out.println("Test updateUserPassword(String)");
+		//System.out.println("Test successful: " + testUpdateUserPasswordString());
+		//System.out.println("Test updateUsernameLong(Long)");
+		//System.out.println("Test successful: " + testUpdateUsernameLong());
+		/*System.out.println("Test updateUsername(String)");
 		System.out.println("Test successful: " + testUpdateUsernameString());
 		System.out.println("Test deleteUserLong(Long)");
 		System.out.println("Test successful: " + testDeleteUserLong());
 		System.out.println("Test deleteUser(String)");
 		System.out.println("Test successful: " + testDeleteUserString());
-		System.out.println("Test getUser(String)");
+		*/System.out.println("Test getUser(String)");
 		System.out.println("Test successful: " + testGetUserString());
 		System.out.println("Test getUser(Long)");
 		System.out.println("Test successful: " + testGetUserLong());
-		System.out.println("Test getAllUsers()");
+		/*System.out.println("Test getAllUsers()");
 		System.out.println("Test successful: " + testGetAllUsers());
 		System.out.println("===Finished running unit tests for UserDaoImpl.java===");
-	}
+	*/}
 
 	public static boolean testInsertUser() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		if (userDao.getUser(id) != null) {
 			userDao.deleteUser(id);
@@ -129,7 +130,7 @@ public class TestUserDao {
 
 	public static boolean testGetUserString() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		User user = userDao.getUser(TEST_USERNAME);
 		if (user.getUserName().equals(TEST_USERNAME) && user.getPassword().equals(TEST_PASSWORD)
@@ -142,7 +143,7 @@ public class TestUserDao {
 
 	public static boolean testGetUserLong() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		User user = userDao.getUser(id);
 		if (user.getUserName().equals(TEST_USERNAME) && user.getPassword().equals(TEST_PASSWORD)

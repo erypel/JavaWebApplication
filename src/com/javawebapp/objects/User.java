@@ -9,7 +9,7 @@ import com.javawebapp.util.JavaWebAppUtils;
 public class User 
 {
 	@Column(name="USERNAME")
-	private String username;
+	private String userName;
 	
 	@Id
 	@Column(name="ID")
@@ -26,11 +26,11 @@ public class User
 	}
 	
 	public String getUsername() {
-		return username;
+		return userName;
 	}
 
 	public void setUsername(String username) {
-		this.username = username;
+		this.userName = username;
 	}
 
 	public long getID() {
@@ -51,7 +51,7 @@ public class User
 
 	public User(String username, String email, String password) 
 	{
-		this.username = username;
+		this.userName = username;
 		this.ID = JavaWebAppUtils.generateUniqueId();
 		this.email = email;
 		this.password = password;
@@ -59,7 +59,7 @@ public class User
 	
 	public User(String username, String email, String password, Long id) 
 	{
-		this.username = username;
+		this.userName = username;
 		this.ID = id;
 		this.email = email;
 		this.password = password;
@@ -67,7 +67,7 @@ public class User
 	
 	public String getUserName()
 	{
-		return username;
+		return userName;
 	}
 	
 	public String getEmail()
