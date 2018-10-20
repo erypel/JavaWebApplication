@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.dao.impl.UserDaoImpl;
 import com.javawebapp.objects.User;
+import com.javawebapp.util.JavaWebAppUtils;
 
 //TODO probably use some sort of testing framework. this is fine for now
 // TODO will probably use Mockito
@@ -14,8 +15,10 @@ public class TestUserDao {
 
 	public static void main(String[] args) {
 		System.out.println("===Running unit tests for UserDaoImpl.java===");
-		System.out.println("Test insertUser()");
-		System.out.println("Test successful: " + testInsertUser());
+		System.out.println("Test insertUser(String, String, String, Long)");
+		System.out.println("Test successful: " + testInsertUserStringStringStringLong());
+		System.out.println("Test insertUser(String, String, String)");
+		System.out.println("Test successful: " + testInsertUserStringStringString());
 		System.out.println("Test updateUserPassword(Long)");
 		System.out.println("Test successful: " + testUpdateUserPasswordLong());
 		System.out.println("Test updateUserPassword(String)");
@@ -32,14 +35,16 @@ public class TestUserDao {
 		System.out.println("Test successful: " + testGetUserString());
 		System.out.println("Test getUser(Long)");
 		System.out.println("Test successful: " + testGetUserLong());
+		System.out.println("Test getUser(String, String)");
+		System.out.println("Test successful: " + testGetUserUserNamePassword());
 		System.out.println("Test getAllUsers()");
 		System.out.println("Test successful: " + testGetAllUsers());
 		System.out.println("===Finished running unit tests for UserDaoImpl.java===");
 	}
 
-	public static boolean testInsertUser() {
+	public static boolean testInsertUserStringStringStringLong() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		if (userDao.getUser(id) != null) {
 			userDao.deleteUser(id);
@@ -49,9 +54,20 @@ public class TestUserDao {
 		return false;
 	}
 
+	public static boolean testInsertUserStringStringString() {
+		UserDao userDao = new UserDaoImpl();
+		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
+		if (userDao.getUser(TEST_USERNAME) != null) {
+			userDao.deleteUser(TEST_USERNAME);
+			return true;
+		}
+
+		return false;
+	}
+
 	public static boolean testUpdateUserPasswordLong() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		String newPassword = "testNewPassword";
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		userDao.updateUserPassword(id, newPassword);
@@ -65,7 +81,7 @@ public class TestUserDao {
 
 	public static boolean testUpdateUserPasswordString() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		String newPassword = "testNewPassword";
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		userDao.updateUserPassword(TEST_USERNAME, newPassword);
@@ -79,7 +95,7 @@ public class TestUserDao {
 
 	public static boolean testUpdateUsernameLong() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		String newUsername = "testNewUsername";
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		userDao.updateUsername(id, newUsername);
@@ -93,7 +109,7 @@ public class TestUserDao {
 
 	public static boolean testUpdateUsernameString() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		String newUsername = "testNewUsername";
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		userDao.updateUsername(TEST_USERNAME, newUsername);
@@ -107,7 +123,7 @@ public class TestUserDao {
 
 	public static boolean testDeleteUserLong() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		userDao.deleteUser(id);
 		if (userDao.getUser(id) == null) {
@@ -118,7 +134,7 @@ public class TestUserDao {
 
 	public static boolean testDeleteUserString() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		userDao.deleteUser(TEST_USERNAME);
 		if (userDao.getUser(TEST_USERNAME) == null) {
@@ -127,9 +143,22 @@ public class TestUserDao {
 		return false;
 	}
 
+	public static boolean testGetUserUserNamePassword() {
+		UserDao userDao = new UserDaoImpl();
+		Long id = JavaWebAppUtils.generateUniqueId();
+		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
+		User user = userDao.getUser(TEST_USERNAME, TEST_PASSWORD);
+		if (user.getUserName().equals(TEST_USERNAME) && user.getPassword().equals(TEST_PASSWORD)
+				&& user.getEmail().equals(TEST_EMAIL) && user.getId() == id) {
+			userDao.deleteUser(TEST_USERNAME);
+			return true;
+		}
+		return false;
+	}
+
 	public static boolean testGetUserString() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		User user = userDao.getUser(TEST_USERNAME);
 		if (user.getUserName().equals(TEST_USERNAME) && user.getPassword().equals(TEST_PASSWORD)
@@ -142,7 +171,7 @@ public class TestUserDao {
 
 	public static boolean testGetUserLong() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		User user = userDao.getUser(id);
 		if (user.getUserName().equals(TEST_USERNAME) && user.getPassword().equals(TEST_PASSWORD)
@@ -153,10 +182,15 @@ public class TestUserDao {
 		return false;
 	}
 
+	// TODO won't really be able to test until Mockito is up and running
 	public static boolean testGetAllUsers() {
 		UserDao userDao = new UserDaoImpl();
-		Long id1 = 999999999L;
-		Long id2 = 999999998L;
+		Long id1 = JavaWebAppUtils.generateUniqueId();
+		Long id2 = JavaWebAppUtils.generateUniqueId();
+		// in case we somehow miraculously get two identical values
+		while (id1 == id2) {
+			id1 = JavaWebAppUtils.generateUniqueId();
+		}
 		userDao.insertUser(TEST_USERNAME + "_1", TEST_PASSWORD, TEST_EMAIL, id1);
 		userDao.insertUser(TEST_USERNAME + "_2", TEST_PASSWORD, TEST_EMAIL, id2);
 		User user1 = userDao.getUser(id1);
