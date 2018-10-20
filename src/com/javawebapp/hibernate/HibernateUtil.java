@@ -1,10 +1,15 @@
 package com.javawebapp.hibernate;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
 	private static final SessionFactory sessionFactory = buildSessionFactory();
+	private static final EntityManagerFactory userEntityManagerFactory = buildUserEntityManagerFactory();
+	
 	
 	private static SessionFactory buildSessionFactory() {
 		try
@@ -20,18 +25,29 @@ public class HibernateUtil {
 		return null;
 	}
 	
+	private static EntityManagerFactory buildUserEntityManagerFactory() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("User");
+		return emf;
+	}
+	
+	public static EntityManagerFactory getUserEntityManagerFactory()
+	{
+		return userEntityManagerFactory;
+	}
+
 	public static SessionFactory getSessionFactory() 
 	{
-		if(sessionFactory == null)
-		{
-			buildSessionFactory();
-		}
 		return sessionFactory;
 	}
 	
-	public static void shutdown()
+	public static void shutdownSessionFactory()
 	{
 		//Close caches and connection pools
 		getSessionFactory().close();
+	}
+	
+	public static void closeUserEntityManagerFactory()
+	{
+		getUserEntityManagerFactory().close();
 	}
 }

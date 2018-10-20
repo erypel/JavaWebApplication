@@ -1,18 +1,25 @@
 package com.javawebapp.objects;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 import com.javawebapp.util.JavaWebAppUtils;
 
 @Entity
 @Table(name="USER")
-public class User 
+public class User implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column(name="USERNAME")
 	private String userName;
 	
 	@Id
-	@Column(name="ID")
+	@Column(name="ID", updatable = false, nullable = false)
 	private long ID;
 	
 	@Column(name="EMAIL")
@@ -25,11 +32,11 @@ public class User
 		
 	}
 	
-	public String getUsername() {
+	public String getUserName() {
 		return userName;
 	}
 
-	public void setUsername(String username) {
+	public void setUserName(String username) {
 		this.userName = username;
 	}
 
@@ -65,10 +72,6 @@ public class User
 		this.password = password;
 	}
 	
-	public String getUserName()
-	{
-		return userName;
-	}
 	
 	public String getEmail()
 	{
