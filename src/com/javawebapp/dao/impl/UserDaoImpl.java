@@ -1,20 +1,17 @@
 package com.javawebapp.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.query.Query;
 import org.hibernate.Session;
 
 import com.javawebapp.dao.UserDao;
-import com.javawebapp.db.ConnectionUtils;
 import com.javawebapp.hibernate.HibernateUtil;
 import com.javawebapp.objects.User;
 import com.javawebapp.util.JavaWebAppUtils;
@@ -85,73 +82,27 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void updateUsername(String oldUsername, String newUsername) {
-		Connection connection = null;
-		PreparedStatement ps = null;
-		try {
-			connection = ConnectionUtils.getMyConnection();
-			connection.setAutoCommit(false); // best practice
-			ps = connection.prepareStatement("UPDATE User SET username=? WHERE username=?;");
-			ps.setString(1, newUsername);
-			ps.setString(2, oldUsername);
-			int rowsUpdated = ps.executeUpdate();
-			connection.commit();
-			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			try {
-				if (connection != null)
-					connection.rollback();
-			} catch (SQLException se2) {
-				se2.printStackTrace();
-			}
-		} finally {
-			try {
-				if (ps != null)
-					ps.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException sqlException) {
-				sqlException.printStackTrace();
-			}
-		}
+	public void updateUsername(String oldUserName, String newUserName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaUpdate<User> update = cb.createCriteriaUpdate(User.class);
+		Root<User> root = update.from(User.class);
+		update.set(root.get("userName"), newUserName).where(cb.equal(root.get("userName"), oldUserName));
+		session.createQuery(update).executeUpdate();
+		session.close();
 	}
 
 	@Override
-	public void updateUsername(long id, String newUsername) {
-		Connection connection = null;
-		PreparedStatement ps = null;
-		try {
-			connection = ConnectionUtils.getMyConnection();
-			connection.setAutoCommit(false); // best practice
-			ps = connection.prepareStatement("UPDATE User SET username=? WHERE id=?;");
-			ps.setString(1, newUsername);
-			ps.setLong(2, id);
-			int rowsUpdated = ps.executeUpdate();
-			connection.commit();
-			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			try {
-				if (connection != null)
-					connection.rollback();
-			} catch (SQLException se2) {
-				se2.printStackTrace();
-			}
-		} finally {
-			try {
-				if (ps != null)
-					ps.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException sqlException) {
-				sqlException.printStackTrace();
-			}
-		}
+	public void updateUsername(long id, String newUserName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaUpdate<User> update = cb.createCriteriaUpdate(User.class);
+		Root<User> root = update.from(User.class);
+		update.set(root.get("userName"), newUserName).where(cb.equal(root.get("ID"), id));
+		session.createQuery(update).executeUpdate();
+		session.close();
 	}
 
 	@Override
@@ -179,73 +130,27 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void updateUserPassword(String username, String newPassword) {
-		Connection connection = null;
-		PreparedStatement ps = null;
-		try {
-			connection = ConnectionUtils.getMyConnection();
-			connection.setAutoCommit(false); // best practice
-			ps = connection.prepareStatement("UPDATE User SET password=? WHERE username=?;");
-			ps.setString(1, newPassword);
-			ps.setString(2, username);
-			int rowsUpdated = ps.executeUpdate();
-			connection.commit();
-			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			try {
-				if (connection != null)
-					connection.rollback();
-			} catch (SQLException se2) {
-				se2.printStackTrace();
-			}
-		} finally {
-			try {
-				if (ps != null)
-					ps.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException sqlException) {
-				sqlException.printStackTrace();
-			}
-		}
+	public void updateUserPassword(String userName, String newPassword) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaUpdate<User> update = cb.createCriteriaUpdate(User.class);
+		Root<User> root = update.from(User.class);
+		update.set(root.get("password"), newPassword).where(cb.equal(root.get("userName"), userName));
+		session.createQuery(update).executeUpdate();
+		session.close();
 	}
 
 	@Override
 	public void updateUserPassword(long id, String newPassword) {
-		Connection connection = null;
-		PreparedStatement ps = null;
-		try {
-			connection = ConnectionUtils.getMyConnection();
-			connection.setAutoCommit(false); // best practice
-			ps = connection.prepareStatement("UPDATE User SET password=? WHERE id=?;");
-			ps.setString(1, newPassword);
-			ps.setLong(2, id);
-			int rowsUpdated = ps.executeUpdate();
-			connection.commit();
-			System.out.println("Updated " + rowsUpdated + " rows in the User table.");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			try {
-				if (connection != null)
-					connection.rollback();
-			} catch (SQLException se2) {
-				se2.printStackTrace();
-			}
-		} finally {
-			try {
-				if (ps != null)
-					ps.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException sqlException) {
-				sqlException.printStackTrace();
-			}
-		}
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaUpdate<User> update = cb.createCriteriaUpdate(User.class);
+		Root<User> root = update.from(User.class);
+		update.set(root.get("password"), newPassword).where(cb.equal(root.get("ID"), id));
+		session.createQuery(update).executeUpdate();
+		session.close();
 	}
 
 	@Override
@@ -253,7 +158,7 @@ public class UserDaoImpl implements UserDao {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 	     
-	     User user = new User(userName, password, email, id);
+	     User user = new User(userName, email, password, id);
 	     
 	     session.save(user);
 	     
