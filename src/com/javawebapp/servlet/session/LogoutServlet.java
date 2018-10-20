@@ -11,21 +11,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet(description = "Logout Servlet", urlPatterns = { "/LogoutServlet" })
-public class LogoutServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet
+{
 	private static final long serialVersionUID = 1L;
 	
 	/*
 	 * (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * 
+	 * @see
+	 * javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
+	 * javax.servlet.http.HttpServletResponse)
 	 *
-	 *	When logging out, we will want to remove the cookie from the client's 
-	 *	browser.
+	 * When logging out, we will want to remove the cookie from the client's
+	 * browser.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		response.setContentType("text/html");
 		Cookie[] cookies = request.getCookies();
-		if(cookies!=null)
+		if(cookies != null)
 		{
 			for(Cookie c : cookies)
 			{
@@ -37,7 +41,7 @@ public class LogoutServlet extends HttpServlet {
 			}
 		}
 		
-		//invalidate the session if exists
+		// invalidate the session if exists
 		HttpSession session = request.getSession(false);
 		log("User=" + session.getAttribute("user"));
 		if(session != null)
@@ -47,5 +51,5 @@ public class LogoutServlet extends HttpServlet {
 		
 		response.sendRedirect("login.html");
 	}
-
+	
 }

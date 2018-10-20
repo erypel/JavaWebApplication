@@ -16,40 +16,47 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Servlet Filter implementation class RequestLoggingFilter
+ * 
  * @author Evan
  *
  */
 @WebFilter("/RequestLoggingFilter")
-public class RequestLoggingFilter implements Filter{
+public class RequestLoggingFilter implements Filter
+{
 	private ServletContext context;
-
-	public void destroy() {
+	
+	public void destroy()
+	{
 		// TODO Auto-generated method stub
-		//we can close resourses here
+		// we can close resourses here
 	}
-
+	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+			throws IOException, ServletException
+	{
 		HttpServletRequest req = (HttpServletRequest) request;
 		Enumeration<String> params = req.getParameterNames();
-		while(params.hasMoreElements()) {
+		while(params.hasMoreElements())
+		{
 			String name = params.nextElement();
 			String value = request.getParameter(name);
-			this.context.log(req.getRemoteAddr() + "::Request Params::{" + name + "=" + value +"}");
+			this.context.log(req.getRemoteAddr() + "::Request Params::{" + name + "=" + value + "}");
 		}
 		
 		Cookie[] cookies = req.getCookies();
-		if(cookies != null) {
+		if(cookies != null)
+		{
 			for(Cookie c : cookies)
 			{
 				this.context.log(req.getRemoteAddr() + "::Cookies::{" + c.getName() + "," + c.getValue() + "}");
 			}
 		}
-		//pass the request along the filter chain
+		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}
-
-	public void init(FilterConfig filterConfig) throws ServletException {
+	
+	public void init(FilterConfig filterConfig) throws ServletException
+	{
 		this.context = filterConfig.getServletContext();
 		this.context.log("RequestLoggingFilter initialized");
 	}

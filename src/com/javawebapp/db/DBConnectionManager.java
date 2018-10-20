@@ -2,7 +2,8 @@ package com.javawebapp.db;
 
 import java.sql.Connection;
 
-public class DBConnectionManager {
+public class DBConnectionManager
+{
 	private String dbURL;
 	private String user;
 	private String password;
@@ -15,13 +16,15 @@ public class DBConnectionManager {
 		this.password = pwd;
 	}
 	
-	public Connection getConnection() {
+	public Connection getConnection()
+	{
 		return this.con;
 	}
 	
-	
-	public void closeConnection() {
-		try {
+	public void closeConnection()
+	{
+		try
+		{
 			this.con.close();
 		}
 		catch(Exception e)
@@ -30,14 +33,7 @@ public class DBConnectionManager {
 		}
 	}
 	/*
-	public void rollback() {
-		try {
-			this.con.rollback();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	*/
+	 * public void rollback() { try { this.con.rollback(); } catch(Exception e) {
+	 * e.printStackTrace(); } }
+	 */
 }

@@ -6,16 +6,18 @@ import javax.persistence.Persistence;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class HibernateUtil {
+public class HibernateUtil
+{
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 	private static final EntityManagerFactory userEntityManagerFactory = buildUserEntityManagerFactory();
 	
-	
-	private static SessionFactory buildSessionFactory() {
+	private static SessionFactory buildSessionFactory()
+	{
 		try
 		{
 			// Create the session factory from hibernate.cfg.xml
-			return new Configuration().configure().buildSessionFactory();
+			SessionFactory sf = new Configuration().configure().buildSessionFactory();
+			return sf;
 		}
 		catch(Exception e)
 		{
@@ -25,24 +27,26 @@ public class HibernateUtil {
 		return null;
 	}
 	
-	private static EntityManagerFactory buildUserEntityManagerFactory() {
+	// Create and entity manager factory for the User entity
+	private static EntityManagerFactory buildUserEntityManagerFactory()
+	{
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("User");
 		return emf;
+	}
+	
+	public static SessionFactory getSessionFactory()
+	{
+		return sessionFactory;
 	}
 	
 	public static EntityManagerFactory getUserEntityManagerFactory()
 	{
 		return userEntityManagerFactory;
 	}
-
-	public static SessionFactory getSessionFactory() 
-	{
-		return sessionFactory;
-	}
 	
 	public static void shutdownSessionFactory()
 	{
-		//Close caches and connection pools
+		// Close caches and connection pools
 		getSessionFactory().close();
 	}
 	

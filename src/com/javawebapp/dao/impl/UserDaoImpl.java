@@ -248,7 +248,7 @@ public class UserDaoImpl implements UserDao
 		try
 		{
 			session.beginTransaction();
-			User user = new User(userName, email, password, id);
+			User user = new User(userName, password, email, id);
 			session.save(user);
 			session.getTransaction().commit();
 		}
