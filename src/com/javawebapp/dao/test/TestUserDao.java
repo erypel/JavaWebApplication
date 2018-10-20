@@ -14,9 +14,11 @@ public class TestUserDao {
 	public final static String TEST_EMAIL = "testEmail@test.com";
 
 	public static void main(String[] args) {
-		//System.out.println("===Running unit tests for UserDaoImpl.java===");
-		//System.out.println("Test insertUser()");
-		//System.out.println("Test successful: " + testInsertUser());
+		System.out.println("===Running unit tests for UserDaoImpl.java===");
+		System.out.println("Test insertUser(String, String, String, Long)");
+		System.out.println("Test successful: " + testInsertUserStringStringStringLong());
+		System.out.println("Test insertUser(String, String, String)");
+		System.out.println("Test successful: " + testInsertUserStringStringString());
 		//System.out.println("Test updateUserPassword(Long)");
 		//System.out.println("Test successful: " + testUpdateUserPasswordLong());
 		//System.out.println("Test updateUserPassword(String)");
@@ -40,10 +42,22 @@ public class TestUserDao {
 		System.out.println("===Finished running unit tests for UserDaoImpl.java===");
 	*/}
 
-	public static boolean testInsertUser() {
+	public static boolean testInsertUserStringStringStringLong() {
 		UserDao userDao = new UserDaoImpl();
 		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
+		if (userDao.getUser(id) != null) {
+			userDao.deleteUser(id);
+			return true;
+		}
+
+		return false;
+	}
+	
+	public static boolean testInsertUserStringStringString() {
+		UserDao userDao = new UserDaoImpl();
+		Long id = JavaWebAppUtils.generateUniqueId();
+		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
 		if (userDao.getUser(id) != null) {
 			userDao.deleteUser(id);
 			return true;

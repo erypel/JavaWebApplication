@@ -248,52 +248,21 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-	// TODO logic to handle duplicates
 	@Override
-	public void insertUser(String username, String password, String email, Long id) {
-		Connection connection = null;
-		PreparedStatement ps = null;
-
-		String insertUserSql = "INSERT INTO USER (USERNAME, ID, PASSWORD, EMAIL) VALUES (?,?,?,?);";
-		try {
-			connection = ConnectionUtils.getMyConnection();
-			connection.setAutoCommit(false); // best practice
-			ps = connection.prepareStatement(insertUserSql);
-
-			ps.setString(1, username);
-			ps.setLong(2, id);
-			ps.setString(3, password);
-			ps.setString(4, email);
-
-			ps.executeUpdate();
-			connection.commit();
-
-			System.out.println("Created new user " + username);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
-				if (connection != null)
-					connection.rollback();
-			} catch (SQLException se2) {
-				se2.printStackTrace();
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (ps != null)
-					ps.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException sqlException) {
-				sqlException.printStackTrace();
-			}
-		}
+	public void insertUser(String userName, String password, String email, Long id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+	     
+	     User user = new User(userName, password, email, id);
+	     
+	     session.save(user);
+	     
+	     session.getTransaction().commit();
+	     session.close();
 	}
 
 	
 	@Override
-	//TODO create test
 	public void insertUser(String username, String password, String email) {
 		insertUser(username, password, email, JavaWebAppUtils.generateUniqueId());
 	}
