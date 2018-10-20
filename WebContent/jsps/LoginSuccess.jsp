@@ -8,31 +8,34 @@
 </head>
 <body>
 	<%
-	//only allow access if session exists
-	String user = (String) session.getAttribute("user");
-	String userName = null;
-	String sessionID = null;
-	Cookie[] cookies = request.getCookies();
-	if(cookies != null)
-	{
-		for(Cookie cookie : cookies)
+		//only allow access if session exists
+		String user = (String) session.getAttribute("user");
+		String userName = null;
+		String sessionID = null;
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null)
 		{
-			if(cookie.getName().equals("user"))
-				userName = cookie.getValue();
-			if(cookie.getName().equals("JSESSIONID"))
-				sessionID = cookie.getValue();
+			for(Cookie cookie : cookies)
+			{
+				if(cookie.getName().equals("user"))
+					userName = cookie.getValue();
+				if(cookie.getName().equals("JSESSIONID"))
+					sessionID = cookie.getValue();
+			}
 		}
-	}
-	else
-	{
-		sessionID = session.getId();
-	}
+		else
+		{
+			sessionID = session.getId();
+		}
 	%>
-	<h3>Hi <%=userName %>, Login successful. Your Session ID=<%=sessionID %></h3>
-<br>
-<a href="CheckoutPage.jsp">Checkout Page</a>
-<form action="${pageContext.request.contextPath}/LogoutServlet" method="post">
-<input type="submit" value="Logout" >
-</form>
+	<h3>
+		Hi
+		<%=userName%>, Login successful. Your Session ID=<%=sessionID%></h3>
+	<br>
+	<a href="CheckoutPage.jsp">Checkout Page</a>
+	<form action="${pageContext.request.contextPath}/LogoutServlet"
+		method="post">
+		<input type="submit" value="Logout">
+	</form>
 </body>
 </html>

@@ -16,17 +16,19 @@ import javax.servlet.http.HttpSession;
 
 //TODO phase out
 @WebFilter("/AuthenticationFilter")
-public class AuthenticationFilter implements Filter{
-
+public class AuthenticationFilter implements Filter
+{
 	private ServletContext context;
 	
-	public void destroy() {
+	public void destroy()
+	{
 		// TODO Auto-generated method stub
-		//we can close any resources here
+		// we can close any resources here
 	}
-
+	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+			throws IOException, ServletException
+	{
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		
@@ -36,13 +38,14 @@ public class AuthenticationFilter implements Filter{
 		HttpSession session = req.getSession(false);
 		
 		// don't need to be logged in to create a new user
-		//TODO make better
+		// TODO make better
 		if(URI.endsWith("createNewUser"))
 		{
 			chain.doFilter(request, response);
 		}
 		// check if access is authorized
-		else if(session == null && !(URI.endsWith("html") || URI.endsWith("LoginServlet"))) {
+		else if(session == null && !(URI.endsWith("html") || URI.endsWith("LoginServlet")))
+		{
 			this.context.log("Unauthorized access request");
 			res.sendRedirect("login.html");
 		}
@@ -52,10 +55,11 @@ public class AuthenticationFilter implements Filter{
 			chain.doFilter(request, response);
 		}
 	}
-
-	public void init(FilterConfig filterConfig) throws ServletException {
+	
+	public void init(FilterConfig filterConfig) throws ServletException
+	{
 		this.context = filterConfig.getServletContext();
 		this.context.log("AuthenticationFilter initialized");
 	}
-
+	
 }

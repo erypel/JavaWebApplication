@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
-    pageEncoding="US-ASCII"%>
+	pageEncoding="US-ASCII"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,23 +7,27 @@
 <title>Checkout Page</title>
 </head>
 <body>
-<%
-	String userName = null;
-	String sessionID = null;
-	Cookie[] cookies = request.getCookies();
-	if(cookies != null)
-	{
-		for(Cookie c : cookies)
+	<%
+		String userName = null;
+		String sessionID = null;
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null)
 		{
-			if(c.getName().equals("user"))
-				userName = c.getValue();
+			for(Cookie c : cookies)
+			{
+				if(c.getName().equals("user"))
+					userName = c.getValue();
+			}
 		}
-	}
-%>
-<h3>Hi <%=userName %>, do the checkout.</h3>
-<br>
-<form action="${pageContext.request.contextPath}/LogoutServlet" method="post">
-<input type="submit" value="Logout" >
-</form>
+	%>
+	<h3>
+		Hi
+		<%=userName%>, do the checkout.
+	</h3>
+	<br>
+	<form action="${pageContext.request.contextPath}/LogoutServlet"
+		method="post">
+		<input type="submit" value="Logout">
+	</form>
 </body>
 </html>

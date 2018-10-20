@@ -16,41 +16,44 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import com.javawebapp.db.ConnectionUtils;
-import com.javawebapp.db.DBConnectionManager;
 import com.javawebapp.db.MySQLConnectionUtils;
 
-@WebFilter(filterName="jdbcFilter", urlPatterns= {"/*"})
-public class JDBCFilter implements Filter{
-
-	public JDBCFilter() {}
-
+@WebFilter(filterName = "jdbcFilter", urlPatterns = { "/*" })
+public class JDBCFilter implements Filter
+{
+	
+	public JDBCFilter()
+	{
+	}
+	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+			throws IOException, ServletException
+	{
 		HttpServletRequest req = (HttpServletRequest) request;
 		
-		//Only open connections for the special requests
-		//ex. path to the servlet, JSP, ...
+		// Only open connections for the special requests
+		// ex. path to the servlet, JSP, ...
 		//
-		//Avoid open connection for commons request
-		//ex. image, css, javascript, ...
+		// Avoid open connection for commons request
+		// ex. image, css, javascript, ...
 		if(this.needJDBC(req))
 		{
 			System.out.println("Open Connection for: " + req.getServletPath());
 			Connection connection = null;
 			try
 			{
-				//Create connection
+				// Create connection
 				connection = MySQLConnectionUtils.getMySQLConnection();
-				connection.setAutoCommit(false); //best practice
+				connection.setAutoCommit(false); // best practice
 				
-				//Store connection object in attribute of request
+				// Store connection object in attribute of request
 				ConnectionUtils.storeConnection(request, connection);
 				
-				//allow the request to go forward to next filter or target
+				// allow the request to go forward to next filter or target
 				chain.doFilter(request, response);
 				
-				//commit() to complete the transaction with the DB
+				// commit() to complete the transaction with the DB
 				connection.commit();
 			}
 			catch(Exception e)
@@ -64,22 +67,24 @@ public class JDBCFilter implements Filter{
 				ConnectionUtils.closeConnection(connection);
 			}
 		}
-		//no need to open connection
+		// no need to open connection
 		else
 		{
-			//allow the request to go forward to the next filter or target
+			// allow the request to go forward to the next filter or target
 			chain.doFilter(request, response);
 		}
 	}
-
+	
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+	public void init(FilterConfig arg0) throws ServletException
+	{
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void destroy() {
+	public void destroy()
+	{
 		// TODO Auto-generated method stub
 		
 	}
@@ -96,11 +101,12 @@ public class JDBCFilter implements Filter{
 			urlPattern = servletPath + "/*";
 		}
 		
-		//Key: servletName
-		//Value: ServletRegistration
-		Map<String, ? extends ServletRegistration> servletRegistrations = request.getServletContext().getServletRegistrations();
-	
-		//Collection of all servlets in the webapp
+		// Key: servletName
+		// Value: ServletRegistration
+		Map<String, ? extends ServletRegistration> servletRegistrations = request.getServletContext()
+				.getServletRegistrations();
+		
+		// Collection of all servlets in the webapp
 		Collection<? extends ServletRegistration> values = servletRegistrations.values();
 		for(ServletRegistration sr : values)
 		{
@@ -110,5 +116,5 @@ public class JDBCFilter implements Filter{
 		}
 		return false;
 	}
-
+	
 }

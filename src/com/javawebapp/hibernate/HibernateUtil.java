@@ -1,16 +1,23 @@
 package com.javawebapp.hibernate;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class HibernateUtil {
+public class HibernateUtil
+{
 	private static final SessionFactory sessionFactory = buildSessionFactory();
+	private static final EntityManagerFactory userEntityManagerFactory = buildUserEntityManagerFactory();
 	
-	private static SessionFactory buildSessionFactory() {
+	private static SessionFactory buildSessionFactory()
+	{
 		try
 		{
 			// Create the session factory from hibernate.cfg.xml
-			return new Configuration().configure().buildSessionFactory();
+			SessionFactory sf = new Configuration().configure().buildSessionFactory();
+			return sf;
 		}
 		catch(Exception e)
 		{
@@ -20,18 +27,31 @@ public class HibernateUtil {
 		return null;
 	}
 	
-	public static SessionFactory getSessionFactory() 
+	// Create and entity manager factory for the User entity
+	private static EntityManagerFactory buildUserEntityManagerFactory()
 	{
-		if(sessionFactory == null)
-		{
-			buildSessionFactory();
-		}
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("User");
+		return emf;
+	}
+	
+	public static SessionFactory getSessionFactory()
+	{
 		return sessionFactory;
 	}
 	
-	public static void shutdown()
+	public static EntityManagerFactory getUserEntityManagerFactory()
 	{
-		//Close caches and connection pools
+		return userEntityManagerFactory;
+	}
+	
+	public static void shutdownSessionFactory()
+	{
+		// Close caches and connection pools
 		getSessionFactory().close();
+	}
+	
+	public static void closeUserEntityManagerFactory()
+	{
+		getUserEntityManagerFactory().close();
 	}
 }
