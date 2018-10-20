@@ -24,16 +24,18 @@ public class TestUserDao {
 		//System.out.println("Test updateUsernameLong(Long)");
 		//System.out.println("Test successful: " + testUpdateUsernameLong());
 		/*System.out.println("Test updateUsername(String)");
-		System.out.println("Test successful: " + testUpdateUsernameString());
+		System.out.println("Test successful: " + testUpdateUsernameString());*/
 		System.out.println("Test deleteUserLong(Long)");
 		System.out.println("Test successful: " + testDeleteUserLong());
 		System.out.println("Test deleteUser(String)");
-		System.out.println("Test successful: " + testDeleteUserString());
-		*/System.out.println("Test getUser(String)");
+		System.out.println("Test successful: " + testDeleteUserString());/*
+		System.out.println("Test getUser(String)");
 		System.out.println("Test successful: " + testGetUserString());
 		System.out.println("Test getUser(Long)");
 		System.out.println("Test successful: " + testGetUserLong());
-		/*System.out.println("Test getAllUsers()");
+		System.out.println("Test getUser(String, String)");
+		System.out.println("Test successful: " + testGetUserUserNamePassword());
+		System.out.println("Test getAllUsers()");
 		System.out.println("Test successful: " + testGetAllUsers());
 		System.out.println("===Finished running unit tests for UserDaoImpl.java===");
 	*/}
@@ -108,7 +110,7 @@ public class TestUserDao {
 
 	public static boolean testDeleteUserLong() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		userDao.deleteUser(id);
 		if (userDao.getUser(id) == null) {
@@ -119,10 +121,23 @@ public class TestUserDao {
 
 	public static boolean testDeleteUserString() {
 		UserDao userDao = new UserDaoImpl();
-		Long id = 999999999L;
+		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		userDao.deleteUser(TEST_USERNAME);
 		if (userDao.getUser(TEST_USERNAME) == null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean testGetUserUserNamePassword() {
+		UserDao userDao = new UserDaoImpl();
+		Long id = JavaWebAppUtils.generateUniqueId();
+		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
+		User user = userDao.getUser(TEST_USERNAME, TEST_PASSWORD);
+		if (user.getUserName().equals(TEST_USERNAME) && user.getPassword().equals(TEST_PASSWORD)
+				&& user.getEmail().equals(TEST_EMAIL) && user.getId() == id) {
+			userDao.deleteUser(TEST_USERNAME);
 			return true;
 		}
 		return false;
