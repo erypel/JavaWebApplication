@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.dao.impl.UserDaoImpl;
 import com.javawebapp.objects.User;
@@ -22,6 +25,8 @@ import com.javawebapp.objects.User;
 public class LoginServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
+	
+	Logger logger = LogManager.getLogger(LoginServlet.class);
 	
 	public void init() throws ServletException
 	{
@@ -42,7 +47,7 @@ public class LoginServlet extends HttpServlet
 		String pwd = request.getParameter("pwd");
 		
 		// logging example
-		log("User=" + username + "::password=" + pwd);
+		logger.info("Logging in User=" + username);
 		
 		UserDao userDao = new UserDaoImpl();
 		User user = userDao.getUser(username, pwd);

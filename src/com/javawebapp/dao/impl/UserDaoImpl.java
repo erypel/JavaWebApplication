@@ -10,16 +10,22 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.Message;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.hibernate.HibernateUtil;
 import com.javawebapp.objects.User;
+import com.javawebapp.servlet.session.CreateUserServlet;
 import com.javawebapp.util.JavaWebAppUtils;
 
 public class UserDaoImpl implements UserDao
 {
+	Logger logger = LogManager.getLogger(UserDaoImpl.class);
+	
 	// column names
 	private static final String PASSWORD = "password";
 	private static final String USERNAME = "userName";
@@ -31,6 +37,7 @@ public class UserDaoImpl implements UserDao
 		List<User> results = Collections.emptyList();
 		try
 		{
+			logger.info("Made call to getAllUsers()"); 
 			session.beginTransaction();
 			CriteriaBuilder cb = session.getCriteriaBuilder();
 			CriteriaQuery<User> cq = cb.createQuery(User.class);
@@ -44,7 +51,7 @@ public class UserDaoImpl implements UserDao
 		{
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
-			e.printStackTrace();
+			logger.error("Error getting all users.", e);
 		}
 		finally
 		{
@@ -83,7 +90,7 @@ public class UserDaoImpl implements UserDao
 		{
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
-			e.printStackTrace();
+			logger.error("Error getting user(String).", e);
 		}
 		finally
 		{
@@ -117,7 +124,7 @@ public class UserDaoImpl implements UserDao
 		{
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
-			e.printStackTrace();
+			logger.error("Error getting user(userName, password).", e);
 		}
 		finally
 		{
@@ -148,7 +155,7 @@ public class UserDaoImpl implements UserDao
 		{
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
-			e.printStackTrace();
+			logger.error("Error updating user username(oldUserName, newUserName).", e);
 		}
 		finally
 		{
@@ -185,7 +192,7 @@ public class UserDaoImpl implements UserDao
 		{
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
-			e.printStackTrace();
+			logger.error("Error deleting user(String).", e);
 		}
 		finally
 		{
@@ -222,7 +229,7 @@ public class UserDaoImpl implements UserDao
 		{
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
-			e.printStackTrace();
+			logger.error("Error updating user password(userName, newPassword).", e);
 		}
 		finally
 		{
@@ -256,7 +263,7 @@ public class UserDaoImpl implements UserDao
 		{
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
-			e.printStackTrace();
+			logger.error("Error inserting user.", e);
 		}
 		finally
 		{

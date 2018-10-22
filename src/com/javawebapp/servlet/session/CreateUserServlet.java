@@ -21,6 +21,8 @@ public class CreateUserServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 	
+	Logger logger = LogManager.getLogger(CreateUserServlet.class);
+	
 	public CreateUserServlet()
 	{
 		super();
@@ -31,8 +33,6 @@ public class CreateUserServlet extends HttpServlet
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		Logger logger = LogManager.getLogger(CreateUserServlet.class);
-		
 		// get request parameters for new user creation
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");
