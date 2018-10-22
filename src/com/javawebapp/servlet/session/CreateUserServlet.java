@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.dao.impl.UserDaoImpl;
 
@@ -28,6 +31,8 @@ public class CreateUserServlet extends HttpServlet
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
+		Logger logger = LogManager.getLogger(CreateUserServlet.class);
+		
 		// get request parameters for new user creation
 		String username = request.getParameter("username");
 		String pwd = request.getParameter("password");
@@ -51,7 +56,7 @@ public class CreateUserServlet extends HttpServlet
 			UserDao userDao = new UserDaoImpl();
 			userDao.insertUser(username, pwd, email);
 			// logging the new user's details
-			log("Created User=" + username + "::password=" + pwd + "::email=" + email);
+			logger.info("Created User={}::password={}::email={}", username, pwd, email);
 			String encodedURL = response.encodeRedirectURL("login.html");
 			response.sendRedirect(encodedURL);
 		}

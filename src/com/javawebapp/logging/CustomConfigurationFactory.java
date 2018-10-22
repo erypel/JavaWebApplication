@@ -19,10 +19,12 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
 @Order(50)
 public class CustomConfigurationFactory extends ConfigurationFactory
 {
+	final static Level loggerLevel = Level.ALL; //TODO you might wanna lower this in the future
+	
 	static Configuration createConfiguration(final String name, ConfigurationBuilder<BuiltConfiguration> builder) 
 	{
 		builder.setConfigurationName(name);
-		builder.setStatusLevel(Level.ERROR);
+		builder.setStatusLevel(loggerLevel);
 		builder.add(builder.newFilter("ThresholdFilter", Filter.Result.ACCEPT, Filter.Result.NEUTRAL).addAttribute("level", Level.DEBUG));
 		AppenderComponentBuilder appenderBuilder = builder.newAppender("Stdout", "CONSOLE").addAttribute("target", ConsoleAppender.Target.SYSTEM_OUT);
 		appenderBuilder.add(builder.newLayout("PatternLayout").addAttribute("pattern", "%d [%t] %-5level: %msg%n%throwable"));
