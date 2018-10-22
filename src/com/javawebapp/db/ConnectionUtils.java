@@ -9,10 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.javawebapp.dao.impl.UserDaoImpl;
 import com.javawebapp.objects.User;
 
 public class ConnectionUtils
 {
+	static Logger logger = LogManager.getLogger(ConnectionUtils.class);
+	
 	public static final String ATT_NAME_CONNECTION = "ATTRIBUTE_FOR_CONNECTION";
 	private static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME";
 	private static final String ATT_LOGGED_IN_USER = "loggedInUser";
@@ -96,7 +102,7 @@ public class ConnectionUtils
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			logger.error("Problem closing JDBC connection.", e);
 		}
 	}
 	
@@ -108,7 +114,7 @@ public class ConnectionUtils
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			logger.error("Problem rolling back JDBC connection.", e);
 		}
 	}
 	

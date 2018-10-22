@@ -10,9 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @WebServlet(description = "Logout Servlet", urlPatterns = { "/LogoutServlet" })
 public class LogoutServlet extends HttpServlet
 {
+	Logger logger = LogManager.getLogger(LogoutServlet.class);
+	
 	private static final long serialVersionUID = 1L;
 	
 	/*
@@ -43,7 +48,7 @@ public class LogoutServlet extends HttpServlet
 		
 		// invalidate the session if exists
 		HttpSession session = request.getSession(false);
-		log("User=" + session.getAttribute("user"));
+		logger.info("Logging out User=" + session.getAttribute("user"));
 		if(session != null)
 		{
 			session.invalidate();
