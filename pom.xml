@@ -28,6 +28,7 @@
 	</build>
 
 	<dependencies>
+		<!-- Hibernate -->
 		<dependency>
    			<groupId>org.hibernate</groupId>
    			<artifactId>hibernate-core</artifactId>
@@ -38,21 +39,35 @@
    			<artifactId>hibernate-entitymanager</artifactId>
    			<version>5.3.7.Final</version>
 		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.12</version>
-		</dependency>
+		<!-- EclipseLink -->
 		<dependency>
     		<groupId>org.eclipse.persistence</groupId>
     		<artifactId>eclipselink</artifactId>
     		<version>2.5.0</version>
 		</dependency>
+		<!-- MySql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.12</version>
+		</dependency>
+		<!-- unit tests -->
 		<dependency>
     		<groupId>junit</groupId>
    	 		<artifactId>junit</artifactId>
     		<version>4.12</version>
     		<scope>test</scope>
+		</dependency>
+		<!-- logging -->
+		<dependency>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-api</artifactId>
+   	 		<version>2.9.1</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-core</artifactId>
+    		<version>2.9.1</version>
 		</dependency>
 	</dependencies>
 </project>
