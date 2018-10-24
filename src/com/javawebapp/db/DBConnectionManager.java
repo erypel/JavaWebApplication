@@ -2,12 +2,17 @@ package com.javawebapp.db;
 
 import java.sql.Connection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class DBConnectionManager
 {
 	private String dbURL;
 	private String user;
 	private String password;
 	private Connection con;
+	
+	Logger logger = LogManager.getLogger(DBConnectionManager.class);
 	
 	public DBConnectionManager(String url, String user, String pwd)
 	{
@@ -29,7 +34,7 @@ public class DBConnectionManager
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			logger.error("Error closing DB Connection.", e);
 		}
 	}
 	/*

@@ -15,12 +15,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.javawebapp.db.ConnectionUtils;
+import com.javawebapp.db.DBConnectionManager;
 import com.javawebapp.db.MySQLConnectionUtils;
 
 @WebFilter(filterName = "jdbcFilter", urlPatterns = { "/*" })
 public class JDBCFilter implements Filter
 {
+	Logger logger = LogManager.getLogger(JDBCFilter.class);
 	
 	public JDBCFilter()
 	{
@@ -39,7 +44,7 @@ public class JDBCFilter implements Filter
 		// ex. image, css, javascript, ...
 		if(this.needJDBC(req))
 		{
-			System.out.println("Open Connection for: " + req.getServletPath());
+			logger.info("Open Connection for: " + req.getServletPath());
 			Connection connection = null;
 			try
 			{
@@ -91,7 +96,7 @@ public class JDBCFilter implements Filter
 	
 	private boolean needJDBC(HttpServletRequest request)
 	{
-		System.out.println("Checking if the JDBC Filter is needed.");
+		logger.debug("Checking if the JDBC Filter is needed.");
 		String servletPath = request.getServletPath();
 		String pathInfo = request.getPathInfo();
 		String urlPattern = servletPath;
@@ -112,8 +117,12 @@ public class JDBCFilter implements Filter
 		{
 			Collection<String> mappings = sr.getMappings();
 			if(mappings.contains(urlPattern))
+			{
+				logger.debug("JDBC Filter is necessary.");
 				return true;
+			}
 		}
+		logger.debug("JDBC Filter is not necessary.");
 		return false;
 	}
 	

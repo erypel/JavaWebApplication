@@ -3,11 +3,17 @@ package com.javawebapp.hibernate;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.javawebapp.db.ConnectionUtils;
+
 public class HibernateUtil
 {
+	static Logger logger = LogManager.getLogger(HibernateUtil.class);
+	
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 	private static final EntityManagerFactory userEntityManagerFactory = buildUserEntityManagerFactory();
 	
@@ -21,8 +27,7 @@ public class HibernateUtil
 		}
 		catch(Exception e)
 		{
-			System.out.println("SessionFactory create failed.");
-			e.printStackTrace();
+			logger.error("SessionFactory create failed.", e);
 		}
 		return null;
 	}
