@@ -50,6 +50,12 @@
    			<artifactId>hibernate-entitymanager</artifactId>
    			<version>5.3.7.Final</version>
 		</dependency>
+		<!-- BouncyCastle for ramdom keygen pairs for Wallets -->
+		<dependency>
+    		<groupId>org.bouncycastle</groupId>
+    		<artifactId>bcprov-jdk15on</artifactId>
+    		<version>1.59</version>
+		</dependency>
 		<!-- EclipseLink -->
 		<dependency>
     		<groupId>org.eclipse.persistence</groupId>
