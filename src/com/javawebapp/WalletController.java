@@ -6,8 +6,18 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.security.spec.ECGenParameterSpec;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class WalletController
 {
+	public static WalletService generateWallet()
+	{
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		WalletService wallet = (WalletService) context.getBean("walletService");
+		return wallet;
+	}
+	
 	public static void generateKeyPair(WalletService wallet)
 	{
 		// necessary to add manually in a PC environment
