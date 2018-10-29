@@ -6,11 +6,33 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.security.spec.ECGenParameterSpec;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.javawebapp.objects.Wallet;
+
+@Controller
+@RequestMapping("/WalletController")
 public class WalletController
 {
+	@Autowired
+	private WalletService service;
+	
+	@RequestMapping(value = "/createWallet/{userId}", method = RequestMethod.POST)
+	@ResponseBody
+	public WalletService createWallet(@PathVariable("userId") Long userId)
+	{
+		WalletService ws = generateWallet();
+		ws.setOwnerId(userId);
+		return ws;
+	}
+	
 	public static WalletService generateWallet()
 	{
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");

@@ -11,7 +11,8 @@ public class WalletService
 	private long walletId;
 	public PrivateKey privateKey;
 	public PublicKey publicKey;
-	
+	public long ownerId;
+
 	//TODO HashMap<String, TransactionOutput>
 	//only UTXOs owned by this wallet
 	public HashMap<String, String> UTXOs = new HashMap<String, String>();
@@ -20,6 +21,16 @@ public class WalletService
 	{
 		this.walletId = id;
 		WalletController.generateKeyPair(this);
+	}
+	
+	public long getOwnerId()
+	{
+		return ownerId;
+	}
+
+	public void setOwnerId(long ownerId)
+	{
+		this.ownerId = ownerId;
 	}
 	
 	public void setId(long id)
