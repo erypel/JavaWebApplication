@@ -1,4 +1,4 @@
-package com.javawebapp;
+/*package com.javawebapp;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.javawebapp.objects.Wallet;
+import com.javawebapp.model.Wallet;
 
 @Controller
 @RequestMapping("/WalletController")
@@ -59,4 +59,4 @@ public class WalletController
 			throw new RuntimeException(e);
 		}
 	}
-}
+}*/

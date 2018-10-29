@@ -13,7 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.javawebapp.dao.impl.UserDaoImpl;
-import com.javawebapp.objects.User;
+import com.javawebapp.model.User;
 
 public class ConnectionUtils
 {

@@ -1,4 +1,4 @@
-package com.javawebapp.objects;
+package com.javawebapp.model;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package test.java.unit;
+/*package test.java.unit;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -41,3 +41,4 @@ public class TestJavaWebAppUtils
 		assertTrue(true);
 	}
 }
+*/

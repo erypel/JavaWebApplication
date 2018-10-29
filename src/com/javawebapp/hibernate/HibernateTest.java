@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 import org.hibernate.Session;
 
-import com.javawebapp.objects.User;
+import com.javawebapp.model.User;
 
 public class HibernateTest
 {

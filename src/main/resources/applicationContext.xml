@@ -11,7 +11,7 @@
 		class="com.javawebapp.HelloWorldService">
 		<property name="name" value="Hello World" />
 	</bean>
-	<bean id="walletService" class="com.javawebapp.WalletService">
+	<!--  <bean id="walletService" class="com.javawebapp.WalletService">
 		<constructor-arg name="id" type="long" value="#{ T(com.javawebapp.util.JavaWebAppUtils).generateUniqueId()}"/>
-	</bean>
+	</bean>-->
 </beans>
