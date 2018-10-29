@@ -2,7 +2,8 @@ package com.javawebapp.dao;
 
 import java.util.List;
 
-import com.javawebapp.objects.User;
+import com.javawebapp.model.Login;
+import com.javawebapp.model.User;
 
 public interface UserDao {
 	// get methods

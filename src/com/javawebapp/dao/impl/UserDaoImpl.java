@@ -18,7 +18,7 @@ import org.hibernate.query.Query;
 
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.hibernate.HibernateUtil;
-import com.javawebapp.objects.User;
+import com.javawebapp.model.User;
 import com.javawebapp.servlet.session.CreateUserServlet;
 import com.javawebapp.util.JavaWebAppUtils;
 

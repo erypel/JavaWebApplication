@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.dao.impl.UserDaoImpl;
 import com.javawebapp.db.ConnectionUtils;
-import com.javawebapp.objects.User;
+import com.javawebapp.model.User;
 
 @WebFilter(filterName = "cookieFilter", urlPatterns = { "/*" })
 public class CookieFilter implements Filter

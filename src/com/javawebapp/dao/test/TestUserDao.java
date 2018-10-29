@@ -3,7 +3,7 @@ package com.javawebapp.dao.test;
 import java.util.ArrayList;
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.dao.impl.UserDaoImpl;
-import com.javawebapp.objects.User;
+import com.javawebapp.model.User;
 import com.javawebapp.util.JavaWebAppUtils;
 
 //TODO probably use some sort of testing framework. this is fine for now

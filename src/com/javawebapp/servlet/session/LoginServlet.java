@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.dao.impl.UserDaoImpl;
-import com.javawebapp.objects.User;
+import com.javawebapp.model.User;
 
 @WebServlet(description = "Login Servlet", urlPatterns = { "/LoginServlet" })
 public class LoginServlet extends HttpServlet

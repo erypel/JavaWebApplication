@@ -11,7 +11,7 @@ public class Hello
 		// loading the definitions from the given XML file
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		
-		HelloWorldService service = (HelloWorldService) context.getBean("helloWorldService");
+		/*HelloWorldService service = (HelloWorldService) context.getBean("helloWorldService");
 		WalletService wallet = (WalletService) context.getBean("walletService");
 		String message = service.sayHello();
 		long walletId = wallet.getId();
@@ -20,6 +20,6 @@ public class Hello
 		//set a new name
 		service.setName("Spring");
 		message = service.sayHello();
-		System.out.println(message);
+		System.out.println(message);*/
 	}
 }

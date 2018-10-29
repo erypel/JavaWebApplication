@@ -1,4 +1,4 @@
-package com.javawebapp;
+/*package com.javawebapp;
 
 import org.springframework.stereotype.Service;
 import java.security.PublicKey;
@@ -63,3 +63,4 @@ public class WalletService
 		return this.publicKey;
 	}
 }
+*/
