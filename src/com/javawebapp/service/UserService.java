@@ -9,16 +9,16 @@ import com.javawebapp.model.User;
 public class UserService
 {
 	UserDaoImpl userDao = new UserDaoImpl();
+	
 	public User getUser(String username, String password)
 	{
 		User user = userDao.getUser(username, password);
-		return null;
+		return user;
 	}
-
+	
 	public void register(User user)
 	{
 		userDao.insertUser(user.getUserName(), user.getPassword(), user.getEmail());
-		
 	}
 	
 }
