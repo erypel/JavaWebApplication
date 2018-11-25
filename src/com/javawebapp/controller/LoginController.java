@@ -11,13 +11,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.javawebapp.model.Login;
 import com.javawebapp.model.User;
+import com.javawebapp.model.Wallet;
 import com.javawebapp.service.UserService;
+import com.javawebapp.service.WalletService;
 
 @Controller
 public class LoginController
 {
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	WalletService walletService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response)
@@ -33,10 +38,19 @@ public class LoginController
 	{
 		ModelAndView mav = null;
 		User user = userService.getUser(login.getUsername(), login.getPassword());
+		Wallet wallet = walletService.getWallet(user.getId()); 
+		
+		// create a wallet if the user does not have one for some reason
+		// this could occur if the user was created before wallet was implemented
+		if(wallet == null)
+			wallet = walletService.register(user.getId());
+		
 		if(null != user)
 		{
 			mav = new ModelAndView("welcome");
 			mav.addObject("firstname", user.getUserName());
+			mav.addObject("walletId", wallet.getWalletId());
+			mav.addObject("publicKey", wallet.getPublicKey());
 		}
 		else
 		{

@@ -12,14 +12,12 @@ import javax.persistence.criteria.Root;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.Message;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.hibernate.HibernateUtil;
 import com.javawebapp.model.User;
-import com.javawebapp.servlet.session.CreateUserServlet;
 import com.javawebapp.util.JavaWebAppUtils;
 
 public class UserDaoImpl implements UserDao

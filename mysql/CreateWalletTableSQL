@@ -1,0 +1,11 @@
+//TODO do this via xml. Ant?? Maven??
+
+use javawebappdb;
+CREATE TABLE IF NOT EXISTS Wallet(
+	ownerId BIGINT NOT NULL,
+	walletId BIGINT NOT NULL,
+	privateKey VARCHAR(500) NOT NULL,
+	publicKey VARCHAR(500) NOT NULL,
+	PRIMARY KEY (walletId),
+	FOREIGN KEY (ownerId) REFERENCES User(id) 
+);

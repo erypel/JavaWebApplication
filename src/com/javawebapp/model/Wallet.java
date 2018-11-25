@@ -1,13 +1,22 @@
 package com.javawebapp.model;
 
 import java.io.Serializable;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SecureRandom;
+import java.security.Security;
+import java.security.spec.ECGenParameterSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import com.javawebapp.util.JavaWebAppUtils;
 
 @Entity
 @Table(name = "WALLET")
@@ -32,11 +41,31 @@ public class Wallet implements Serializable
 	//this will be the UserId of the owner of this wallet
 	private long ownerId;
 	
+	//TODO change to encoded byte[]
 	@Column(name = "PRIVATEKEY")
-	private PrivateKey privateKey;
+	private String privateKey;
 	
+	//TODO change to encoded bye[]
 	@Column(name = "PUBLICKEY")
-	private PublicKey publicKey;
+	private String publicKey;
+	
+	/**
+	 * NOT RECOMMENDED FOR USE
+	 */
+	public Wallet()
+	{
+		//default constructor. not 
+	}
+	
+	/**
+	 * RECOMMENDED FOR USE
+	 */
+	public Wallet(long ownerId)
+	{
+		this.ownerId = ownerId;
+		this.walletId = JavaWebAppUtils.generateUniqueId(); //TODO the db can do this
+		generateKeyPair();
+	}
 	
 	public long getWalletId()
 	{
@@ -58,23 +87,46 @@ public class Wallet implements Serializable
 		this.ownerId = ownerId;
 	}
 
-	public PrivateKey getPrivateKey()
+	public String getPrivateKey()
 	{
 		return privateKey;
 	}
 
 	public void setPrivateKey(PrivateKey privateKey)
 	{
-		this.privateKey = privateKey;
+		this.privateKey = privateKey.toString();
 	}
 
-	public PublicKey getPublicKey()
+	public String getPublicKey()
 	{
+		
 		return publicKey;
 	}
 
 	public void setPublicKey(PublicKey publicKey)
 	{
-		this.publicKey = publicKey;
+		this.publicKey = publicKey.toString();
+	}
+	
+	/**
+	 * uses Java.security.KeyPairGenerator to generate an Elliptic 
+	 * Curve KeyPair.
+	 */
+	public void generateKeyPair() {
+		// necessary to generate key pairs using BC
+		if(Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
+			Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+		try {
+			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("ECDSA", "BC");
+			SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+			ECGenParameterSpec ecSpec = new ECGenParameterSpec("prime192v1");
+			// Initialize the key generator and generate a KeyPair
+			keyGen.initialize(ecSpec, random); // 256 bytes provides an acceptable security level
+			KeyPair keyPair = keyGen.generateKeyPair();
+			privateKey = keyPair.getPrivate().toString();
+			publicKey = keyPair.getPublic().toString();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

@@ -15,6 +15,16 @@
             <tr>
             </tr>
             <tr>
+            	<td>Wallet</td>
+            	<td>Wallet Id: ${walletId}</td>
+            	<td>Public Key: ${publicKey}</td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            <tr>
                 <td><a href="home.jsp">Home</a>
                 </td>
             </tr>

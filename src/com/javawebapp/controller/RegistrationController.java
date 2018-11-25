@@ -12,12 +12,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.javawebapp.model.User;
 import com.javawebapp.service.UserService;
+import com.javawebapp.service.WalletService;
 
 @Controller
 public class RegistrationController
 {
 	@Autowired
 	public UserService userService;
+	
+	@Autowired
+	public WalletService walletService;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response)
@@ -32,6 +36,7 @@ public class RegistrationController
 			@ModelAttribute("user") User user)
 	{
 		userService.register(user);
+		walletService.register(user.getId());
 		return new ModelAndView("welcome", "userName", user.getUserName());
 	}
 }
