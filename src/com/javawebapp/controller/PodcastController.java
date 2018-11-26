@@ -15,9 +15,17 @@ import com.javawebapp.model.User;
 public class PodcastController
 {
 	@RequestMapping(value = "/podcast", method = RequestMethod.GET)
-	public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user)
+	public ModelAndView showRegisterPodcastHome(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user)
 	{
 		ModelAndView mav = new ModelAndView("podcast");
+		mav.addObject("userName", user.getUserName());
+		return mav;
+	}
+	
+	@RequestMapping(value = "/navigateToUploadPodcast", method = RequestMethod.GET)
+	public ModelAndView showRegisterUploadPodcast(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user)
+	{
+		ModelAndView mav = new ModelAndView("uploadPodcast");
 		mav.addObject("userName", user.getUserName());
 		return mav;
 	}
