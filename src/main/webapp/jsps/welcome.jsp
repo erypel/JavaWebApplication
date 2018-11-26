@@ -28,6 +28,10 @@
                 <td><a href="home.jsp">Home</a>
                 </td>
             </tr>
+            <tr>
+            	<td><a href="podcast.action">Podcast</a>
+            	</td>
+            </tr>
         </table>
     </body>
     </html>
