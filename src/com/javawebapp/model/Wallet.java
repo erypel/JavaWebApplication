@@ -18,6 +18,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import com.javawebapp.util.JavaWebAppUtils;
 
+//TODO convert this to an XRP wallet and integrate interledger
 @Entity
 @Table(name = "WALLET")
 public class Wallet implements Serializable
