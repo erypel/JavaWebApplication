@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.javawebapp.util.JavaWebAppUtils;
 
 @Entity
@@ -19,6 +21,7 @@ public class Podcast implements Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@ColumnDefault("default")
 	@Column(name = "EPISODE", nullable = false)
 	private String episodeName;
 	

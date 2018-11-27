@@ -6,3 +6,6 @@ CREATE TABLE IF NOT EXISTS Podcasts(
     path VARCHAR(500) NOT NULL,
 	PRIMARY KEY (id)
 );
+
+ALTER TABLE `javawebappdb`.`podcasts` 
+CHANGE COLUMN `episodeName` `episodeName` VARCHAR(50) NOT NULL DEFAULT 'default' ;
