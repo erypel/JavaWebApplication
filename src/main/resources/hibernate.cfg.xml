@@ -15,5 +15,6 @@
         <property name="hbm2ddl.auto">update </property>
         <mapping class ="com.javawebapp.model.User" />
         <mapping class ="com.javawebapp.model.Wallet" />
+        <mapping class ="com.javawebapp.model.Podcast" />
     </session-factory>
 </hibernate-configuration>

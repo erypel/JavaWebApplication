@@ -1,0 +1,8 @@
+use javawebappdb;
+CREATE TABLE IF NOT EXISTS Podcasts(
+	id BIGINT NOT NULL,
+	episodeName VARCHAR(50) NOT NULL,
+	description VARCHAR(500),
+    path VARCHAR(500) NOT NULL,
+	PRIMARY KEY (id)
+);
