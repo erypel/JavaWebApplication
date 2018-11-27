@@ -101,6 +101,7 @@ public class Podcast implements Serializable
 			os = new FileOutputStream(new File(path));
 			
 			int read = 0;
+			//TODO is this the right size for the byte array?
 			byte[] bytes = new byte[1024];
 			
 			while ((read = is.read(bytes)) != -1)
