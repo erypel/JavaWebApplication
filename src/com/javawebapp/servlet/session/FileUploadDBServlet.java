@@ -55,6 +55,7 @@ public class FileUploadDBServlet extends HttpServlet
 			Podcast podcast = new Podcast(episodeName, episodeDescription, episodePath);
 			PodcastDaoImpl podcastDao = new PodcastDaoImpl();
 			podcastDao.insertPodcast(podcast);
+			Podcast.savePodcastToFileStore(is, episodePath);
 			//TODO store upload in files system outside DB
 			message = "Success!";
 		}
@@ -78,6 +79,17 @@ public class FileUploadDBServlet extends HttpServlet
 				}
 			}
 			
+			if(is != null)
+			{
+				try
+				{
+					is.close();
+				}
+				catch(Exception e)
+				{
+					logger.error("error closing input stream", e);
+				}
+			}
 			//set message in request scope
 			request.setAttribute("message", message);
 			

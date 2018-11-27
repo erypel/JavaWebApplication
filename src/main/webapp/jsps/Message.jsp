@@ -9,7 +9,7 @@
 </head>
 <body>
     <center>
-        <h3><%=request.getAttribute("Message")%></h3>
+        <h3><%=request.getAttribute("message")%></h3>
     </center>
 </body>
 </html>

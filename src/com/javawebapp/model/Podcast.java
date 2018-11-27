@@ -1,5 +1,10 @@
 package com.javawebapp.model;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -87,11 +92,45 @@ public class Podcast implements Serializable
 	{
 		this.path = path;
 	}
+	
+	public static boolean savePodcastToFileStore(InputStream is, String path)
+	{
+		OutputStream os = null;
+		try
+		{
+			os = new FileOutputStream(new File(path));
+			
+			int read = 0;
+			//TODO is this the right size for the byte array?
+			byte[] bytes = new byte[1024];
+			
+			while ((read = is.read(bytes)) != -1)
+			{
+				os.write(bytes, 0, read);
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace(); //TODO log
+			return false;
+		}
+		finally
+		{
+			if (os != null) {
+				try {
+					os.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+		return true;
+	}
 
 	public static String constructPodcastPath(String episodeName)
 	{
 		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\uploads\\";
-		//TODO check for uniqueness
-		return basePath + episodeName;
+		//TODO check for uniqueness and save as an appropriate file
+		return basePath + episodeName + ".mp3";
 	}
 }
