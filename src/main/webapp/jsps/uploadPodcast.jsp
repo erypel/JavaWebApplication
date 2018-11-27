@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>Upload your podcast:</h1>
-	<form method="post" action="uploadServlet" enctype="multipart/form-data">
+	<form method="post" action="uploadPodcastServlet" enctype="multipart/form-data">
 		<table border="0">
 			<tr>
 				<td>Episode Name: </td>
