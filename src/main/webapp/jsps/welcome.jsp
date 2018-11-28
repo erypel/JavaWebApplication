@@ -25,11 +25,11 @@
             </tr>
             <tr>
             <tr>
-                <td><a href="home.jsp">Home</a>
+                <td><a href="home.jsp">Log Out</a>
                 </td>
             </tr>
             <tr>
-            	<td><a href="podcast.action">Podcast</a>
+            	<td><a href="podcast.action">Podcasts</a>
             	</td>
             </tr>
         </table>

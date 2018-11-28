@@ -9,24 +9,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.javawebapp.model.Podcast;
 import com.javawebapp.model.User;
 
 @Controller
 public class PodcastController
 {
 	@RequestMapping(value = "/podcast", method = RequestMethod.GET)
-	public ModelAndView showRegisterPodcastHome(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user)
+	public ModelAndView showRegisterPodcastHome(HttpServletRequest request, HttpServletResponse response)
 	{
 		ModelAndView mav = new ModelAndView("podcast");
-		mav.addObject("userName", user.getUserName());
 		return mav;
 	}
 	
 	@RequestMapping(value = "/navigateToUploadPodcast", method = RequestMethod.GET)
-	public ModelAndView showRegisterUploadPodcast(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user)
+	public ModelAndView showRegisterUploadPodcast(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute("user") User user)
 	{
 		ModelAndView mav = new ModelAndView("uploadPodcast");
 		mav.addObject("userName", user.getUserName());
+		return mav;
+	}
+	
+	@RequestMapping(value = "/listenToPodcast", method = RequestMethod.GET)
+	public ModelAndView showRegisterListenToPodcast(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute("user") User user, @ModelAttribute("podcast") Podcast podcast)
+	{
+		ModelAndView mav = new ModelAndView("listenToPodcast");
+		mav.addObject("podcast", podcast);
 		return mav;
 	}
 }
