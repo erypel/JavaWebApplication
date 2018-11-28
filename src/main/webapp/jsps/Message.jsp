@@ -8,8 +8,7 @@
 <title>Message</title>
 </head>
 <body>
-    <center>
-        <h3><%=request.getAttribute("message")%></h3>
-    </center>
+	<h3><%=request.getAttribute("message")%></h3>
+	<a href="podcast.action">Return</a>
 </body>
 </html>

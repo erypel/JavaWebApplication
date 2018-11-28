@@ -8,6 +8,10 @@
 </head>
 <body>
 	<h2>Content goes here</h2>
+	<audio controls>
+    	<source src="http://localhost:8080/JavaWebApp/uploads/testWav.wav" type="audio/wav">
+	</audio>
+	<br>
 	<a href="navigateToUploadPodcast.action">Upload</a>
 </body>
 </html>

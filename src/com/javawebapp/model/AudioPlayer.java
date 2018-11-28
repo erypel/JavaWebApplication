@@ -26,7 +26,7 @@ public class AudioPlayer
 	String status;
 	
 	AudioInputStream ais;
-	String filePath;
+	static String filePath;
 	
 	// Constructor to initialize streams and clip
 	public AudioPlayer() throws UnsupportedAudioFileException, IOException, LineUnavailableException
@@ -43,11 +43,11 @@ public class AudioPlayer
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 	
-	public void player(String filePath)
+	public static void main(String[] args)
 	{
 		try
 		{
-			this.filePath = filePath;
+			filePath = "C:\\Users\\Evan\\Desktop\\testWav.wav";//filePath;
 			AudioPlayer ap = new AudioPlayer();
 			
 			ap.play();
