@@ -8,38 +8,38 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%
-			//only allow access if session exists
-			String user = (String) session.getAttribute("user");
-			long userId = Long.valueOf((String) session.getAttribute("userId"));
-			String userName = null;
-			String sessionID = null;
-			String privateKey = null;
-			String publicKey = null;
-			Cookie[] cookies = request.getCookies();
-			if(cookies != null)
+	<%
+		//only allow access if session exists
+		String user = (String) session.getAttribute("user");
+		long userId = Long.valueOf((String) session.getAttribute("userId"));
+		String userName = null;
+		String sessionID = null;
+		String privateKey = null;
+		String publicKey = null;
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null)
+		{
+			for(Cookie cookie : cookies)
 			{
-				for(Cookie cookie : cookies)
-				{
-					if(cookie.getName().equals("user"))
-						userName = cookie.getValue();
-					if(cookie.getName().equals("userId"))
-						userId = Long.valueOf(cookie.getValue());
-					if(cookie.getName().equals("JSESSIONID"))
-						sessionID = cookie.getValue();
-				}
+				if(cookie.getName().equals("user"))
+					userName = cookie.getValue();
+				if(cookie.getName().equals("userId"))
+					userId = Long.valueOf(cookie.getValue());
+				if(cookie.getName().equals("JSESSIONID"))
+					sessionID = cookie.getValue();
 			}
-			else
-			{
-				sessionID = session.getId();
-			}
-		%>
-		<h1>Welcome ${user}. Your session ID is <%=sessionID%></h1>
-
+		}
+		else
+		{
+			sessionID = session.getId();
+		}
+	%>
+	<h1>Welcome ${user}. Your session ID is <%=sessionID%></h1>
 	<h1>path is ${path} </h1>
-	<!-- need to use Tomcat here. theres somewhere where you can store files. test with Chrome -->
+	<a href="./src/main/webapp/WEB-INF/lib/tomcat7/webapps/">Folder</a>
+	<!-- need to use Tomcat here. theres somewhere where you can store files. test with Chrome-->
 	<audio controls>
-    	<source src="http://localhost:8080/JavaWebApplication/uploads/testWav.wav" type="audio/wav">
+    	<source src="../src/main/webapp/WEB-INF/lib/tomcat7/webapps/testmp3.mp3" type="audio/mp3">
 	</audio>
 	<br>
 	<a href="podcast.action">Return to list</a>
