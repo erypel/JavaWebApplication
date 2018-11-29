@@ -51,7 +51,7 @@
             </tr>
             <tr>
             <tr>
-                <td><a href="home.jsp">Log Out</a>
+                <td><a href="logout.action">Log Out</a>
                 </td>
             </tr>
             <tr>
