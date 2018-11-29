@@ -1,7 +1,10 @@
 package com.javawebapp.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,6 +40,8 @@ public class LoginController
 			@ModelAttribute("login") Login login)
 	{
 		ModelAndView mav = null;
+		
+		//getUser can return null
 		User user = userService.getUser(login.getUsername(), login.getPassword());
 		Wallet wallet = walletService.getWallet(user.getId()); 
 		
@@ -45,18 +50,28 @@ public class LoginController
 		if(wallet == null)
 			wallet = walletService.register(user.getId());
 		
-		if(null != user)
+		if(user != null)
 		{
 			mav = new ModelAndView("welcome");
 			mav.addObject("firstname", user.getUserName());
 			mav.addObject("walletId", wallet.getWalletId());
 			mav.addObject("publicKey", wallet.getPublicKey());
+			
+			//Add a cookie
+			HttpSession session = request.getSession();
+			session.setAttribute("user", user.getUserName());
+			session.setAttribute("userId", String.valueOf(user.getId()));
+			// setting session to expire in 30 minutes
+			session.setMaxInactiveInterval(30 * 60);
+			Cookie cookie = new Cookie("user", user.getUserName());
+			response.addCookie(cookie);
 		}
 		else
 		{
 			mav = new ModelAndView("login");
 			mav.addObject("message", "Username or Password is wrong!!");
 		}
+		
 		return mav;
 	}
 }

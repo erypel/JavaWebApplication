@@ -23,11 +23,9 @@ public class PodcastController
 	}
 	
 	@RequestMapping(value = "/navigateToUploadPodcast", method = RequestMethod.GET)
-	public ModelAndView showRegisterUploadPodcast(HttpServletRequest request, HttpServletResponse response,
-			@ModelAttribute("user") User user)
+	public ModelAndView showRegisterUploadPodcast(HttpServletRequest request, HttpServletResponse response)
 	{
 		ModelAndView mav = new ModelAndView("uploadPodcast");
-		mav.addObject("userName", user.getUserName());
 		return mav;
 	}
 	
