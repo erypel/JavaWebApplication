@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.javawebapp.dao.impl.UserDaoImpl;
-import com.javawebapp.dao.impl.WalletDaoImpl;
-import com.javawebapp.model.User;
 import com.javawebapp.model.Wallet;
 import com.javawebapp.service.WalletService;
 

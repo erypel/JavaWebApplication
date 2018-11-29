@@ -35,11 +35,11 @@
 			}
 		%>
 		<h1>Welcome ${user}. Your session ID is <%=sessionID%></h1>
-	<%
-		Podcast podcast = (Podcast) request.getAttribute("podcast");
-	%>
+
+	<h1>path is ${path} </h1>
+	<!-- need to use Tomcat here. theres somewhere where you can store files. test with Chrome -->
 	<audio controls>
-    	<source src=<%=podcast.getPath() %> type="audio/wav">
+    	<source src="http://localhost:8080/JavaWebApplication/uploads/testWav.wav" type="audio/wav">
 	</audio>
 	<br>
 	<a href="podcast.action">Return to list</a>

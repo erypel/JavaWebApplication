@@ -53,7 +53,7 @@
 				{
 			%>
 					<tr>
-						<td> <a href="listenToPodcast.action"><%= p.getEpisodeName() %></a></td>
+						<td> <a href="listenToPodcast.action?id=<%=String.valueOf(p.getID())%>"><%= p.getEpisodeName() %></a></td>
 						<td> <%= p.getDescription() %> </td>
 						<td> <%= p.getPath() %> </td>
 					</tr>

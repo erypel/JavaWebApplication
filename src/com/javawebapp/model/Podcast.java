@@ -129,8 +129,8 @@ public class Podcast implements Serializable
 
 	public static String constructPodcastPath(String episodeName)
 	{
-		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\uploads\\";
+		String basePath = "http://localhost:8080/JavaWebApplication/uploads/";
 		//TODO check for uniqueness and save as an appropriate file
-		return basePath + episodeName + ".mp3";
+		return basePath + episodeName + ".wav";
 	}
 }

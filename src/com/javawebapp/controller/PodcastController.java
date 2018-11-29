@@ -3,18 +3,22 @@ package com.javawebapp.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.javawebapp.model.Podcast;
-import com.javawebapp.model.User;
+import com.javawebapp.service.PodcastService;
 
 @Controller
 public class PodcastController
 {
+	@Autowired
+	PodcastService podcastService;
+	
 	@RequestMapping(value = "/podcast", method = RequestMethod.GET)
 	public ModelAndView showRegisterPodcastHome(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -30,11 +34,13 @@ public class PodcastController
 	}
 	
 	@RequestMapping(value = "/listenToPodcast", method = RequestMethod.GET)
-	public ModelAndView showRegisterListenToPodcast(HttpServletRequest request, HttpServletResponse response,
-			@ModelAttribute("user") User user, @ModelAttribute("podcast") Podcast podcast)
+	public ModelAndView showRegisterListenToPodcast(HttpServletRequest request, HttpServletResponse response, @RequestParam("id") String id)
 	{
+		Long podcastId = Long.parseLong(id);
+		Podcast podcast = podcastService.getPodcast(podcastId);
+		String path = podcast.getPath();
 		ModelAndView mav = new ModelAndView("listenToPodcast");
-		mav.addObject("podcast", podcast);
+		mav.addObject("path", path);
 		return mav;
 	}
 }
