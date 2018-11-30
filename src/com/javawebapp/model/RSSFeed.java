@@ -27,7 +27,7 @@ public class RSSFeed
 		this.copyright = copyright;
 		this.publishDate = publishDate;
 	}
-	
+
 	public List<RSSFeedMessage> getMessages()
 	{
 		return entries;

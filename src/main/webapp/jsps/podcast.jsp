@@ -62,6 +62,7 @@
 		%>
 	</table>
 	<br>
+	<a href="createRSSFeed.action">Create RSS Feed</a>
 	<a href="navigateToUploadPodcast.action">Upload</a>
 	<a href="home.action">Home</a>
 </body>
