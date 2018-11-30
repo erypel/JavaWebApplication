@@ -1,0 +1,14 @@
+use javawebappdb;
+CREATE TABLE IF NOT EXISTS RssFeeds(
+	id BIGINT NOT NULL,
+    ownerId BIGINt NOT NULL,
+	title VARCHAR(50) NOT NULL,
+    publishDateUTC DATETIME NOT NULL,
+    link VARCHAR(100) NOT NULL,
+    language VARCHAR(50) NOT NULL,
+	description VARCHAR(500),
+    copyright VARCHAR(50),
+    path VARCHAR(500) NOT NULL,
+	PRIMARY KEY (id),
+    FOREIGN KEY (ownerId) REFERENCES User(id)
+);

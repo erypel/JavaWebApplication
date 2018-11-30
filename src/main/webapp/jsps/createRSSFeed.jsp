@@ -35,7 +35,7 @@
 		}
 	%>
 	<h1>Create your RSS Feed</h1>
-	 <form id="rssFeedForm" action="createRSSFeedProcess.action" method="post" enctype="multipart/form-data">
+	 <form id="rssFeedForm" action="createRSSFeedProcess.action" method="post">
                 <table>
                     <tr>
                     	<td>Title: </td>
@@ -58,7 +58,6 @@
 						<td><input type="text" name="copyright" size="50"/></td>
 					</tr>
                     <tr>
-                        <td></td>
                         <td colspan="2">
             				<input type="submit" value="Create">
                			 </td>

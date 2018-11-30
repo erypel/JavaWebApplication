@@ -37,6 +37,7 @@ public class Podcast implements Serializable
 	@Column(name = "DESCRIPTION")
 	private String description;
 	
+	@ColumnDefault("default") //TODO make real
 	@Column(name = "PATH", nullable = false)
 	private String path;
 	

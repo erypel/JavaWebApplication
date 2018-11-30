@@ -9,3 +9,6 @@ CREATE TABLE IF NOT EXISTS Podcasts(
 
 ALTER TABLE `javawebappdb`.`podcasts` 
 CHANGE COLUMN `episodeName` `episodeName` VARCHAR(50) NOT NULL DEFAULT 'default' ;
+
+ALTER TABLE `javawebappdb`.`podcasts` 
+CHANGE COLUMN `path` `path` VARCHAR(500) NOT NULL DEFAULT 'default' ;

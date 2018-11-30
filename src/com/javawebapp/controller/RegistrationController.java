@@ -1,7 +1,9 @@
 package com.javawebapp.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.javawebapp.model.User;
+import com.javawebapp.model.Wallet;
 import com.javawebapp.service.UserService;
 import com.javawebapp.service.WalletService;
 
@@ -36,7 +39,23 @@ public class RegistrationController
 			@ModelAttribute("user") User user)
 	{
 		userService.register(user);
-		walletService.register(user.getId());
-		return new ModelAndView("welcome", "userName", user.getUserName());
+		Wallet wallet = walletService.register(user.getId());
+		
+		ModelAndView mav = new ModelAndView("welcome", "userName", user.getUserName());
+		mav.addObject("firstname", user.getUserName());
+		mav.addObject("walletId", wallet.getWalletId());
+		mav.addObject("publicKey", wallet.getPublicKey());
+		mav.addObject("userId", user.getId());
+		
+		//Add a cookie
+		HttpSession session = request.getSession();
+		session.setAttribute("user", user.getUserName());
+		session.setAttribute("userId", String.valueOf(user.getId()));
+		// setting session to expire in 30 minutes
+		session.setMaxInactiveInterval(30 * 60);
+		Cookie cookie = new Cookie("user", user.getUserName());
+		response.addCookie(cookie);
+		
+		return mav;
 	}
 }

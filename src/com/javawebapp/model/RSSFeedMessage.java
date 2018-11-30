@@ -1,14 +1,19 @@
 package com.javawebapp.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * Represents one RSS message
  */
+@Entity
 public class RSSFeedMessage
 {
 	String title;
 	String description;
 	String link;
 	String author;
+	@Id
 	String guid;
 	
 	public RSSFeedMessage()
