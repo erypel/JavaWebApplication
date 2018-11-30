@@ -13,7 +13,7 @@ public class TestRSSFeedParserService
 	public void testReadFeed()
 	{
 		//this file is saved here:
-		// C:\\Users\\Evan\\workspace\\JavaWebApplication\\src\\test\\java\\unit\\testFiles\\article.rss
+		// JavaWebApplication\\src\\test\\java\\unit\\testFiles\\article.rss
 		RSSFeedParserService parser = new RSSFeedParserService("http://www.vogella.com/article.rss");
 		RSSFeed feed = parser.readFeed();
 		assertTrue(true);		
