@@ -26,7 +26,7 @@ public class Podcast implements Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@ColumnDefault("default")
+	@ColumnDefault( value = "default" )
 	@Column(name = "EPISODENAME", nullable = false)
 	private String episodeName;
 	
@@ -37,7 +37,7 @@ public class Podcast implements Serializable
 	@Column(name = "DESCRIPTION")
 	private String description;
 	
-	@ColumnDefault("default") //TODO make real
+	@ColumnDefault( value = "default" ) //TODO make real
 	@Column(name = "PATH", nullable = false)
 	private String path;
 	

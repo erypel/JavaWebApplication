@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS RssFeeds(
     language VARCHAR(50) NOT NULL,
 	description VARCHAR(500),
     copyright VARCHAR(50),
-    path VARCHAR(500) NOT NULL,
+    path VARCHAR(500) NOT NULL DEFAULT 'path',
 	PRIMARY KEY (id),
     FOREIGN KEY (ownerId) REFERENCES User(id)
 );

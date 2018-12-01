@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.javawebapp.util.JavaWebAppUtils;
 
 /**
@@ -37,6 +39,9 @@ public class RSSFeed implements Serializable
 	final String copyright;
 	@Column(name = "PUBLISHDATEUTC", nullable = false)
 	final String publishDate;
+	@ColumnDefault( value = "path" )
+	@Column(name = "PATH", nullable = false)
+	String path = "path"; //TODO make real
 	@Id
 	@Column(name = "OWNERID", updatable = true, nullable = false)
 	long ownerId;
