@@ -14,15 +14,25 @@ import javax.servlet.http.Part;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.javawebapp.dao.impl.PodcastDaoImpl;
 import com.javawebapp.db.ConnectionUtils;
 import com.javawebapp.model.Podcast;
+import com.javawebapp.service.PodcastService;
 
 @WebServlet("/uploadPodcastServlet")
 @MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
 public class FileUploadDBServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	PodcastService podcastService = new PodcastService();
+	
 	Logger logger = LogManager.getLogger(FileUploadDBServlet.class);
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -46,39 +56,25 @@ public class FileUploadDBServlet extends HttpServlet
 			is = filePart.getInputStream();
 		}
 		
-		Connection conn = null; // connection to DB
 		String message = null; // message to send back to client
 		
 		try
 		{
-			conn = ConnectionUtils.getMyConnection();
 			Podcast podcast = new Podcast(episodeName, episodeDescription, episodePath);
-			PodcastDaoImpl podcastDao = new PodcastDaoImpl();
-			podcastDao.insertPodcast(podcast);
-			Podcast.savePodcastToFileStore(is, episodePath);
-			//TODO store upload in files system outside DB
-			message = "Success!";
-		}
-		catch(Exception e)
-		{
-			message = "Error uploading podcast file " + e.getMessage();
-			logger.error("Error uploading podcast file", e);
+			if(podcastService.insertPodcast(podcast))
+			{
+				Podcast.savePodcastToFileStore(is, episodePath);
+				//TODO store upload in files system outside DB
+				message = "Success!";
+			}
+			else
+			{
+				message = "Error uploading podcast file";
+				logger.error("Error uploading podcast file");
+			}
 		}
 		finally
 		{
-			//close db connection
-			if(conn != null)
-			{
-				try
-				{
-					conn.close();
-				}
-				catch(Exception e)
-				{
-					logger.error("error closing connection", e);
-				}
-			}
-			
 			if(is != null)
 			{
 				try

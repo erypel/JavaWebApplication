@@ -27,7 +27,7 @@ public class Podcast implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	@ColumnDefault("default")
-	@Column(name = "EPISODE", nullable = false)
+	@Column(name = "EPISODENAME", nullable = false)
 	private String episodeName;
 	
 	@Id
@@ -94,6 +94,7 @@ public class Podcast implements Serializable
 		this.path = path;
 	}
 	
+	//TODO this is broken
 	public static boolean savePodcastToFileStore(InputStream is, String path)
 	{
 		OutputStream os = null;

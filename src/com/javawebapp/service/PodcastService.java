@@ -14,4 +14,9 @@ public class PodcastService
 	{
 		return podcastDao.getPodcast(id);
 	}
+	
+	public boolean insertPodcast(Podcast podcast)
+	{
+		return podcastDao.insertPodcast(podcast);
+	}
 }
