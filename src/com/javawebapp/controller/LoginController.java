@@ -43,15 +43,16 @@ public class LoginController
 		
 		//getUser can return null
 		User user = userService.getUser(login.getUsername(), login.getPassword());
-		Wallet wallet = walletService.getWallet(user.getId()); 
-		
-		// create a wallet if the user does not have one for some reason
-		// this could occur if the user was created before wallet was implemented
-		if(wallet == null)
-			wallet = walletService.register(user.getId());
 		
 		if(user != null)
 		{
+			Wallet wallet = walletService.getWallet(user.getId()); 
+			
+			// create a wallet if the user does not have one for some reason
+			// this could occur if the user was created before wallet was implemented
+			if(wallet == null)
+				wallet = walletService.register(user.getId());
+			
 			mav = new ModelAndView("welcome");
 			mav.addObject("firstname", user.getUserName());
 			mav.addObject("walletId", wallet.getWalletId());
