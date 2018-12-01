@@ -34,6 +34,10 @@ public class Podcast implements Serializable
 	@Column(name = "ID", updatable = false, nullable = false)
 	private long ID;
 	
+	@Id
+	@Column(name = "OWNERID", updatable = true, nullable = false)
+	private long ownerId;
+	
 	@Column(name = "DESCRIPTION")
 	private String description;
 	
@@ -46,12 +50,13 @@ public class Podcast implements Serializable
 		
 	}
 	
-	public Podcast(String episodeName, String description, String path)
+	public Podcast(String episodeName, String description, String path, Long ownerId)
 	{
 		this.episodeName = episodeName;
 		this.ID = JavaWebAppUtils.generateUniqueId();
 		this.description = description;
 		this.path = path;
+		this.ownerId = ownerId;
 	}
 	
 	public String getEpisodeName()
@@ -92,6 +97,17 @@ public class Podcast implements Serializable
 	public void setPath(String path)
 	{
 		this.path = path;
+	}
+	
+	
+	public long getOwnerId()
+	{
+		return ownerId;
+	}
+	
+	public void setOwnerId(long id)
+	{
+		this.ownerId = id;
 	}
 	
 	//TODO this is broken

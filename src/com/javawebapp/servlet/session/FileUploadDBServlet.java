@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +21,9 @@ import com.javawebapp.dao.impl.PodcastDaoImpl;
 import com.javawebapp.db.ConnectionUtils;
 import com.javawebapp.model.Podcast;
 import com.javawebapp.service.PodcastService;
+import com.javawebapp.service.RSSFeedDataService;
 
+//TODO just make this a controller for pete's sake!
 @WebServlet("/uploadPodcastServlet")
 @MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
 public class FileUploadDBServlet extends HttpServlet
@@ -30,13 +33,15 @@ public class FileUploadDBServlet extends HttpServlet
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Autowired
 	PodcastService podcastService = new PodcastService();
+	RSSFeedDataService rrsFeedDataService = new RSSFeedDataService();
 	
 	Logger logger = LogManager.getLogger(FileUploadDBServlet.class);
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
+		HttpSession session = request.getSession();
+		long ownerId = Long.parseLong(session.getAttribute("userId").toString());
 		//get field values
 		String episodeName = request.getParameter("episodeName");
 		String episodeDescription = request.getParameter("episodeDescription");
@@ -60,7 +65,8 @@ public class FileUploadDBServlet extends HttpServlet
 		
 		try
 		{
-			Podcast podcast = new Podcast(episodeName, episodeDescription, episodePath);
+			Podcast podcast = new Podcast(episodeName, episodeDescription, episodePath, ownerId);
+			rrsFeedDataService.createRSSFeedMessage(podcast);
 			if(podcastService.insertPodcast(podcast))
 			{
 				Podcast.savePodcastToFileStore(is, episodePath);
@@ -69,6 +75,8 @@ public class FileUploadDBServlet extends HttpServlet
 			}
 			else
 			{
+				// want to roll back the creation if something went foul
+				rrsFeedDataService.deleteRSSFeedMessage(podcast);
 				message = "Error uploading podcast file";
 				logger.error("Error uploading podcast file");
 			}

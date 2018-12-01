@@ -12,3 +12,14 @@ CHANGE COLUMN `episodeName` `episodeName` VARCHAR(50) NOT NULL DEFAULT 'default'
 
 ALTER TABLE `javawebappdb`.`podcasts` 
 CHANGE COLUMN `path` `path` VARCHAR(500) NOT NULL DEFAULT 'default' ;
+
+ALTER TABLE `javawebappdb`.`podcasts` 
+ADD COLUMN `ownerId` BIGINT(20) NOT NULL AFTER `path`,
+ADD INDEX `ownerId_idx` (`ownerId` ASC) VISIBLE;
+;
+ALTER TABLE `javawebappdb`.`podcasts` 
+ADD CONSTRAINT `ownerId`
+  FOREIGN KEY (`ownerId`)
+  REFERENCES `javawebappdb`.`user` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
