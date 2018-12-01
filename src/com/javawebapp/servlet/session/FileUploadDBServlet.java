@@ -66,20 +66,22 @@ public class FileUploadDBServlet extends HttpServlet
 		try
 		{
 			Podcast podcast = new Podcast(episodeName, episodeDescription, episodePath, ownerId);
-			rrsFeedDataService.createRSSFeedMessage(podcast);
 			if(podcastService.insertPodcast(podcast))
 			{
+				rrsFeedDataService.createRSSFeedMessage(podcast); //depends on podcast existing in the podcasts table
 				Podcast.savePodcastToFileStore(is, episodePath);
 				//TODO store upload in files system outside DB
 				message = "Success!";
 			}
 			else
 			{
-				// want to roll back the creation if something went foul
-				rrsFeedDataService.deleteRSSFeedMessage(podcast);
 				message = "Error uploading podcast file";
 				logger.error("Error uploading podcast file");
 			}
+		}
+		catch (Exception e)
+		{
+			message = e.getMessage();
 		}
 		finally
 		{

@@ -53,6 +53,20 @@ public class RSSFeed implements Serializable
 	final List<RSSFeedMessage> entries = new ArrayList<RSSFeedMessage>();
 	
 	/**
+	 * DO NOT USE. For Hibernate
+	 */
+	public RSSFeed()
+	{
+		this.title = "";
+		this.link = "";
+		this.description = "";
+		this.language = "";
+		this.copyright = "";
+		this.publishDate = "";
+		this.ownerId = 0l;
+		this.id = 0l;
+	}
+	/**
 	 * for the data layer
 	 * @param title
 	 * @param link

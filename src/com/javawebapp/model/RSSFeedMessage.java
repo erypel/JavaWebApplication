@@ -1,9 +1,13 @@
 package com.javawebapp.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import com.javawebapp.util.JavaWebAppUtils;
 
@@ -12,9 +16,15 @@ import com.javawebapp.util.JavaWebAppUtils;
  */
 @Entity
 @Table(name = "RSSFEEDMESSAGES")
-public class RSSFeedMessage
+public class RSSFeedMessage implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Column(name = "EPIDSODENAME", nullable = false)
+	@ColumnDefault( value = "default" )
 	String title;
 	@Column(name = "DESCRIPTION")
 	String description;

@@ -1,6 +1,6 @@
 use javawebappdb;
 CREATE TABLE IF NOT EXISTS RssFeedMessages(
-	episodeName VARCHAR(50) NOT NULL,
+	episodeName VARCHAR(50) NOT NULL DEFAULT "default",
     description VARCHAR(50),
     path VARCHAR(100) NOT NULL,
     owner VARCHAR(50) NOT NULL,

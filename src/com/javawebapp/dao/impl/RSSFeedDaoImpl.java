@@ -59,7 +59,7 @@ public class RSSFeedDaoImpl implements RSSFeedDao
 			CriteriaBuilder cb = session.getCriteriaBuilder();
 			CriteriaQuery<RSSFeed> cq = cb.createQuery(RSSFeed.class);
 			Root<RSSFeed> root = cq.from(RSSFeed.class);
-			cq.select(root).where(cb.equal(root.get("OWNERID"), ownerId));
+			cq.select(root).where(cb.equal(root.get("ownerId"), ownerId));
 			Query<RSSFeed> query = session.createQuery(cq);
 			results = query.getResultList();
 			session.getTransaction().commit();
@@ -68,6 +68,7 @@ public class RSSFeedDaoImpl implements RSSFeedDao
 		{
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
+			e.printStackTrace();
 			//TODO log here
 		}
 		finally
