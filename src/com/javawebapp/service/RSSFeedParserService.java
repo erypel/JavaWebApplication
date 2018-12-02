@@ -41,96 +41,97 @@ public class RSSFeedParserService
 		}
 	}
 	
-	public RSSFeed readFeed() 
-    {
-    	RSSFeed feed = null;
-    	try
-    	{
-    		boolean isFeedHeader = true;
-    		
-    		// Initial header fields are empty
-    		String description = "";
-            String title = "";
-            String link = "";
-            String language = "";
-            String copyright = "";
-            String author = "";
-            String pubdate = "";
-            String guid = "";
-            
-            // Create an XMLInputFactory
-            XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-            
-            // Set up an event reader
-            InputStream in = read();
-            XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
-            
-            // read the XML document
-            while(eventReader.hasNext())
-            {
-            	XMLEvent event = eventReader.nextEvent();
-            	if(event.isStartElement())
-            	{
-            		String localPart = event.asStartElement().getName().getLocalPart();
-            		switch (localPart) {
-                        case ITEM:
-                            if (isFeedHeader) {
-                                isFeedHeader = false;
-                                feed = new RSSFeed(title, link, description, language,
-                                        copyright, pubdate);
-                            }
-                            event = eventReader.nextEvent();
-                            break;
-                        case TITLE:
-                            title = getCharacterData(event, eventReader);
-                            break;
-                        case DESCRIPTION:
-                            description = getCharacterData(event, eventReader);
-                            break;
-                        case LINK:
-                            link = getCharacterData(event, eventReader);
-                            break;
-                        case GUID:
-                            guid = getCharacterData(event, eventReader);
-                            break;
-                        case LANGUAGE:
-                            language = getCharacterData(event, eventReader);
-                            break;
-                        case AUTHOR:
-                            author = getCharacterData(event, eventReader);
-                            break;
-                        case PUB_DATE:
-                            pubdate = getCharacterData(event, eventReader);
-                            break;
-                        case COPYRIGHT:
-                            copyright = getCharacterData(event, eventReader);
-                            break;
-                        }
-            	}
-            	else if(event.isEndElement())
-            	{
-            		if(event.asEndElement().getName().getLocalPart() == (ITEM))
-            		{
-            			RSSFeedMessage message = new RSSFeedMessage();
-            			message.setAuthor(author);
-            			message.setDescription(description);
-            			message.setGuid(guid);
-            			message.setLink(link);
-            			message.setTitle(title);
-            			feed.getMessages().add(message);
-            			event = eventReader.nextEvent();
-            			continue;
-            		}
-            	}
-            }
-    	}
-    	catch(XMLStreamException e)
-    	{
-    		throw new RuntimeException(e); //TODO log or error handle
-    	}
-    	
-    	return feed;
-    }
+	public RSSFeed readFeed()
+	{
+		RSSFeed feed = null;
+		try
+		{
+			boolean isFeedHeader = true;
+			
+			// Initial header fields are empty
+			String description = "";
+			String title = "";
+			String link = "";
+			String language = "";
+			String copyright = "";
+			String author = "";
+			String pubdate = "";
+			String guid = "";
+			
+			// Create an XMLInputFactory
+			XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+			
+			// Set up an event reader
+			InputStream in = read();
+			XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
+			
+			// read the XML document
+			while(eventReader.hasNext())
+			{
+				XMLEvent event = eventReader.nextEvent();
+				if(event.isStartElement())
+				{
+					String localPart = event.asStartElement().getName().getLocalPart();
+					switch(localPart)
+					{
+						case ITEM:
+							if(isFeedHeader)
+							{
+								isFeedHeader = false;
+								feed = new RSSFeed(title, link, description, language, copyright, pubdate);
+							}
+							event = eventReader.nextEvent();
+							break;
+						case TITLE:
+							title = getCharacterData(event, eventReader);
+							break;
+						case DESCRIPTION:
+							description = getCharacterData(event, eventReader);
+							break;
+						case LINK:
+							link = getCharacterData(event, eventReader);
+							break;
+						case GUID:
+							guid = getCharacterData(event, eventReader);
+							break;
+						case LANGUAGE:
+							language = getCharacterData(event, eventReader);
+							break;
+						case AUTHOR:
+							author = getCharacterData(event, eventReader);
+							break;
+						case PUB_DATE:
+							pubdate = getCharacterData(event, eventReader);
+							break;
+						case COPYRIGHT:
+							copyright = getCharacterData(event, eventReader);
+							break;
+					}
+				}
+				else if(event.isEndElement())
+				{
+					if(event.asEndElement().getName().getLocalPart() == (ITEM))
+					{
+						RSSFeedMessage message = new RSSFeedMessage();
+						message.setAuthor(author);
+						message.setDescription(description);
+						message.setGuid(guid);
+						message.setLink(link);
+						message.setTitle(title);
+						feed.getMessages().add(message);
+						event = eventReader.nextEvent();
+						continue;
+					}
+				}
+			}
+		}
+		catch(XMLStreamException e)
+		{
+			throw new RuntimeException(e); // TODO log or error handle
+		}
+		
+		return feed;
+	}
 	
 	private String getCharacterData(XMLEvent event, XMLEventReader eventReader) throws XMLStreamException
 	{
@@ -151,7 +152,7 @@ public class RSSFeedParserService
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e); //TODO log or error handle
+			throw new RuntimeException(e); // TODO log or error handle
 		}
 	}
 }

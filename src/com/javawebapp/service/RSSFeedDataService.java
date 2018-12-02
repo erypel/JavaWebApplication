@@ -21,17 +21,19 @@ public class RSSFeedDataService
 	{
 		return rssFeedDao.insertRSSFeed(feed);
 	}
-
+	
 	public boolean createRSSFeedMessage(Podcast podcast) throws Exception
-	{	
+	{
 		RSSFeed feed = rssFeedDao.getRSSFeed(podcast.getOwnerId());
 		if(feed == null)
 			throw new Exception("You need an RSS Feed.");
-		User user = userDao.getUser(podcast.getOwnerId()); //TODO could I use HttpSession stuff here from the calling class?
-		RSSFeedMessage message = new RSSFeedMessage(podcast.getEpisodeName(), podcast.getDescription(), podcast.getPath(), user.getUserName(), feed.getId(), podcast.getID());
+		User user = userDao.getUser(podcast.getOwnerId()); // TODO could I use HttpSession stuff here from the calling
+															// class?
+		RSSFeedMessage message = new RSSFeedMessage(podcast.getEpisodeName(), podcast.getDescription(),
+				podcast.getPath(), user.getUserName(), feed.getId(), podcast.getID());
 		return rssFeedMessageDao.insertRSSFeedMessage(message);
 	}
-
+	
 	public boolean deleteRSSFeedMessage(Podcast podcast)
 	{
 		RSSFeedMessage message = getRSSFeedMessage(podcast.getID());

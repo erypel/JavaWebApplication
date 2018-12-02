@@ -36,13 +36,14 @@ public class RSSFeedController
 		HttpSession session = request.getSession();
 		// Get the field values
 		String title = request.getParameter("title");
-		String link = request.getParameter("link"); //TODO remove from front end and dynamically create based off of user profile
+		String link = request.getParameter("link"); // TODO remove from front end and dynamically create based off of
+													// user profile
 		String description = request.getParameter("description");
 		String language = request.getParameter("language");
 		String copyright = request.getParameter("copyright");
 		long ownerId = Long.parseLong(session.getAttribute("userId").toString());
 		
-		//TODO this is a terrible way to do Date at scale
+		// TODO this is a terrible way to do Date at scale
 		Date publishDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));

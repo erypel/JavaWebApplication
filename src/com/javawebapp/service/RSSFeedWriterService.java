@@ -14,6 +14,7 @@ import javax.xml.stream.events.XMLEvent;
 
 import com.javawebapp.model.RSSFeed;
 import com.javawebapp.model.RSSFeedMessage;
+
 /**
  * comes from vogella.com
  *
@@ -36,11 +37,11 @@ public class RSSFeedWriterService
 		
 		// Create XMLEventWriter
 		XMLEventWriter eventWriter = outputFactory.createXMLEventWriter(new FileOutputStream(outputFile));
-	
+		
 		// Create EventFactory
 		XMLEventFactory eventFactory = XMLEventFactory.newInstance();
 		XMLEvent end = eventFactory.createDTD("\n");
-	
+		
 		// Create and write Start Tag
 		StartDocument startDocument = eventFactory.createStartDocument();
 		
@@ -64,7 +65,7 @@ public class RSSFeedWriterService
 		createNode(eventWriter, "language", rssFeed.getLanguage());
 		createNode(eventWriter, "copyright", rssFeed.getCopyright());
 		createNode(eventWriter, "pubDate", rssFeed.getPublishDate());
-
+		
 		for(RSSFeedMessage entry : rssFeed.getMessages())
 		{
 			eventWriter.add(eventFactory.createStartElement("", "", "item"));
@@ -100,7 +101,7 @@ public class RSSFeedWriterService
 		eventWriter.add(tab);
 		eventWriter.add(startElement);
 		
-		//Create content
+		// Create content
 		Characters characters = eventFactory.createCharacters(value);
 		eventWriter.add(characters);
 		

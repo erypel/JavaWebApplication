@@ -24,7 +24,7 @@ public class RSSFeedMessage implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "EPIDSODENAME", nullable = false)
-	@ColumnDefault( value = "default" )
+	@ColumnDefault(value = "default")
 	String title;
 	@Column(name = "DESCRIPTION")
 	String description;
@@ -62,38 +62,47 @@ public class RSSFeedMessage implements Serializable
 	{
 		return title;
 	}
+	
 	public void setTitle(String title)
 	{
 		this.title = title;
 	}
+	
 	public String getDescription()
 	{
 		return description;
 	}
+	
 	public void setDescription(String description)
 	{
 		this.description = description;
 	}
+	
 	public String getLink()
 	{
 		return link;
 	}
+	
 	public void setLink(String link)
 	{
 		this.link = link;
 	}
+	
 	public String getAuthor()
 	{
 		return author;
 	}
+	
 	public void setAuthor(String author)
 	{
 		this.author = author;
 	}
+	
 	public String getGuid()
 	{
 		return guid;
 	}
+	
 	public void setGuid(String guid)
 	{
 		this.guid = guid;
@@ -122,6 +131,7 @@ public class RSSFeedMessage implements Serializable
 	@Override
 	public String toString()
 	{
-		return "RSSFeedmessage [title=" + title + ", description=" + description + ", link=" + link + ", author=" + author + ", guid=" + guid + "]";
+		return "RSSFeedmessage [title=" + title + ", description=" + description + ", link=" + link + ", author="
+				+ author + ", guid=" + guid + "]";
 	}
 }

@@ -45,7 +45,7 @@ public class PodcastDaoImpl implements PodcastDao
 		}
 		return true;
 	}
-
+	
 	@Override
 	public List<Podcast> get50Podcasts()
 	{
@@ -53,7 +53,7 @@ public class PodcastDaoImpl implements PodcastDao
 		List<Podcast> results = Collections.emptyList();
 		try
 		{
-			logger.info("Made call to get50Podcasts()"); 
+			logger.info("Made call to get50Podcasts()");
 			session.beginTransaction();
 			CriteriaBuilder cb = session.getCriteriaBuilder();
 			CriteriaQuery<Podcast> cq = cb.createQuery(Podcast.class);
@@ -76,7 +76,7 @@ public class PodcastDaoImpl implements PodcastDao
 		}
 		return results;
 	}
-
+	
 	@Override
 	public Podcast getPodcast(long id)
 	{

@@ -39,9 +39,9 @@ public class RSSFeed implements Serializable
 	final String copyright;
 	@Column(name = "PUBLISHDATEUTC", nullable = false)
 	final String publishDate;
-	@ColumnDefault( value = "path" )
+	@ColumnDefault(value = "path")
 	@Column(name = "PATH", nullable = false)
-	String path = "path"; //TODO make real
+	String path = "path"; // TODO make real
 	@Id
 	@Column(name = "OWNERID", updatable = true, nullable = false)
 	long ownerId;
@@ -49,7 +49,7 @@ public class RSSFeed implements Serializable
 	@Column(name = "ID", updatable = false, nullable = false)
 	final long id;
 	
-	@ElementCollection(targetClass=RSSFeedMessage.class)
+	@ElementCollection(targetClass = RSSFeedMessage.class)
 	final List<RSSFeedMessage> entries = new ArrayList<RSSFeedMessage>();
 	
 	/**
@@ -66,8 +66,10 @@ public class RSSFeed implements Serializable
 		this.ownerId = 0l;
 		this.id = 0l;
 	}
+	
 	/**
 	 * for the data layer
+	 * 
 	 * @param title
 	 * @param link
 	 * @param description
@@ -76,7 +78,8 @@ public class RSSFeed implements Serializable
 	 * @param publishDate
 	 * @param ownerId
 	 */
-	public RSSFeed(String title, String link, String description, String language, String copyright, String publishDate, long ownerId)
+	public RSSFeed(String title, String link, String description, String language, String copyright, String publishDate,
+			long ownerId)
 	{
 		this.title = title;
 		this.link = link;
@@ -90,6 +93,7 @@ public class RSSFeed implements Serializable
 	
 	/**
 	 * for the RSSFeedParser
+	 * 
 	 * @param title
 	 * @param link
 	 * @param description
@@ -107,7 +111,7 @@ public class RSSFeed implements Serializable
 		this.publishDate = publishDate;
 		this.id = JavaWebAppUtils.generateUniqueId();
 	}
-
+	
 	public List<RSSFeedMessage> getMessages()
 	{
 		return entries;
@@ -147,12 +151,12 @@ public class RSSFeed implements Serializable
 	{
 		return ownerId;
 	}
-
+	
 	public void setOwnerId(long ownerId)
 	{
 		this.ownerId = ownerId;
 	}
-
+	
 	public long getId()
 	{
 		return id;

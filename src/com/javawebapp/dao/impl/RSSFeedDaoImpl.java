@@ -47,7 +47,7 @@ public class RSSFeedDaoImpl implements RSSFeedDao
 		}
 		return true;
 	}
-
+	
 	@Override
 	public RSSFeed getRSSFeed(long ownerId)
 	{
@@ -69,13 +69,13 @@ public class RSSFeedDaoImpl implements RSSFeedDao
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
 			e.printStackTrace();
-			//TODO log here
+			// TODO log here
 		}
 		finally
 		{
 			session.close();
 		}
-
+		
 		if(results.isEmpty())
 			return null;
 		else

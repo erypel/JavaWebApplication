@@ -34,7 +34,8 @@ public class PodcastController
 	}
 	
 	@RequestMapping(value = "/listenToPodcast", method = RequestMethod.GET)
-	public ModelAndView showRegisterListenToPodcast(HttpServletRequest request, HttpServletResponse response, @RequestParam("id") String id)
+	public ModelAndView showRegisterListenToPodcast(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("id") String id)
 	{
 		Long podcastId = Long.parseLong(id);
 		Podcast podcast = podcastService.getPodcast(podcastId);

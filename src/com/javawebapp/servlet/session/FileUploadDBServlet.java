@@ -15,24 +15,21 @@ import javax.servlet.http.Part;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.javawebapp.dao.impl.PodcastDaoImpl;
-import com.javawebapp.db.ConnectionUtils;
 import com.javawebapp.model.Podcast;
 import com.javawebapp.service.PodcastService;
 import com.javawebapp.service.RSSFeedDataService;
 
 //TODO just make this a controller for pete's sake!
 @WebServlet("/uploadPodcastServlet")
-@MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
+@MultipartConfig(maxFileSize = 16177215) // upload file's size up to 16MB
 public class FileUploadDBServlet extends HttpServlet
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	PodcastService podcastService = new PodcastService();
 	RSSFeedDataService rrsFeedDataService = new RSSFeedDataService();
 	
@@ -42,21 +39,22 @@ public class FileUploadDBServlet extends HttpServlet
 	{
 		HttpSession session = request.getSession();
 		long ownerId = Long.parseLong(session.getAttribute("userId").toString());
-		//get field values
+		// get field values
 		String episodeName = request.getParameter("episodeName");
 		String episodeDescription = request.getParameter("episodeDescription");
-		String episodePath = Podcast.constructPodcastPath(episodeName);
+		String episodePath = podcastService.constructPodcastPath(episodeName);
 		
-		//TODO find out if this is compatible with audio
-		InputStream is = null; //input stream of the upload audio file
+		// TODO find out if this is compatible with audio
+		InputStream is = null; // input stream of the upload audio file
 		
 		Part filePart = request.getPart("podcastEpisode");
 		
-		if(filePart != null) {
+		if(filePart != null)
+		{
 			logger.info("Uploading file with name::" + filePart.getName());
-			logger.info("Size::"+filePart.getSize());
+			logger.info("Size::" + filePart.getSize());
 			logger.info("Content Type::" + filePart.getContentType());
-		
+			
 			// get the input stream of the upload file
 			is = filePart.getInputStream();
 		}
@@ -68,9 +66,9 @@ public class FileUploadDBServlet extends HttpServlet
 			Podcast podcast = new Podcast(episodeName, episodeDescription, episodePath, ownerId);
 			if(podcastService.insertPodcast(podcast))
 			{
-				rrsFeedDataService.createRSSFeedMessage(podcast); //depends on podcast existing in the podcasts table
-				Podcast.savePodcastToFileStore(is, episodePath);
-				//TODO store upload in files system outside DB
+				rrsFeedDataService.createRSSFeedMessage(podcast); // depends on podcast existing in the podcasts table
+				podcastService.savePodcastToFileStore(is, episodePath);
+				// TODO store upload in files system outside DB
 				message = "Success!";
 			}
 			else
@@ -79,7 +77,7 @@ public class FileUploadDBServlet extends HttpServlet
 				logger.error("Error uploading podcast file");
 			}
 		}
-		catch (Exception e)
+		catch(Exception e)
 		{
 			message = e.getMessage();
 		}
@@ -96,11 +94,11 @@ public class FileUploadDBServlet extends HttpServlet
 					logger.error("error closing input stream", e);
 				}
 			}
-			//set message in request scope
+			// set message in request scope
 			request.setAttribute("message", message);
 			
 			// forwards to the message page
-            getServletContext().getRequestDispatcher("/jsps/Message.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/jsps/Message.jsp").forward(request, response);
 		}
 	}
 }

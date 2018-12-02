@@ -45,7 +45,7 @@ public class RSSFeedMessageDaoImpl implements RSSFeedMessageDao
 		}
 		return true;
 	}
-
+	
 	@Override
 	public boolean deleteRSSFeedMessage(RSSFeedMessage message)
 	{
@@ -72,7 +72,7 @@ public class RSSFeedMessageDaoImpl implements RSSFeedMessageDao
 		}
 		return false;
 	}
-
+	
 	@Override
 	public RSSFeedMessage getRSSFeedMessage(long podcastId)
 	{
