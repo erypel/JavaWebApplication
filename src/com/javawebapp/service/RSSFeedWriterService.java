@@ -19,6 +19,7 @@ import com.javawebapp.model.RSSFeedMessage;
  * comes from vogella.com
  *
  */
+//TODO this isn't a service
 public class RSSFeedWriterService
 {
 	private String outputFile;

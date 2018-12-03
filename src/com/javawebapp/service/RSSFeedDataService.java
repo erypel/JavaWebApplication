@@ -1,5 +1,9 @@
 package com.javawebapp.service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.springframework.stereotype.Component;
 
 import com.javawebapp.dao.impl.RSSFeedDaoImpl;
@@ -43,5 +47,25 @@ public class RSSFeedDataService
 	public RSSFeedMessage getRSSFeedMessage(long podcastId)
 	{
 		return rssFeedMessageDao.getRSSFeedMessage(podcastId);
+	}
+
+	//TODO refactor
+	public String buildFilePath(RSSFeed feed)
+	{
+		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\rss\\";
+		// TODO check for uniqueness and save as an appropriate file
+		File file = new File(basePath + feed.getTitle() + ".xml");
+		file.getParentFile().mkdirs();
+		try
+		{
+			FileWriter writer = new FileWriter(file);
+		}
+		catch(IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			//TODO log and handle
+		}
+		return basePath + feed.getTitle() + ".xml";
 	}
 }

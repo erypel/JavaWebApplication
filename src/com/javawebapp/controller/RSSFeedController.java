@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.javawebapp.model.RSSFeed;
 import com.javawebapp.service.RSSFeedDataService;
+import com.javawebapp.service.RSSFeedWriterService;
 
 @Controller
 public class RSSFeedController
@@ -31,7 +32,7 @@ public class RSSFeedController
 	}
 	
 	@RequestMapping(value = "/createRSSFeedProcess", method = RequestMethod.POST)
-	public ModelAndView processRSSFeed(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView processRSSFeed(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		HttpSession session = request.getSession();
 		// Get the field values
@@ -53,9 +54,14 @@ public class RSSFeedController
 		
 		String message = "";
 		if(rssFeedDataService.insertRssFeed(feed))
-			message = "Successfully created RSS Feed";
+			message = "Successfully stored RSS Feed";
 		else
-			message = "Failed to create RSS Feed";
+			message = "Failed to store RSS Feed";
+		
+		// Write the RSS feed's xml. Throws exception, maybe //TODO handle exception
+		String filePath = rssFeedDataService.buildFilePath(feed);
+		RSSFeedWriterService rssWriter = new RSSFeedWriterService(feed, filePath);
+		rssWriter.write();
 		
 		ModelAndView mav = new ModelAndView("Message");
 		mav.addObject("message", message);
