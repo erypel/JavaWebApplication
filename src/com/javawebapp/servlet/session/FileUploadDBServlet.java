@@ -31,7 +31,7 @@ public class FileUploadDBServlet extends HttpServlet
 	private static final long serialVersionUID = 1L;
 	
 	PodcastService podcastService = new PodcastService();
-	RSSFeedDataService rrsFeedDataService = new RSSFeedDataService();
+	RSSFeedDataService rssFeedDataService = new RSSFeedDataService();
 	
 	Logger logger = LogManager.getLogger(FileUploadDBServlet.class);
 	
@@ -66,7 +66,8 @@ public class FileUploadDBServlet extends HttpServlet
 			Podcast podcast = new Podcast(episodeName, episodeDescription, episodePath, ownerId);
 			if(podcastService.insertPodcast(podcast))
 			{
-				rrsFeedDataService.createRSSFeedMessage(podcast); // depends on podcast existing in the podcasts table
+				rssFeedDataService.createRSSFeedMessage(podcast); // depends on podcast existing in the podcasts table
+				rssFeedDataService.appendMessageToFeed(podcast);
 				podcastService.savePodcastToFileStore(is, episodePath);
 				// TODO store upload in files system outside DB
 				message = "Success!";

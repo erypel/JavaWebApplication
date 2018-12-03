@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+
 import org.springframework.stereotype.Component;
+import org.xml.sax.SAXException;
 
 import com.javawebapp.dao.impl.RSSFeedDaoImpl;
 import com.javawebapp.dao.impl.RSSFeedMessageDaoImpl;
@@ -13,6 +17,7 @@ import com.javawebapp.model.Podcast;
 import com.javawebapp.model.RSSFeed;
 import com.javawebapp.model.RSSFeedMessage;
 import com.javawebapp.model.User;
+import com.javawebapp.service.RSSFeedWriterService;
 
 @Component
 public class RSSFeedDataService
@@ -48,8 +53,36 @@ public class RSSFeedDataService
 	{
 		return rssFeedMessageDao.getRSSFeedMessage(podcastId);
 	}
-
-	//TODO refactor
+	
+	//TODO can probably clean up calls to the db
+	public boolean appendMessageToFeed(Podcast podcast)
+	{
+		try
+		{
+			RSSFeed feed = rssFeedDao.getRSSFeed(podcast.getOwnerId());
+			User user = userDao.getUser(podcast.getOwnerId());
+			RSSFeedWriterService writer = new RSSFeedWriterService(feed, getFilePath(feed));
+			RSSFeedMessage message = new RSSFeedMessage(podcast.getEpisodeName(), podcast.getDescription(),
+					podcast.getPath(), user.getUserName(), feed.getId(), podcast.getID());
+			writer.appendMessage(message);
+			return true;
+		}
+		catch(Exception e)
+		{
+			// TODO log
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
+	public String getFilePath(RSSFeed feed)
+	{
+		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\rss\\";
+		return basePath + feed.getTitle() + ".xml";
+	}
+	
+	// TODO refactor
 	public String buildFilePath(RSSFeed feed)
 	{
 		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\rss\\";
@@ -64,7 +97,7 @@ public class RSSFeedDataService
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			//TODO log and handle
+			// TODO log and handle
 		}
 		return basePath + feed.getTitle() + ".xml";
 	}

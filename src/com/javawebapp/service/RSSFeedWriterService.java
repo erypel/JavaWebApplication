@@ -1,7 +1,12 @@
 package com.javawebapp.service;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLOutputFactory;
@@ -11,6 +16,17 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartDocument;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.javawebapp.model.RSSFeed;
 import com.javawebapp.model.RSSFeedMessage;
@@ -29,6 +45,57 @@ public class RSSFeedWriterService
 	{
 		this.rssFeed = rssFeed;
 		this.outputFile = outputFile;
+	}
+	
+	//TODO add method to remove podcast from XML
+	
+	//TODO this method works, but the xml is not formatted for a person to read
+	// next step would be to format the xml neatly
+	public void appendMessage(RSSFeedMessage message) throws XMLStreamException, ParserConfigurationException, SAXException, IOException, TransformerException
+	{
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document document = documentBuilder.parse(outputFile); 
+        Node root = document.getFirstChild(); //This will be the <rss> node
+        NodeList rootChildren = root.getChildNodes(); 
+        Node channel = null; //This will be the <channel> node
+        for(int i = 0; i < rootChildren.getLength(); i++)
+        {
+        	Node node = rootChildren.item(i);
+        	if("channel" == node.getNodeName())
+        	{
+        		channel = node;
+        		break;
+        	}
+        }
+        
+        Node itemNode = document.createElement("item");
+        
+        Node titleNode = document.createElement("title");
+        titleNode.appendChild(document.createTextNode((message.getTitle())));
+        Node descriptionNode = document.createElement("description");
+        descriptionNode.appendChild(document.createTextNode((message.getDescription())));
+        Node linkNode = document.createElement("link");
+        linkNode.appendChild(document.createTextNode((message.getLink())));
+        Node authorNode = document.createElement("author");
+        authorNode.appendChild(document.createTextNode((message.getAuthor())));
+        Node guidNode = document.createElement("guid");
+        guidNode.appendChild(document.createTextNode((message.getGuid())));
+        
+        itemNode.appendChild(titleNode);
+        itemNode.appendChild(descriptionNode);
+        itemNode.appendChild(linkNode);
+        itemNode.appendChild(authorNode);
+        itemNode.appendChild(guidNode);
+        
+        channel.appendChild(itemNode);
+        
+        DOMSource source = new DOMSource(document);
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        StreamResult result = new StreamResult(outputFile);
+        transformer.transform(source, result);
 	}
 	
 	public void write() throws Exception
