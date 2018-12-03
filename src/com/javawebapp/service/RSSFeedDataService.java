@@ -55,6 +55,27 @@ public class RSSFeedDataService
 	}
 	
 	//TODO can probably clean up calls to the db
+	public boolean deleteMessageFromFeed(Podcast podcast)
+	{
+		try
+		{
+			RSSFeed feed = rssFeedDao.getRSSFeed(podcast.getOwnerId());
+			User user = userDao.getUser(podcast.getOwnerId());
+			RSSFeedWriterService writer = new RSSFeedWriterService(feed, getFilePath(feed));
+			RSSFeedMessage message = new RSSFeedMessage(podcast.getEpisodeName(), podcast.getDescription(),
+					podcast.getPath(), user.getUserName(), feed.getId(), podcast.getID());
+			writer.deleteMessage(message);
+			return true;
+		}
+		catch(Exception e)
+		{
+			// TODO log
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	//TODO can probably clean up calls to the db
 	public boolean appendMessageToFeed(Podcast podcast)
 	{
 		try

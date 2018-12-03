@@ -47,55 +47,95 @@ public class RSSFeedWriterService
 		this.outputFile = outputFile;
 	}
 	
-	//TODO add method to remove podcast from XML
-	
-	//TODO this method works, but the xml is not formatted for a person to read
-	// next step would be to format the xml neatly
-	public void appendMessage(RSSFeedMessage message) throws XMLStreamException, ParserConfigurationException, SAXException, IOException, TransformerException
+	public void deleteMessage(RSSFeedMessage message)
+			throws ParserConfigurationException, SAXException, IOException, TransformerException
 	{
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.parse(outputFile); 
-        Node root = document.getFirstChild(); //This will be the <rss> node
-        NodeList rootChildren = root.getChildNodes(); 
-        Node channel = null; //This will be the <channel> node
-        for(int i = 0; i < rootChildren.getLength(); i++)
-        {
-        	Node node = rootChildren.item(i);
-        	if("channel" == node.getNodeName())
-        	{
-        		channel = node;
-        		break;
-        	}
-        }
-        
-        Node itemNode = document.createElement("item");
-        
-        Node titleNode = document.createElement("title");
-        titleNode.appendChild(document.createTextNode((message.getTitle())));
-        Node descriptionNode = document.createElement("description");
-        descriptionNode.appendChild(document.createTextNode((message.getDescription())));
-        Node linkNode = document.createElement("link");
-        linkNode.appendChild(document.createTextNode((message.getLink())));
-        Node authorNode = document.createElement("author");
-        authorNode.appendChild(document.createTextNode((message.getAuthor())));
-        Node guidNode = document.createElement("guid");
-        guidNode.appendChild(document.createTextNode((message.getGuid())));
-        
-        itemNode.appendChild(titleNode);
-        itemNode.appendChild(descriptionNode);
-        itemNode.appendChild(linkNode);
-        itemNode.appendChild(authorNode);
-        itemNode.appendChild(guidNode);
-        
-        channel.appendChild(itemNode);
-        
-        DOMSource source = new DOMSource(document);
-
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        StreamResult result = new StreamResult(outputFile);
-        transformer.transform(source, result);
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document document = documentBuilder.parse(outputFile);
+		Node root = document.getFirstChild(); // This will be the <rss> node
+		NodeList rootChildren = root.getChildNodes();
+		Node channel = null; // This will be the <channel> node
+		for(int i = rootChildren.getLength() - 1; i >= 0; i--) // start from the bottom since that's where the items are
+		{
+			Node node = rootChildren.item(i);
+			if("channel" == node.getNodeName())
+			{
+				channel = node;
+				break;
+			}
+		}
+		NodeList channelChildren = channel.getChildNodes();
+		for(int i = 0; i < channelChildren.getLength(); i++)
+		{
+			Node node = channelChildren.item(i);
+			if(node.hasChildNodes() && node.getNodeName() == "item")
+			{
+				String guid = node.getLastChild().getTextContent(); // last child should be guid
+				if(guid.equals(message.getGuid()))
+				{
+					channel.removeChild(node);
+					break;
+				}
+			}
+		}
+		
+		DOMSource source = new DOMSource(document);
+		
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		StreamResult result = new StreamResult(outputFile);
+		transformer.transform(source, result);
+	}
+	
+	// TODO this method works, but the xml is not formatted for a person to read
+	// next step would be to format the xml neatly
+	public void appendMessage(RSSFeedMessage message)
+			throws XMLStreamException, ParserConfigurationException, SAXException, IOException, TransformerException
+	{
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document document = documentBuilder.parse(outputFile);
+		Node root = document.getFirstChild(); // This will be the <rss> node
+		NodeList rootChildren = root.getChildNodes();
+		Node channel = null; // This will be the <channel> node
+		for(int i = 0; i < rootChildren.getLength(); i++)
+		{
+			Node node = rootChildren.item(i);
+			if("channel" == node.getNodeName())
+			{
+				channel = node;
+				break;
+			}
+		}
+		
+		Node itemNode = document.createElement("item");
+		
+		Node titleNode = document.createElement("title");
+		titleNode.appendChild(document.createTextNode((message.getTitle())));
+		Node descriptionNode = document.createElement("description");
+		descriptionNode.appendChild(document.createTextNode((message.getDescription())));
+		Node linkNode = document.createElement("link");
+		linkNode.appendChild(document.createTextNode((message.getLink())));
+		Node authorNode = document.createElement("author");
+		authorNode.appendChild(document.createTextNode((message.getAuthor())));
+		Node guidNode = document.createElement("guid");
+		guidNode.appendChild(document.createTextNode((message.getGuid())));
+		
+		itemNode.appendChild(titleNode);
+		itemNode.appendChild(descriptionNode);
+		itemNode.appendChild(linkNode);
+		itemNode.appendChild(authorNode);
+		itemNode.appendChild(guidNode);
+		
+		channel.appendChild(itemNode);
+		
+		DOMSource source = new DOMSource(document);
+		
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		StreamResult result = new StreamResult(outputFile);
+		transformer.transform(source, result);
 	}
 	
 	public void write() throws Exception
