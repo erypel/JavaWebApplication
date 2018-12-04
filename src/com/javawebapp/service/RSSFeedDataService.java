@@ -4,11 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLStreamException;
-
 import org.springframework.stereotype.Component;
-import org.xml.sax.SAXException;
 
 import com.javawebapp.dao.impl.RSSFeedDaoImpl;
 import com.javawebapp.dao.impl.RSSFeedMessageDaoImpl;
