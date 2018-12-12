@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -15,10 +14,7 @@ import org.hibernate.query.Query;
 
 import com.javawebapp.dao.RSSFeedDao;
 import com.javawebapp.hibernate.HibernateUtil;
-import com.javawebapp.model.Podcast;
 import com.javawebapp.model.RSSFeed;
-import com.javawebapp.model.RSSFeedMessage;
-import com.javawebapp.model.User;
 
 public class RSSFeedDaoImpl implements RSSFeedDao
 {
@@ -68,8 +64,7 @@ public class RSSFeedDaoImpl implements RSSFeedDao
 		{
 			if(session.getTransaction() != null)
 				session.getTransaction().rollback();
-			e.printStackTrace();
-			// TODO log here
+			logger.warn("Error getting RSS Feed: " + e.getMessage());
 		}
 		finally
 		{

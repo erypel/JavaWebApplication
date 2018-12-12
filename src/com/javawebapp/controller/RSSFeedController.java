@@ -63,6 +63,7 @@ public class RSSFeedController
 		RSSFeedWriterService rssWriter = new RSSFeedWriterService(feed, filePath);
 		rssWriter.write();
 		
+		//TODO a different view should go here
 		ModelAndView mav = new ModelAndView("Message");
 		mav.addObject("message", message);
 		return mav;

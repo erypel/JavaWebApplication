@@ -2,6 +2,7 @@ package com.javawebapp.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.javawebapp.dao.impl.PodcastDaoImpl;
 import com.javawebapp.model.Podcast;
-import com.javawebapp.servlet.session.FileUploadDBServlet;
+import com.javawebapp.model.RSSFeed;
 
 @Component
 public class PodcastService
@@ -72,10 +73,29 @@ public class PodcastService
 		return true;
 	}
 	
+	//TODO refactor a little better
 	public String constructPodcastPath(String episodeName)
 	{
-		String basePath = "http://localhost:8080/JavaWebApplication/uploads/";
+		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\uploads\\";
 		// TODO check for uniqueness and save as an appropriate file
+		File file = new File(basePath + episodeName + ".wav");
+		file.getParentFile().mkdirs();
+		try
+		{
+			FileWriter writer = new FileWriter(file);
+		}
+		catch(IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			// TODO log and handle
+		}
+		return basePath + episodeName + ".wav";
+	}
+	
+	public String getFilePath(String episodeName)
+	{
+		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\uploads\\";
 		return basePath + episodeName + ".wav";
 	}
 }

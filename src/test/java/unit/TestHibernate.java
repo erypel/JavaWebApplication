@@ -1,4 +1,6 @@
-package com.javawebapp.hibernate;
+package test.java.unit;
+
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -8,15 +10,18 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.hibernate.Session;
+import org.junit.Test;
 
+import com.javawebapp.hibernate.HibernateUtil;
 import com.javawebapp.model.User;
 
-public class HibernateTest
+public class TestHibernate
 {
 	private static final String PERSISTENCE_UNIT_NAME = "User";
 	private static EntityManagerFactory emf;
 	
-	public static void main(String[] args)
+	@Test
+	public static void testHibernate()
 	{
 		System.out.print("==Begin EntityManager test===");
 		emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -53,5 +58,6 @@ public class HibernateTest
 		session.close();
 		
 		System.out.print("==Finished Hibernate test===");
+		assertTrue(true);
 	}
 }

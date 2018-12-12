@@ -14,16 +14,15 @@ import org.hibernate.query.Query;
 
 import com.javawebapp.dao.WalletDao;
 import com.javawebapp.hibernate.HibernateUtil;
-import com.javawebapp.model.User;
 import com.javawebapp.model.Wallet;
 
 public class WalletDaoImpl implements WalletDao
 {
 	Logger logger = LogManager.getLogger(WalletDaoImpl.class);
 	
-	//column names
+	// column names
 	private static final String OWNERID = "ownerId";
-
+	
 	@Override
 	public Wallet getWallet(long userId)
 	{
@@ -56,7 +55,7 @@ public class WalletDaoImpl implements WalletDao
 		else
 			return results.get(0);
 	}
-
+	
 	@Override
 	public Wallet createWallet(long ownerId)
 	{
@@ -65,7 +64,7 @@ public class WalletDaoImpl implements WalletDao
 		try
 		{
 			session.beginTransaction();
-			wallet = new Wallet(ownerId); //important. need to create wallet here
+			wallet = new Wallet(ownerId); // important. need to create wallet here
 			session.save(wallet);
 			session.getTransaction().commit();
 		}

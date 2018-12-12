@@ -99,7 +99,7 @@ public class RSSFeedDataService
 		return basePath + feed.getTitle() + ".xml";
 	}
 	
-	// TODO refactor
+	// TODO refactor, could consolidate with same method in PodcastService
 	public String buildFilePath(RSSFeed feed)
 	{
 		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\rss\\";

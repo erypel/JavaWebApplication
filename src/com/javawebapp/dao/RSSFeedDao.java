@@ -6,6 +6,6 @@ import com.javawebapp.model.RSSFeedMessage;
 public interface RSSFeedDao
 {
 	public boolean insertRSSFeed(RSSFeed feed);
-
+	
 	RSSFeed getRSSFeed(long ownerId);
 }

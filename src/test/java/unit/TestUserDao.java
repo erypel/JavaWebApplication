@@ -1,4 +1,4 @@
-package com.javawebapp.dao.test;
+package test.java.unit;
 
 import java.util.ArrayList;
 import com.javawebapp.dao.UserDao;
