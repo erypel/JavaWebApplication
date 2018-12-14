@@ -3,6 +3,7 @@ package com.javawebapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.logging.log4j.Level;
@@ -21,7 +22,22 @@ public class App
 		// start a factory
 		CustomConfigurationFactory cfgFactory = new CustomConfigurationFactory();
 		
-		ConfigurationSource configurationSource = new ConfigurationSource(new FileInputStream(new File("C:\\Users\\Evan\\workspace\\JavaWebApplication\\output\\logs\\emptyConfiguration.xml")));
+		//create file for config source
+		String path = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\output\\logs\\emptyConfiguration.xml";
+		File file = new File(path);
+		file.getParentFile().mkdirs();
+		try
+		{
+			FileWriter writer = new FileWriter(file);
+		}
+		catch(IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			// TODO log and handle
+		}
+		
+		ConfigurationSource configurationSource = new ConfigurationSource(new FileInputStream(file));
 		LoggerContext context = new LoggerContext("JavaWebAppContext");
 		
 		// build the configuration
