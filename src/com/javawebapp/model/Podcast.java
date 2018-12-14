@@ -29,7 +29,7 @@ public class Podcast implements Serializable
 	@Column(name = "ID", updatable = false, nullable = false)
 	private long ID;
 	
-	@Id
+	//@Id
 	@Column(name = "OWNERID", updatable = true, nullable = false)
 	private long ownerId;
 	

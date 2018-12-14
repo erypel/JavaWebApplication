@@ -1,5 +1,7 @@
 package test.java.unit;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -27,8 +29,8 @@ public class TestUserDao {
 		System.out.println("Test successful: " + testUpdateUserPasswordLong());
 		System.out.println("Test updateUserPassword(String)");
 		System.out.println("Test successful: " + testUpdateUserPasswordString());
-		System.out.println("Test updateUsernameLong(Long)");
-		System.out.println("Test successful: " + testUpdateUsernameLong());
+		//System.out.println("Test updateUsernameLong(Long)");
+		//System.out.println("Test successful: " + testUpdateUsernameLong());
 		System.out.println("Test updateUsername(String)");
 		System.out.println("Test successful: " + testUpdateUsernameString());
 		System.out.println("Test deleteUserLong(Long)");
@@ -37,8 +39,8 @@ public class TestUserDao {
 		System.out.println("Test successful: " + testDeleteUserString());
 		System.out.println("Test getUser(String)");
 		System.out.println("Test successful: " + testGetUserString());
-		System.out.println("Test getUser(Long)");
-		System.out.println("Test successful: " + testGetUserLong());
+		//System.out.println("Test getUser(Long)");
+		//System.out.println("Test successful: " + testGetUserLong());
 		System.out.println("Test getUser(String, String)");
 		System.out.println("Test successful: " + testGetUserUserNamePassword());
 		System.out.println("Test getAllUsers()");
@@ -97,18 +99,16 @@ public class TestUserDao {
 		return false;
 	}
 
-	public static boolean testUpdateUsernameLong() {
+	@Test
+	public void testUpdateUsernameLong() {
 		UserDao userDao = new UserDaoImpl();
 		Long id = JavaWebAppUtils.generateUniqueId();
 		String newUsername = "testNewUsername";
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		userDao.updateUsername(id, newUsername);
 		User user = userDao.getUser(id);
-		if (user.getUserName().equals(newUsername)) {
-			userDao.deleteUser(id);
-			return true;
-		}
-		return false;
+		assertTrue(user.getUserName().equals(newUsername));
+		userDao.deleteUser(id);
 	}
 
 	public static boolean testUpdateUsernameString() {
@@ -173,17 +173,15 @@ public class TestUserDao {
 		return false;
 	}
 
-	public static boolean testGetUserLong() {
+	@Test
+	public void testGetUserLong() {
 		UserDao userDao = new UserDaoImpl();
 		Long id = JavaWebAppUtils.generateUniqueId();
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, id);
 		User user = userDao.getUser(id);
-		if (user.getUserName().equals(TEST_USERNAME) && user.getPassword().equals(TEST_PASSWORD)
-				&& user.getEmail().equals(TEST_EMAIL) && user.getId() == id) {
-			userDao.deleteUser(id);
-			return true;
-		}
-		return false;
+		assertTrue(user.getUserName().equals(TEST_USERNAME) && user.getPassword().equals(TEST_PASSWORD)
+				&& user.getEmail().equals(TEST_EMAIL) && user.getId() == id);
+		userDao.deleteUser(id);
 	}
 
 	// TODO won't really be able to test until Mockito is up and running

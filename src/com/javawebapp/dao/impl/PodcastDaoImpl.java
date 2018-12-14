@@ -80,7 +80,7 @@ public class PodcastDaoImpl implements PodcastDao
 	@Override
 	public Podcast getPodcast(long id)
 	{
-		EntityManager em = HibernateUtil.getPodcastEntityManagerFactory().createEntityManager();
+		EntityManager em = HibernateUtil.getPersistenceEntityManagerFactory().createEntityManager();
 		Podcast podcast = em.find(Podcast.class, id);
 		em.close();
 		return podcast;
@@ -89,7 +89,7 @@ public class PodcastDaoImpl implements PodcastDao
 	@Override
 	public boolean deletePodcast(long id)
 	{
-		EntityManager em = HibernateUtil.getPodcastEntityManagerFactory().createEntityManager();
+		EntityManager em = HibernateUtil.getPersistenceEntityManagerFactory().createEntityManager();
 		Podcast podcast = em.find(Podcast.class, id);
 		em.getTransaction().begin();
 		em.remove(podcast);

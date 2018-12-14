@@ -15,8 +15,7 @@ public class HibernateUtil
 	static Logger logger = LogManager.getLogger(HibernateUtil.class);
 	
 	private static final SessionFactory sessionFactory = buildSessionFactory();
-	private static final EntityManagerFactory userEntityManagerFactory = buildUserEntityManagerFactory();
-	private static final EntityManagerFactory podcastEntityManagerFactory = buildPodcastEntityManagerFactory();
+	private static final EntityManagerFactory persistenceEntityManagerFactory = buildPersistenceEntityManagerFactory();
 	
 	private static SessionFactory buildSessionFactory()
 	{
@@ -33,19 +32,7 @@ public class HibernateUtil
 		return null;
 	}
 	
-	private static EntityManagerFactory buildPodcastEntityManagerFactory()
-	{
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
-		return emf;
-	}
-	
-	public static EntityManagerFactory getPodcastEntityManagerFactory()
-	{
-		return podcastEntityManagerFactory;
-	}
-	
-	// Create and entity manager factory for the User entity
-	private static EntityManagerFactory buildUserEntityManagerFactory()
+	private static EntityManagerFactory buildPersistenceEntityManagerFactory()
 	{
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
 		return emf;
@@ -58,9 +45,9 @@ public class HibernateUtil
 		return sessionFactory;
 	}
 	
-	public static EntityManagerFactory getUserEntityManagerFactory()
+	public static EntityManagerFactory getPersistenceEntityManagerFactory()
 	{
-		return userEntityManagerFactory;
+		return persistenceEntityManagerFactory;
 	}
 	
 	public static void shutdownSessionFactory()
@@ -69,8 +56,8 @@ public class HibernateUtil
 		getSessionFactory().close();
 	}
 	
-	public static void closeUserEntityManagerFactory()
+	public static void closePersistenceEntityManagerFactory()
 	{
-		getUserEntityManagerFactory().close();
+		getPersistenceEntityManagerFactory().close();
 	}
 }

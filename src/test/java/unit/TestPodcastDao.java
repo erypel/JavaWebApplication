@@ -1,5 +1,7 @@
 package test.java.unit;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import com.javawebapp.dao.PodcastDao;
@@ -27,12 +29,16 @@ public class TestPodcastDao
 		userDao.insertUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, ownerId);
 		
 		PodcastDao podcastDao = new PodcastDaoImpl();
-		Long id = JavaWebAppUtils.generateUniqueId();
-		Podcast podcastToInsert = new Podcast("test_podcast", "test_description", "test_path", id);
-		podcastToInsert.setOwnerId(ownerId);
+		
+		Podcast podcastToInsert = new Podcast("test_podcast", "test_description", "test_path", ownerId);
+		Long id = podcastToInsert.getID();
 		podcastDao.insertPodcast(podcastToInsert);
 		Podcast podcast = podcastDao.getPodcast(id);
-		assert(podcastToInsert.equals(podcast));
+		assertTrue(podcast != null);
+		assertTrue(podcast.getEpisodeName().equals(TEST_PODCAST));
+		assertTrue(podcast.getDescription().equals(TEST_DESCRIPTION));
+		assertTrue(id == podcast.getID());
+		assertTrue(podcast.getPath().equals(TEST_PATH));
 		podcastDao.deletePodcast(id);
 		userDao.deleteUser(ownerId);
 	}

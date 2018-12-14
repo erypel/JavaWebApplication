@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao
 	@Override
 	public User getUser(long id)
 	{
-		EntityManager em = HibernateUtil.getUserEntityManagerFactory().createEntityManager();
+		EntityManager em = HibernateUtil.getPersistenceEntityManagerFactory().createEntityManager();
 		User user = em.find(User.class, id);
 		em.close();
 		return user;
@@ -164,7 +164,7 @@ public class UserDaoImpl implements UserDao
 	@Override
 	public void updateUsername(long id, String newUserName)
 	{
-		EntityManager em = HibernateUtil.getUserEntityManagerFactory().createEntityManager();
+		EntityManager em = HibernateUtil.getPersistenceEntityManagerFactory().createEntityManager();
 		User user = em.find(User.class, id);
 		em.getTransaction().begin();
 		user.setUserName(newUserName);
@@ -201,7 +201,7 @@ public class UserDaoImpl implements UserDao
 	@Override
 	public void deleteUser(long id)
 	{
-		EntityManager em = HibernateUtil.getUserEntityManagerFactory().createEntityManager();
+		EntityManager em = HibernateUtil.getPersistenceEntityManagerFactory().createEntityManager();
 		User user = em.find(User.class, id);
 		em.getTransaction().begin();
 		em.remove(user);
@@ -238,7 +238,7 @@ public class UserDaoImpl implements UserDao
 	@Override
 	public void updateUserPassword(long id, String newPassword)
 	{
-		EntityManager em = HibernateUtil.getUserEntityManagerFactory().createEntityManager();
+		EntityManager em = HibernateUtil.getPersistenceEntityManagerFactory().createEntityManager();
 		User user = em.find(User.class, id);
 		em.getTransaction().begin();
 		user.setPassword(newPassword);
