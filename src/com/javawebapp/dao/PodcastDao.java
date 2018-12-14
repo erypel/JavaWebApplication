@@ -11,4 +11,6 @@ public interface PodcastDao
 	public List<Podcast> get50Podcasts();
 	
 	public Podcast getPodcast(long id);
+
+	boolean deletePodcast(long id);
 }

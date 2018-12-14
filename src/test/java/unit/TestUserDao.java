@@ -1,6 +1,9 @@
 package test.java.unit;
 
 import java.util.ArrayList;
+
+import org.junit.Test;
+
 import com.javawebapp.dao.UserDao;
 import com.javawebapp.dao.impl.UserDaoImpl;
 import com.javawebapp.model.User;
@@ -13,7 +16,8 @@ public class TestUserDao {
 	public final static String TEST_PASSWORD = "testPassword";
 	public final static String TEST_EMAIL = "testEmail@test.com";
 
-	public static void main(String[] args) {
+	@Test
+	public void testUserDao() {
 		System.out.println("===Running unit tests for UserDaoImpl.java===");
 		System.out.println("Test insertUser(String, String, String, Long)");
 		System.out.println("Test successful: " + testInsertUserStringStringStringLong());

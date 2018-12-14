@@ -21,7 +21,7 @@ public class TestHibernate
 	private static EntityManagerFactory emf;
 	
 	@Test
-	public static void testHibernate()
+	public void testHibernate()
 	{
 		System.out.print("==Begin EntityManager test===");
 		emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -43,6 +43,10 @@ public class TestHibernate
 		user1.setPassword("pass");
 		em.persist(user1);
 		em.getTransaction().commit();
+		//clean up the transaction
+		em.getTransaction().begin();
+		em.remove(user1);
+		em.getTransaction().commit();
 		em.close();
 		
 		System.out.print("==Finished EntityManager test===");
@@ -54,6 +58,10 @@ public class TestHibernate
 		User user2 = new User("hibernateTest", "password", "test@test.com");
 		
 		session.save(user2);
+		session.getTransaction().commit();
+		//clean up
+		session.beginTransaction();
+		session.remove(user2);
 		session.getTransaction().commit();
 		session.close();
 		

@@ -62,43 +62,10 @@ public class UserDaoImpl implements UserDao
 	@Override
 	public User getUser(long id)
 	{
-		try {
-			EntityManager em = HibernateUtil.getUserEntityManagerFactory().createEntityManager();
-			User user = em.find(User.class, id);
-			em.close();
-			return user;
-		}
-		catch(Exception e) //TODO workaround for entity manager. learn why this fails
-		{
-			Session session = HibernateUtil.getSessionFactory().openSession();
-			List<User> results = Collections.emptyList();
-			try
-			{
-				session.beginTransaction();
-				CriteriaBuilder cb = session.getCriteriaBuilder();
-				CriteriaQuery<User> cq = cb.createQuery(User.class);
-				Root<User> root = cq.from(User.class);
-				cq.select(root).where(cb.equal(root.get("ID"), id));
-				Query<User> query = session.createQuery(cq);
-				results = query.getResultList();
-				session.getTransaction().commit();
-			}
-			catch(Exception ex)
-			{
-				if(session.getTransaction() != null)
-					session.getTransaction().rollback();
-				logger.error("Error getting user(String).", ex);
-			}
-			finally
-			{
-				session.close();
-			}
-			
-			if(results.isEmpty())
-				return null;
-			else
-				return results.get(0);
-		}
+		EntityManager em = HibernateUtil.getUserEntityManagerFactory().createEntityManager();
+		User user = em.find(User.class, id);
+		em.close();
+		return user;
 	}
 	
 	@Override

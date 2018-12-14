@@ -16,7 +16,7 @@ public class HibernateUtil
 	
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 	private static final EntityManagerFactory userEntityManagerFactory = buildUserEntityManagerFactory();
-	//private static final EntityManagerFactory podcastEntityManagerFactory = buildPodcastEntityManagerFactory();
+	private static final EntityManagerFactory podcastEntityManagerFactory = buildPodcastEntityManagerFactory();
 	
 	private static SessionFactory buildSessionFactory()
 	{
@@ -32,22 +32,22 @@ public class HibernateUtil
 		}
 		return null;
 	}
-	/*
+	
 	private static EntityManagerFactory buildPodcastEntityManagerFactory()
 	{
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Podcast");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
 		return emf;
 	}
 	
 	public static EntityManagerFactory getPodcastEntityManagerFactory()
 	{
 		return podcastEntityManagerFactory;
-	}*/
+	}
 	
 	// Create and entity manager factory for the User entity
 	private static EntityManagerFactory buildUserEntityManagerFactory()
 	{
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("User");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
 		return emf;
 	}
 	

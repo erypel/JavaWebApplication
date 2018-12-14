@@ -80,35 +80,23 @@ public class PodcastDaoImpl implements PodcastDao
 	@Override
 	public Podcast getPodcast(long id)
 	{
-		// TODO utilize EntityManager
-		// will need to configure persistence.xml
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		List<Podcast> results = Collections.emptyList();
-		try
-		{
-			session.beginTransaction();
-			CriteriaBuilder cb = session.getCriteriaBuilder();
-			CriteriaQuery<Podcast> cq = cb.createQuery(Podcast.class);
-			Root<Podcast> root = cq.from(Podcast.class);
-			cq.select(root).where(cb.equal(root.get("ID"), id));
-			Query<Podcast> query = session.createQuery(cq);
-			results = query.getResultList();
-			session.getTransaction().commit();
-		}
-		catch(Exception e)
-		{
-			if(session.getTransaction() != null)
-				session.getTransaction().rollback();
-			logger.error("Error getting podcast.", e);
-		}
-		finally
-		{
-			session.close();
-		}
+		EntityManager em = HibernateUtil.getPodcastEntityManagerFactory().createEntityManager();
+		Podcast podcast = em.find(Podcast.class, id);
+		em.close();
+		return podcast;
+	}
+	
+	@Override
+	public boolean deletePodcast(long id)
+	{
+		EntityManager em = HibernateUtil.getPodcastEntityManagerFactory().createEntityManager();
+		Podcast podcast = em.find(Podcast.class, id);
+		em.getTransaction().begin();
+		em.remove(podcast);
+		em.getTransaction().commit();
+		em.close();
 		
-		if(results.isEmpty())
-			return null;
-		else
-			return results.get(0);
+		return true;
+		//TODO return false is nothing is removed.
 	}
 }
