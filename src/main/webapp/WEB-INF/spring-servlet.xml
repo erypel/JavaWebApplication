@@ -13,3 +13,6 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
         <property name="suffix" value=".jsp" />  
     </bean>  
 </beans>  
+
+
+<!-- pretty sure this file can be deleted because it is a duplicate, but don't want to look into it now -->

@@ -39,7 +39,7 @@
 	<a href="./src/main/webapp/WEB-INF/lib/tomcat7/webapps/">Folder</a>
 	<!-- need to use Tomcat here. theres somewhere where you can store files. test with Chrome-->
 	<audio controls>
-    	<source src="../src/main/webapp/WEB-INF/lib/tomcat7/webapps/testmp3.mp3" type="audio/mp3">
+    	<source src="/JavaWebApplication/uploads/testWav.wav" type="audio/wav">
 	</audio>
 	<br>
 	<a href="podcast.action">Return to list</a>
