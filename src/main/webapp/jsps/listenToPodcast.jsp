@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Listen</title>
 </head>
 <body>
 	<%
@@ -35,12 +35,13 @@
 		}
 	%>
 	<h1>Welcome ${user}. Your session ID is <%=sessionID%></h1>
-	<h1>path is ${path} </h1>
+	<h1>path is ${request.contextPath} </h1>
 	<a href="./src/main/webapp/WEB-INF/lib/tomcat7/webapps/">Folder</a>
 	<!-- need to use Tomcat here. theres somewhere where you can store files. test with Chrome-->
 	<audio controls>
-    	<source src="/JavaWebApplication/uploads/testWav.wav" type="audio/wav">
+    	<source src="/JavaWebApplication/WebContent/uploads/testWav.wav" type="audio/wav">
 	</audio>
+	<embed src="/JavaWebApplication/WebContent/uploads/testWav.wav" showcontrols="true" width="425" height="350"></embed>
 	<br>
 	<a href="podcast.action">Return to list</a>
 </body>
