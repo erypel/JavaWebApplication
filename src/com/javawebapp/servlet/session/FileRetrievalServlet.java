@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//TODO controller?
 @WebServlet("/retrievePodcastServlet")
 public class FileRetrievalServlet extends HttpServlet
 {
@@ -23,6 +24,7 @@ public class FileRetrievalServlet extends HttpServlet
 		super();
 	}
 	
+	//plays audio, but not in the webapp TODO, play in webapp
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		File file = new File("C:\\Users\\Evan\\workspace\\JavaWebApplication\\WebContent\\uploads\\testWav.wav");
