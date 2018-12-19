@@ -6,6 +6,7 @@
             <title>Registration</title>
         </head>
         <body>
+        	<jsp:include page="header.jsp" />
             <form:form id="regForm" modelAttribute="user" action="registerProcess.action" method="post">
                 <table align="center">
                     <tr>

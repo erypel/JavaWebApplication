@@ -8,7 +8,7 @@
 <title>Message</title>
 </head>
 <body>
+	<jsp:include page="header.jsp" />
 	<h3><%=request.getAttribute("message")%></h3>
-	<a href="podcast.action">Return</a>
 </body>
 </html>

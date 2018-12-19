@@ -7,6 +7,7 @@
 <title>Upload a Podcast!</title>
 </head>
 <body>
+	<jsp:include page="header.jsp" />
 	<%
 			//only allow access if session exists
 			String user = (String) session.getAttribute("user");

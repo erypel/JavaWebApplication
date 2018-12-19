@@ -11,6 +11,7 @@
 <title>Podcasts</title>
 </head>
 <body>
+	<jsp:include page="header.jsp" />
 	<%
 		//only allow access if session exists
 		String user = (String) session.getAttribute("user");
@@ -65,11 +66,5 @@
 			}
 		%>
 	</table>
-	<br>
-	
-	
-	<a href="createRSSFeed.action">Create RSS Feed</a>
-	<a href="navigateToUploadPodcast.action">Upload</a>
-	<a href="home.action">Home</a>
 </body>
 </html>
