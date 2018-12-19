@@ -34,6 +34,9 @@
 			sessionID = session.getId();
 		}
 	%>
+	
+	<!-- below is still a WIP -->
+	
 	<h1>Welcome ${user}. Your session ID is <%=sessionID%></h1>
 	<h1>path is ${request.contextPath} </h1>
 	<a href="./src/main/webapp/WEB-INF/lib/tomcat7/webapps/">Folder</a>
