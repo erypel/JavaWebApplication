@@ -6,6 +6,7 @@
         <title>Welcome</title>
     </head>
     <body>
+    	<jsp:include page="header.jsp" />
     	<%
 			//only allow access if session exists
 			String user = (String) session.getAttribute("user");
@@ -48,15 +49,6 @@
             <tr>
             </tr>
             <tr>
-            </tr>
-            <tr>
-            <tr>
-                <td><a href="logout.action">Log Out</a>
-                </td>
-            </tr>
-            <tr>
-            	<td><a href="podcast.action">Podcasts</a>
-            	</td>
             </tr>
         </table>
     </body>
