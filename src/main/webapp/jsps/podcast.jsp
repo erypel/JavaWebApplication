@@ -53,7 +53,11 @@
 			{
 		%>
 		<tr>
-			<td> <a href="listenToPodcast.action?id=<%=String.valueOf(p.getID())%>"><%= p.getEpisodeName() %></a></td>
+			<td>
+				<form method="GET" action="retrievePodcastServlet">
+					<input type="SUBMIT" value=<%= p.getEpisodeName() %>>
+				</form>
+			</td>
 			<td> <%= p.getDescription() %> </td>
 			<td> <%= p.getPath() %> </td>
 		</tr>
@@ -62,6 +66,8 @@
 		%>
 	</table>
 	<br>
+	
+	
 	<a href="createRSSFeed.action">Create RSS Feed</a>
 	<a href="navigateToUploadPodcast.action">Upload</a>
 	<a href="home.action">Home</a>

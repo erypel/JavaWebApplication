@@ -19,7 +19,6 @@ import com.javawebapp.model.Podcast;
 import com.javawebapp.service.PodcastService;
 import com.javawebapp.service.RSSFeedDataService;
 
-//TODO just make this a controller for pete's sake!
 @WebServlet("/uploadPodcastServlet")
 @MultipartConfig(maxFileSize = 16177215) // upload file's size up to 16MB
 public class FileUploadDBServlet extends HttpServlet
