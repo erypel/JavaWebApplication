@@ -1,1 +1,26 @@
 @charset "ISO-8859-1";
+
+#navigation {
+	background-color: black;
+	color: white;
+}
+
+/* unvisited link */
+a:link {
+  color: white;
+}
+
+/* visited link */
+a:visited {
+  color: white;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: white;
+}
