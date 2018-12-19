@@ -62,6 +62,12 @@
 		%>
 	</table>
 	<br>
+	
+	<form method="GET" action="retrievePodcastServlet">
+	<br>
+			<input type="SUBMIT" value="Click here to Play audio...">
+	</form>
+	
 	<a href="createRSSFeed.action">Create RSS Feed</a>
 	<a href="navigateToUploadPodcast.action">Upload</a>
 	<a href="home.action">Home</a>
