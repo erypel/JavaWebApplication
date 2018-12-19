@@ -1,5 +1,7 @@
 package com.javawebapp.servlet.session;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,20 +25,14 @@ public class FileRetrievalServlet extends HttpServlet
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		String fileName =  "uploads/testWav.wav";//request.getParameter("filename");
-		
-		// For testing
-		if(fileName == null || fileName == "")
-		{
-			fileName = "/JavaWebApplication/WebContent/uploads/testWav.wav";
-		}
+		File file = new File("C:\\Users\\Evan\\workspace\\JavaWebApplication\\WebContent\\uploads\\testWav.wav");
 		
 		ServletContext ctx = getServletContext();
 		String p = ctx.getContextPath();
-		InputStream input = ctx.getResourceAsStream(fileName);
+		InputStream input = new FileInputStream(file);
 		response.setContentType("audio/wav");
-		response.setHeader("Content-Disposition", "inline; filename=\""
-				+ fileName + "\"");
+		//response.setHeader("Content-Disposition", "inline; filename=\""
+		//		+ fileName + "\"");
 		
 		OutputStream output = response.getOutputStream();
 		
