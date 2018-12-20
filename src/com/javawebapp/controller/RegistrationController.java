@@ -29,7 +29,7 @@ public class RegistrationController
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAndView mav = new ModelAndView("register");
+		ModelAndView mav = new ModelAndView("/resources/jsp/register.jsp");
 		mav.addObject("user", new User());
 		return mav;
 	}
@@ -41,7 +41,7 @@ public class RegistrationController
 		userService.register(user);
 		Wallet wallet = walletService.register(user.getId());
 		
-		ModelAndView mav = new ModelAndView("welcome", "userName", user.getUserName());
+		ModelAndView mav = new ModelAndView("/resources/jsp/welcome.jsp", "userName", user.getUserName());
 		mav.addObject("firstname", user.getUserName());
 		mav.addObject("walletId", wallet.getWalletId());
 		mav.addObject("publicKey", wallet.getPublicKey());

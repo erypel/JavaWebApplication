@@ -22,14 +22,14 @@ public class PodcastController
 	@RequestMapping(value = "/podcast", method = RequestMethod.GET)
 	public ModelAndView showRegisterPodcastHome(HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAndView mav = new ModelAndView("podcast");
+		ModelAndView mav = new ModelAndView("/resources/jsp/podcast.jsp");
 		return mav;
 	}
 	
 	@RequestMapping(value = "/navigateToUploadPodcast", method = RequestMethod.GET)
 	public ModelAndView showRegisterUploadPodcast(HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAndView mav = new ModelAndView("uploadPodcast");
+		ModelAndView mav = new ModelAndView("/resources/jsp/uploadPodcast.jsp");
 		return mav;
 	}
 	
@@ -40,7 +40,8 @@ public class PodcastController
 		Long podcastId = Long.parseLong(id);
 		Podcast podcast = podcastService.getPodcast(podcastId);
 		String path = podcast.getPath();
-		ModelAndView mav = new ModelAndView("listenToPodcast");
+		//ModelAndView mav = new ModelAndView("listenToPodcast");
+		ModelAndView mav = new ModelAndView("/resources/html/test.html");
 		mav.addObject("path", path);
 		return mav;
 	}

@@ -45,28 +45,12 @@
 	<audio controls>
     	<source src="/JavaWebApplication/WebContent/uploads/testWav.wav" type="audio/wav">
 	</audio>
-	<embed src="/JavaWebApplication/WebContent/uploads/testWav.wav" showcontrols="true" width="425" height="350"></embed>
+	<!--<embed src="/JavaWebApplication/WebContent/uploads/testWav.wav" showcontrols="true" width="425" height="350"></embed>-->
 	<br>
 	<div id="waveform"></div>
 	<script src="https://unpkg.com/wavesurfer.js"></script>
-		
-		<!-- Move below script to its own file -->
-		<script type = "text/javascript">
-			//create the player
-			var wavesurfer = WaveSurfer.create({
-		    	container: '#waveform',
-		        scrollParent: true
-			});
+	<script src="${pageContext.request.contextPath}/resources/js/test.js"></script>
 			
-			//load the audio file
-			wavesurfer.load('\\JavaWebApplication\\uploads\\testWav.wav');
-			
-			//when ready, play
-			wavesurfer.on('ready', function () {
-			    wavesurfer.play();
-			});
-		</script>
-		
 	<a href="podcast.action">Return to list</a>
 </body>
 </html>

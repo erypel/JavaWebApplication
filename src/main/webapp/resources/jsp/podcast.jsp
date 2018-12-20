@@ -11,7 +11,6 @@
 <title>Podcasts</title>
 </head>
 <body>
-	<jsp:include page="header.jsp" />
 	<%
 		//only allow access if session exists
 		String user = (String) session.getAttribute("user");
@@ -54,11 +53,7 @@
 			{
 		%>
 		<tr>
-			<td>
-				<form method="GET" action="retrievePodcastServlet">
-					<input type="SUBMIT" value=<%= p.getEpisodeName() %>>
-				</form>
-			</td>
+			<td> <a href="listenToPodcast.action?id=<%=String.valueOf(p.getID())%>"><%= p.getEpisodeName() %></a></td>
 			<td> <%= p.getDescription() %> </td>
 			<td> <%= p.getPath() %> </td>
 		</tr>

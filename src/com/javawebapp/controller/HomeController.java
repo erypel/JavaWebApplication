@@ -27,7 +27,7 @@ public class HomeController
 		
 		Wallet wallet = walletService.getWallet(userId);
 		
-		ModelAndView mav = new ModelAndView("welcome");
+		ModelAndView mav = new ModelAndView("/resources/jsp/welcome.jsp");
 		
 		mav.addObject("firstname", session.getAttribute("user").toString());
 		mav.addObject("walletId", wallet.getWalletId());
