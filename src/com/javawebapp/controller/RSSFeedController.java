@@ -27,7 +27,7 @@ public class RSSFeedController
 	@RequestMapping(value = "/createRSSFeed", method = RequestMethod.GET)
 	public ModelAndView showCreateRssFeed(HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAndView mav = new ModelAndView("createRSSFeed");
+		ModelAndView mav = new ModelAndView("/resources/jsp/createRSSFeed.jsp");
 		return mav;
 	}
 	
@@ -64,7 +64,7 @@ public class RSSFeedController
 		rssWriter.write();
 		
 		//TODO a different view should go here
-		ModelAndView mav = new ModelAndView("Message");
+		ModelAndView mav = new ModelAndView("/resources/jsp/Message.jsp");
 		mav.addObject("message", message);
 		return mav;
 	}

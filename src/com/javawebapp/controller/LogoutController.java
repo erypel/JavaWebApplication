@@ -59,7 +59,7 @@ public class LogoutController
 		}
 		
 		logger.log(Level.INFO, "Successfully logged out User=" + user);
-		ModelAndView mav = new ModelAndView("login");
+		ModelAndView mav = new ModelAndView("/resources/jsp/login.jsp");
 		mav.addObject("login", new Login());
 		return mav;
 	}
