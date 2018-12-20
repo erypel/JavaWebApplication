@@ -6,21 +6,21 @@
 }
 
 /* unvisited link */
-a:link {
+#navigation a:link {
   color: white;
 }
 
 /* visited link */
-a:visited {
+#navigation a:visited {
   color: white;
 }
 
 /* mouse over link */
-a:hover {
+#navigation a:hover {
   color: hotpink;
 }
 
 /* selected link */
-a:active {
+#navigation a:active {
   color: white;
 }
