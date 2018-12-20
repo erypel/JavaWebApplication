@@ -7,6 +7,7 @@
     </head>
     <body>
     	<jsp:include page="header.jsp" />
+    	<script src="${pageContext.request.contextPath}/resources/js/test.js"></script>
     	<%
 			//only allow access if session exists
 			String user = (String) session.getAttribute("user");
@@ -33,6 +34,7 @@
 				sessionID = session.getId();
 			}
 		%>
+		<input type="button" onclick="doSomething()" value="Click Me" />
         <table>
             <tr>
                 <td>Welcome ${user}. Your session ID is <%=sessionID%></td>
