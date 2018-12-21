@@ -3,6 +3,8 @@ package com.javawebapp.servlet.session;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -95,9 +97,13 @@ public class FileUploadDBServlet extends HttpServlet
 			}
 			// set message in request scope
 			request.setAttribute("message", message);
+
+			//For debugging
+			ServletContext c = getServletContext();
+			String s = c.getContextPath();
 			
 			// forwards to the message page
-			getServletContext().getRequestDispatcher("/jsps/Message.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/message.jsp").forward(request, response);
 		}
 	}
 }

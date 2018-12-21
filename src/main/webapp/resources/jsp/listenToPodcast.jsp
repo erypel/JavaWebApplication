@@ -1,56 +1,78 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="com.javawebapp.model.Podcast" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Listen</title>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="resources/css/audioPlayer.css"
+	type="text/css">
+<script type="text/javascript" src="resources/bower_components/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="resources/bower_components/jPlayer/dist/jplayer/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="resources/js/audioPlayer.js"></script>
 </head>
 <body>
-	<jsp:include page="header.jsp" />
-	<%
-		//only allow access if session exists
-		String user = (String) session.getAttribute("user");
-		long userId = Long.valueOf((String) session.getAttribute("userId"));
-		String userName = null;
-		String sessionID = null;
-		String privateKey = null;
-		String publicKey = null;
-		Cookie[] cookies = request.getCookies();
-		if(cookies != null)
-		{
-			for(Cookie cookie : cookies)
-			{
-				if(cookie.getName().equals("user"))
-					userName = cookie.getValue();
-				if(cookie.getName().equals("userId"))
-					userId = Long.valueOf(cookie.getValue());
-				if(cookie.getName().equals("JSESSIONID"))
-					sessionID = cookie.getValue();
-			}
-		}
-		else
-		{
-			sessionID = session.getId();
-		}
-	%>
-	
-	<!-- below is still a WIP -->
-	
-	<h1>Welcome ${user}. Your session ID is <%=sessionID%></h1>
-	<h1>path is ${request.contextPath} </h1>
-	<a href="./src/main/webapp/WEB-INF/lib/tomcat7/webapps/">Folder</a>
-	<!-- need to use Tomcat here. theres somewhere where you can store files. test with Chrome-->
-	<audio controls>
-    	<source src="/JavaWebApplication/WebContent/uploads/testWav.wav" type="audio/wav">
-	</audio>
-	<!--<embed src="/JavaWebApplication/WebContent/uploads/testWav.wav" showcontrols="true" width="425" height="350"></embed>-->
-	<br>
-	<div id="waveform"></div>
-	<script src="https://unpkg.com/wavesurfer.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/test.js"></script>
-			
-	<a href="podcast.action">Return to list</a>
+<div id="header">
+		<div>
+			<ul id="navigation">
+				<li><a href="home.action">Home</a></li>
+				<li><a href="podcast.action">Podcasts</a></li>
+				<li><a href="logout.action">Log Out</a></li>
+				<li><a href="createRSSFeed.action">Create RSS Feed</a></li>
+				<li><a href="navigateToUploadPodcast.action">Upload</a></li>
+			</ul>
+		</div>
+	</div>
+	<h1>TESTING</h1>
+	<div id="jquery_jplayer_1" class="jp-jplayer" filePath="${episodePath}"></div>
+
+	<div id="jp_container_1" class="jp-audio">
+		<div class="jp-type-single">
+
+			<div class="jp-title">
+				<ul>
+					<li><p>Episode Name: ${episodeName}</p></li>
+					<li><p>Path: ${episodePath}</p></li>
+				</ul>
+			</div>
+
+			<div class="jp-gui jp-interface">
+
+				<ul class="jp-controls">
+					<li><a href="javascript:;" class="jp-play" tabindex="1">&#61515;</a></li>
+					<li><a href="javascript:;" class="jp-pause" tabindex="1">&#61516;</a></li>
+					<li><a href="javascript:;" class="jp-mute" tabindex="1"
+						title="mute">&#61480;</a></li>
+					<li><a href="javascript:;" class="jp-unmute" tabindex="1"
+						title="unmute">&#61478;</a></li>
+				</ul>
+
+				<div class="jp-progress">
+					<div class="jp-seek-bar">
+						<div class="jp-play-bar"></div>
+					</div>
+				</div>
+
+				<div class="jp-time-holder">
+					<div class="jp-current-time"></div>
+				</div>
+
+				<div class="jp-volume-bar">
+					<div class="jp-volume-bar-value"></div>
+				</div>
+
+				<div class="jp-no-solution">
+					<span>Update Required</span> To play the media you will need to
+					either update your browser to a recent version or update your <a
+						href="http://get.adobe.com/flashplayer/" target="_blank">Flash
+						plugin</a>.
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -35,12 +35,6 @@
         <url-pattern>*.action</url-pattern>
     </servlet-mapping>
     
-    <!-- MIME mappings for audio -->
-    <mime-mapping>
-    	<extension>wav</extension>
-    	<mime-type>audio/x-wav</mime-type>
-	</mime-mapping>
-    
 	<!-- filters -->
 	<filter>
 		<filter-name>RequestLoggingFilter</filter-name> <!-- mandatory -->

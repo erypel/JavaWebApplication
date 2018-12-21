@@ -74,11 +74,16 @@ public class PodcastService
 	}
 	
 	//TODO refactor a little better
+	/**
+	 * this method builds the file path on the server (locally for now)
+	 * @param episodeName
+	 * @return
+	 */
 	public String constructPodcastPath(String episodeName)
 	{
-		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\uploads\\";
+		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\src\\main\\webapp\\audio\\";
 		// TODO check for uniqueness and save as an appropriate file
-		File file = new File(basePath + episodeName + ".wav");
+		File file = new File(basePath + episodeName + ".mp3");
 		file.getParentFile().mkdirs();
 		try
 		{
@@ -90,12 +95,15 @@ public class PodcastService
 			e.printStackTrace();
 			// TODO log and handle
 		}
-		return basePath + episodeName + ".wav";
+		return basePath + episodeName + ".mp3";
 	}
 	
+	/**
+	 * This method gets the file location in relation to the webapp
+	 */
 	public String getFilePath(String episodeName)
 	{
-		String basePath = "C:\\Users\\Evan\\workspace\\JavaWebApplication\\uploads\\";
-		return basePath + episodeName + ".wav";
+		String basePath = "audio/";
+		return basePath + episodeName + ".mp3";
 	}
 }
