@@ -41,7 +41,7 @@ public class PodcastController
 		Podcast podcast = podcastService.getPodcast(podcastId);
 		String path = podcast.getPath();
 		//ModelAndView mav = new ModelAndView("listenToPodcast");
-		ModelAndView mav = new ModelAndView("/resources/html/test.html");
+		ModelAndView mav = new ModelAndView("/resources/html/listenToPodcast.html");
 		mav.addObject("path", path);
 		return mav;
 	}
