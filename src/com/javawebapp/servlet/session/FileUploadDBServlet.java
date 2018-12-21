@@ -97,7 +97,7 @@ public class FileUploadDBServlet extends HttpServlet
 			request.setAttribute("message", message);
 			
 			// forwards to the message page
-			getServletContext().getRequestDispatcher("/jsps/Message.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("resources/jsps/Message.jsp").forward(request, response);
 		}
 	}
 }

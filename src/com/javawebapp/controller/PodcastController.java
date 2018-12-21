@@ -39,10 +39,12 @@ public class PodcastController
 	{
 		Long podcastId = Long.parseLong(id);
 		Podcast podcast = podcastService.getPodcast(podcastId);
-		String path = podcast.getPath();
+		//TODO the following line is a bug waiting to happen
+		String path = podcastService.getFilePath(podcast.getEpisodeName());
 		//ModelAndView mav = new ModelAndView("listenToPodcast");
-		ModelAndView mav = new ModelAndView("/resources/html/listenToPodcast.html");
-		mav.addObject("path", path);
+		ModelAndView mav = new ModelAndView("/resources/jsp/listenToPodcast.jsp");
+		mav.addObject("episodePath", path);
+		mav.addObject("episodeName", podcast.getEpisodeName());
 		return mav;
 	}
 }

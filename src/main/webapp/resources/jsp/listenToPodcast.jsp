@@ -1,8 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Listen</title>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
 	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
@@ -12,11 +14,9 @@
 <script type="text/javascript" src="resources/bower_components/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="resources/bower_components/jPlayer/dist/jplayer/jquery.jplayer.min.js"></script>
 <script type="text/javascript" src="resources/js/audioPlayer.js"></script>
-
 </head>
 <body>
-	
-	<div id="header">
+<div id="header">
 		<div>
 			<ul id="navigation">
 				<li><a href="home.action">Home</a></li>
@@ -28,15 +28,15 @@
 		</div>
 	</div>
 	<h1>TESTING</h1>
-
-	<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+	<div id="jquery_jplayer_1" class="jp-jplayer" filePath="${episodePath}"></div>
 
 	<div id="jp_container_1" class="jp-audio">
 		<div class="jp-type-single">
 
 			<div class="jp-title">
 				<ul>
-					<li>TESTING</li>
+					<li><p>Episode Name: ${episodeName}</p></li>
+					<li><p>Path: ${episodePath}</p></li>
 				</ul>
 			</div>
 
