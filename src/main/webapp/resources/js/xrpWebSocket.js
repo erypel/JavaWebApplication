@@ -1,5 +1,7 @@
+// Using https://developers.ripple.com/websocket-api-tool.html#ping
+
 // Web Socket
-let webSocket = new WebSocket("ws://localhost:8080/JavaWebApplication/xrpWebWocketEndpoint");
+let webSocket = new WebSocket("wss://s2.ripple.com:443 ");
 
 // Interact with HTML elements
 let echoText = document.getElementById("echoText");
@@ -18,6 +20,13 @@ webSocket.onerror = function(message){ wsError(message); };
  * when the button echo is clicked, this function is called and 
  * invokes the send method of the web socket class with the value of 
  * the textbox as a parameter. Writes to the textbox.
+ * 
+ * Can test Ripple server with:
+ * 
+	{
+  		"id": 1,
+  		"command": "ping"
+	}
  */
 function wsSendMessage(){
 	webSocket.send(message.value);
@@ -37,7 +46,16 @@ function wsCloseConnection(){
  * area.
  */
 function wsGetMessage(message){
-	echoText.value += "Message received from the server: " + message.date + "\n";
+	echoText.value += "Message received from the server: " + message.data + "\n";
+}
+
+/**
+ * Open the page and write connected
+ * @param message
+ * @returns
+ */
+function wsOpen(message){
+	echoText.value += "Connected ... \n";
 }
 
 /**
