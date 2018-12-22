@@ -7,6 +7,7 @@
 <title>XRP WebSocket Client</title>
 </head>
 <body>
+	<jsp:include page="header.jsp" />
 	<form>
 		<input id="wsMessage" type="text">
 		<input onclick="wsSendMessage();" value="Echo" type="button">
