@@ -30,7 +30,7 @@ public class LoginController
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAndView mav = new ModelAndView("/resources/jsp/login.jsp");
+		ModelAndView mav = new ModelAndView("login");
 		mav.addObject("login", new Login());
 		return mav;
 	}
@@ -53,7 +53,7 @@ public class LoginController
 			if(wallet == null)
 				wallet = walletService.register(user.getId());
 			
-			mav = new ModelAndView("/resources/jsp/welcome.jsp");
+			mav = new ModelAndView("welcome");
 			mav.addObject("firstname", user.getUserName());
 			mav.addObject("walletId", wallet.getWalletId());
 			mav.addObject("publicKey", wallet.getPublicKey());
@@ -69,7 +69,7 @@ public class LoginController
 		}
 		else
 		{
-			mav = new ModelAndView("/resources/jsp/login.jsp");
+			mav = new ModelAndView("login");
 			mav.addObject("message", "Username or Password is wrong!!");
 		}
 		

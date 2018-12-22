@@ -22,14 +22,14 @@ public class PodcastController
 	@RequestMapping(value = "/podcast", method = RequestMethod.GET)
 	public ModelAndView showRegisterPodcastHome(HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAndView mav = new ModelAndView("/resources/jsp/podcast.jsp");
+		ModelAndView mav = new ModelAndView("podcast");
 		return mav;
 	}
 	
 	@RequestMapping(value = "/navigateToUploadPodcast", method = RequestMethod.GET)
 	public ModelAndView showRegisterUploadPodcast(HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAndView mav = new ModelAndView("/resources/jsp/uploadPodcast.jsp");
+		ModelAndView mav = new ModelAndView("uploadPodcast");
 		return mav;
 	}
 	
@@ -42,7 +42,7 @@ public class PodcastController
 		//TODO the following line is a bug waiting to happen
 		String path = podcastService.getFilePath(podcast.getEpisodeName());
 		//ModelAndView mav = new ModelAndView("listenToPodcast");
-		ModelAndView mav = new ModelAndView("/resources/jsp/listenToPodcast.jsp");
+		ModelAndView mav = new ModelAndView("listenToPodcast");
 		mav.addObject("episodePath", path);
 		mav.addObject("episodeName", podcast.getEpisodeName());
 		return mav;
