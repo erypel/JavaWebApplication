@@ -15,6 +15,6 @@
 	</form>
 	<br>
 	<textarea id="echoText" rows="5" cols="30"></textarea>
-	<script type="text/javascript" src="resources/js/xrpWebSocket.js"></script>	
+	<script type="text/javascript" src="resources/js/websocket.js"></script>	
 </body>
 </html>
