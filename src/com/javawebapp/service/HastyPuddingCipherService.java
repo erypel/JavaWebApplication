@@ -17,6 +17,8 @@ import java.math.BigInteger;
 public class HastyPuddingCipherService
 {
 	final static int bitSize = 64;
+	final int NUM_PASSES = 3; // number of passes for stirring function
+	final int NUM_WORDS = 256;
 	
 	// A few internal "random" numbers used in the cipher:
 	// Theoretically, BigInteger provides perfect accuracy
@@ -53,13 +55,13 @@ public class HastyPuddingCipherService
 	public BigInteger[] createKeyExpansionTable(int subCipherNumber, int keyLength, int idx)
 	{
 		// The Key Expansion Table
-		BigInteger KX[] = new BigInteger[256];
+		BigInteger KX[] = new BigInteger[NUM_WORDS + 30]; //256 words with wrap-around
 		
 		// The first 3 words are intialized as so:
 		KX[0] = PI19.add(BigInteger.valueOf(subCipherNumber));
 		KX[1] = E19.multiply(BigInteger.valueOf(keyLength));
 		// TODO should subCipherNumber be the number of bits instead?
-		KX[2] = rotateLeft(R220, subCipherNumber, bitSize);
+		KX[2] = shiftLeft(R220, subCipherNumber, bitSize);
 		
 		/*
 		 * The remaining 253 words of the array are pseudo-randomly filled in with the
@@ -68,12 +70,92 @@ public class HastyPuddingCipherService
 		 * KX[i] = KX[i - 1] + (KX[i-2] XOR (KX[i-3] right shift 23) XOR (KX[i-3] left
 		 * shift 41))
 		 */
-		for(int i = 3; i < KX.length; i++)
+		for(int i = 3; i < NUM_WORDS; i++)
 		{
-			KX[i] = KX[i - 1].add(KX[i - 2].xor(KX[i - 3].shiftRight(23)).xor(rotateLeft(KX[i - 3], 41, bitSize)));
+			KX[i] = KX[i - 1].add(KX[i - 2].xor(KX[i - 3].shiftRight(23)).xor(shiftLeft(KX[i - 3], 41, bitSize)));
 		}
 		
+		// TODO? I don't think we'll ever need this many words
+		/*
+		 * For very long keys: After 128 words of key have been xored into the KX array,
+		 * the Stirring function is run. If there is more key to use, the next 128 words
+		 * are xored into the stirred KX array, starting over at word 0 of KX. (No key
+		 * is ever xored directly into the second half of the KX array, but these bits
+		 * are affected by the stirring function.)
+		 */
+		
+		// pseudo randomize the KX array
+		stir(KX);
+		
+		/*
+		 * finish up key expansion by copying the first 30 words of the array onto
+		 * the end. This allows code that references the KX array to wrap around array
+		 * indexes mod 256 without having to mask the index to the low-order 8 bits.
+		 */
+		for(int i = 0; i < 30; i++)
+		{
+			KX[256 + i] = KX[i];
+		}
+		
+		
 		return KX;
+	}
+	
+	/**
+	 * The purpose of the Stirring function is to pseudo-randomize the KX array,
+	 * allowing each bit to influence every other bit.
+	 * 
+	 * The function does several passes of the KX array, altering every word. The
+	 * default number of passes is 3. The backup feature causes additional passes.
+	 * The number of extra passes is the sum of the global backup variable BACKUP
+	 * and the array entry BACKUPSUBCIPHER[0]. Normally both values are 0.
+	 */
+	public void stir(BigInteger[] KX)
+	{
+		/*
+		 * The stirring function has 8 internal state variables, each an unsigned 64 bit
+		 * word (but that's not how Java works, so we'll cheat a little bit with
+		 * BigInteger). Before the first pass of the KX array, they are intialized from
+		 * the last 8 values in the array.
+		 */
+		BigInteger s0 = KX[248], s1 = KX[249], s2 = KX[250], s3 = KX[251], s4 = KX[252], s5 = KX[253], s6 = KX[254],
+				s7 = KX[255];
+		
+		for(int j = 0; j < NUM_PASSES; j++)
+		{
+			/*
+			 * One pass of the KX array: Each word in the KX array is mixed with the state
+			 * variables, starting with KX[0] and working through KX[255]. Each array word
+			 * is overwritten after mixing. The mising function is deliberately made
+			 * slightly lossy so that the process cannot be run backward to discover the
+			 * pre-stirred KX value, and hence the key.
+			 */
+			for(int i = 0; i < NUM_WORDS; i++)
+			{
+				// Perform the individual word stirring algorithm
+				// BigInteger is immutable so need to reassign values like this:
+				s0 = s0.xor((KX[i].xor(KX[(i + 83) & 255]).add(KX[s0.and(BigInteger.valueOf(255)).intValue()]))); // sometimes																							// lossy
+				s2 = s2.add(KX[i]); // necessary to prevent Wagner equivalent key problem
+				s1 = s1.add(s0);
+				s3 = s3.xor(s2);
+				s5 = s5.subtract(s4);
+				s7 = s7.xor(s6);
+				s3 = s3.add(s0.shiftRight(13));
+				s4 = s4.xor(shiftLeft(s1, 11, bitSize));
+				s5 = s5.xor(shiftLeft(s3, s1.and(BigInteger.valueOf(31)).intValue(), bitSize));
+				s6 = s6.add(s2.shiftRight(17));
+				s7 = s7.or(s3.add(s4)); // lossy
+				s2 = s2.subtract(s5); // cross-link
+				s0 = s0.subtract(s6.xor(BigInteger.valueOf(i)));
+				s1 = s1.xor(s5.add(PI19));
+				s2 = s2.add(s7.shiftRight(j));
+				s2 = s2.xor(s1);
+				s4 = s4.subtract(s3);
+				s6 = s6.xor(s5);
+				s0 = s0.add(s7);
+				KX[i] = s2.add(s6);
+			}
+		}
 	}
 	
 	/**
@@ -84,7 +166,7 @@ public class HastyPuddingCipherService
 	 * @param bitSize
 	 * @return
 	 */
-	public static BigInteger rotateLeft(BigInteger value, int shift, int bitSize)
+	public static BigInteger shiftLeft(BigInteger value, int shift, int bitSize)
 	{
 		BigInteger topBits = value.shiftRight(bitSize - shift);
 		BigInteger mask = BigInteger.ONE.shiftLeft(bitSize).subtract(BigInteger.ONE);
@@ -96,7 +178,7 @@ public class HastyPuddingCipherService
 	{
 		BigInteger val = new BigInteger("14142135623730950488");
 		System.out.println(val.toString(2));
-		BigInteger rotated = rotateLeft(new BigInteger("14142135623730950488"), 10, bitSize);
+		BigInteger rotated = shiftLeft(new BigInteger("14142135623730950488"), 10, bitSize);
 		System.out.println(rotated.toString(2));
 	}
 }
