@@ -55,7 +55,7 @@ public class Wallet implements Serializable
 	 */
 	public Wallet()
 	{
-		//default constructor. not 
+		//default constructor. 
 	}
 	
 	/**
