@@ -29,40 +29,40 @@ public class HastyPuddingCipherService
 	 *	low-order 4 bits, so they were swapped.
 	 */
 	static BigInteger[] permb = new BigInteger[] {
-		BigInteger.valueOf(0xB7E151628AED2A6Al),
-		BigInteger.valueOf(0xBF7158809CF4F3C7l),
-		BigInteger.valueOf(0x62E7160F38B4DA56l),
-		BigInteger.valueOf(0xA784D9045190CFEFl),
-		BigInteger.valueOf(0x324E7738926CFBE5l),
-		BigInteger.valueOf(0xF4BF8D8D8C31D763l),
-		BigInteger.valueOf(0xDA06C80ABB1185EBl),
-		BigInteger.valueOf(0x4F7C7B5757F59584l),
-		BigInteger.valueOf(0x90CFD47D7C19BB42l),
-		BigInteger.valueOf(0x158D9554F7B46BCEl),
-		BigInteger.valueOf(0x8A9A276BCFBFA1C8l),
-		BigInteger.valueOf(0xE5AB6ADD835FD1A0l),
-		BigInteger.valueOf(0x86D1BF275B9B241Dl),
-		BigInteger.valueOf(0xF0D3D37BE67008E1l),
-		BigInteger.valueOf(0x0FF8EC6D31BEB5CCl),
-		BigInteger.valueOf(0xEB64749A47DFDFB9l)
+		BigInteger.valueOf(0xB7E151628AED2A6Al -0),
+		BigInteger.valueOf(0xBF7158809CF4F3C7l -1),
+		BigInteger.valueOf(0x62E7160F38B4DA56l -2),
+		BigInteger.valueOf(0xA784D9045190CFEFl -3),
+		BigInteger.valueOf(0x324E7738926CFBE5l -4),
+		BigInteger.valueOf(0xF4BF8D8D8C31D763l -5),
+		BigInteger.valueOf(0xDA06C80ABB1185EBl -6),
+		BigInteger.valueOf(0x4F7C7B5757F59584l -7),
+		BigInteger.valueOf(0x90CFD47D7C19BB42l -8),
+		BigInteger.valueOf(0x158D9554F7B46BCEl -9),
+		BigInteger.valueOf(0x8A9A276BCFBFA1C8l -10),
+		BigInteger.valueOf(0xE5AB6ADD835FD1A0l -11),
+		BigInteger.valueOf(0x86D1BF275B9B241Dl -12),
+		BigInteger.valueOf(0xF0D3D37BE67008E1l -13),
+		BigInteger.valueOf(0x0FF8EC6D31BEB5CCl -14),
+		BigInteger.valueOf(0xEB64749A47DFDFB9l -15)
 	};
 	static BigInteger[] permbi = new BigInteger[] {
-			BigInteger.valueOf(0xE5AB6ADD835FD1A0l),
-			BigInteger.valueOf(0xF0D3D37BE67008E1l),
-			BigInteger.valueOf(0x90CFD47D7C19BB42l),
-			BigInteger.valueOf(0xF4BF8D8D8C31D763l),
-			BigInteger.valueOf(0x4F7C7B5757F59584l),
-			BigInteger.valueOf(0x324E7738926CFBE5l),
-			BigInteger.valueOf(0x62E7160F38B4DA56l),
-			BigInteger.valueOf(0xBF7158809CF4F3C7l),
-			BigInteger.valueOf(0x8A9A276BCFBFA1C8l),
-			BigInteger.valueOf(0xEB64749A47DFDFB9l),
-			BigInteger.valueOf(0xB7E151628AED2A6Al),
-			BigInteger.valueOf(0xDA06C80ABB1185EBl),
-			BigInteger.valueOf(0x0FF8EC6D31BEB5CCl),
-			BigInteger.valueOf(0x86D1BF275B9B241Dl),
-			BigInteger.valueOf(0x158D9554F7B46BCEl),
-			BigInteger.valueOf(0xA784D9045190CFEFl)
+			BigInteger.valueOf(0xE5AB6ADD835FD1A0l -11),
+			BigInteger.valueOf(0xF0D3D37BE67008E1l -13),
+			BigInteger.valueOf(0x90CFD47D7C19BB42l -8),
+			BigInteger.valueOf(0xF4BF8D8D8C31D763l -5),
+			BigInteger.valueOf(0x4F7C7B5757F59584l -7),
+			BigInteger.valueOf(0x324E7738926CFBE5l -4),
+			BigInteger.valueOf(0x62E7160F38B4DA56l -2),
+			BigInteger.valueOf(0xBF7158809CF4F3C7l -1),
+			BigInteger.valueOf(0x8A9A276BCFBFA1C8l -10),
+			BigInteger.valueOf(0xEB64749A47DFDFB9l -15),
+			BigInteger.valueOf(0xB7E151628AED2A6Al -0),
+			BigInteger.valueOf(0xDA06C80ABB1185EBl -6),
+			BigInteger.valueOf(0x0FF8EC6D31BEB5CCl -14),
+			BigInteger.valueOf(0x86D1BF275B9B241Dl -12),
+			BigInteger.valueOf(0x158D9554F7B46BCEl -9),
+			BigInteger.valueOf(0xA784D9045190CFEFl -3)
 		};
 	
 	//Defaulting to all 0's
@@ -244,7 +244,6 @@ public class HastyPuddingCipherService
 		 */
 		for(int i = 0; i < 8; i++)
 		{
-			System.out.println(s0);
 			BigInteger k = KX[s0.and(BigInteger.valueOf(255)).intValue()].add(spice[i]);
 			k.and(lmask);
 			s0 = s0.add(k.shiftLeft(8)).mod(MOD);
@@ -281,7 +280,7 @@ public class HastyPuddingCipherService
 			s0 = s0.xor(s0.shiftRight(LBQ.intValue()));
 			s0 = s0.and(lmask);
 			int and = s0.and(BigInteger.valueOf(15)).intValue();
-	//		s0 = s0.add(permb[and]).mod(MOD);
+			s0 = s0.add(permb[and]).mod(MOD);
 			s0 = s0.and(lmask);
 			t = spice[(i^2)];
 			s0 = s0.xor(t.shiftRight(GAP.intValue()+4));
@@ -292,7 +291,6 @@ public class HastyPuddingCipherService
 			s0 = s0.and(lmask);
 			s0 = s0.xor(s0.shiftRight(LBH.intValue()));
 			s0 = s0.and(lmask);
-			System.out.println(s0);
 		}
 		return s0;
 	}
@@ -321,7 +319,7 @@ public class HastyPuddingCipherService
 			s0 = s0.xor(t.shiftRight(GAP.intValue()+4));
 			
 			int and = s0.and(BigInteger.valueOf(15)).intValue();
-//			s0 = s0.subtract(permbi[and]).mod(MOD);
+			s0 = s0.subtract(permbi[and]).mod(MOD);
 			
 			//Inverse of s0 = s0.xor(s0.shiftRight(LBQ.intValue())); is this:
 			s0 = s0.xor(s0.shiftRight(LBQ.intValue()));
