@@ -17,9 +17,9 @@ import java.math.BigInteger;
 public class HastyPuddingCipherService
 {
 	final static int bitSize = 64;
-	final int NUM_PASSES = 3; // number of passes for stirring function
-	final int NUM_WORDS = 256;
-	final BigInteger MOD = BigInteger.valueOf(2).pow(64); //applied to all addition, subtraction, multiplication
+	final static int NUM_PASSES = 3; // number of passes for stirring function
+	final static int NUM_WORDS = 256;
+	final static BigInteger MOD = BigInteger.valueOf(2).pow(64); //applied to all addition, subtraction, multiplication
 	
 	/*
 	 * 	Permb was derived from the hex expansion of e (2.718...).  The
@@ -28,7 +28,7 @@ public class HastyPuddingCipherService
 	 *	twelfth and fourteenth entries would have been fixed points for the
 	 *	low-order 4 bits, so they were swapped.
 	 */
-	BigInteger[] permb = new BigInteger[] {
+	static BigInteger[] permb = new BigInteger[] {
 		BigInteger.valueOf(0xB7E151628AED2A6Al),
 		BigInteger.valueOf(0xBF7158809CF4F3C7l),
 		BigInteger.valueOf(0x62E7160F38B4DA56l),
@@ -46,7 +46,7 @@ public class HastyPuddingCipherService
 		BigInteger.valueOf(0x0FF8EC6D31BEB5CCl),
 		BigInteger.valueOf(0xEB64749A47DFDFB9l)
 	};
-	BigInteger[] permbi = new BigInteger[] {
+	static BigInteger[] permbi = new BigInteger[] {
 			BigInteger.valueOf(0xE5AB6ADD835FD1A0l),
 			BigInteger.valueOf(0xF0D3D37BE67008E1l),
 			BigInteger.valueOf(0x90CFD47D7C19BB42l),
@@ -66,7 +66,7 @@ public class HastyPuddingCipherService
 		};
 	
 	//Defaulting to all 0's
-	BigInteger[] spice = new BigInteger[] {
+	static BigInteger[] spice = new BigInteger[] {
 			BigInteger.ZERO,
 			BigInteger.ZERO,
 			BigInteger.ZERO,
@@ -79,9 +79,9 @@ public class HastyPuddingCipherService
 	
 	// A few internal "random" numbers used in the cipher:
 	// Theoretically, BigInteger provides perfect accuracy
-	BigInteger PI19 = new BigInteger("3141592653589793238");
-	BigInteger E19 = new BigInteger("2718281828459045235");
-	BigInteger R220 = new BigInteger("14142135623730950488");
+	static BigInteger PI19 = new BigInteger("3141592653589793238");
+	static BigInteger E19 = new BigInteger("2718281828459045235");
+	static BigInteger R220 = new BigInteger("14142135623730950488");
 	
 	/**
 	 * Key Expansion (KX) Tables
@@ -109,7 +109,7 @@ public class HastyPuddingCipherService
 	 * @param keyLength: the key length in bits (a non-negative integer)
 	 * @param idx: a pointer to an array containing the key bits
 	 */
-	public BigInteger[] createKeyExpansionTable(int subCipherNumber, int keyLength, int idx)
+	public static BigInteger[] createKeyExpansionTable(int subCipherNumber, int keyLength, int idx)
 	{
 		// The Key Expansion Table
 		BigInteger KX[] = new BigInteger[NUM_WORDS + 30]; //256 words with wrap-around
@@ -167,7 +167,7 @@ public class HastyPuddingCipherService
 	 * The number of extra passes is the sum of the global backup variable BACKUP
 	 * and the array entry BACKUPSUBCIPHER[0]. Normally both values are 0.
 	 */
-	public void stir(BigInteger[] KX)
+	public static void stir(BigInteger[] KX)
 	{
 		/*
 		 * The stirring function has 8 internal state variables, each an unsigned 64 bit
@@ -215,7 +215,7 @@ public class HastyPuddingCipherService
 		}
 	}
 	
-	public BigInteger HPCShort(Long plaintextDestTag, BigInteger[] KX)
+	public static BigInteger HPCShort(Long plaintextDestTag, BigInteger[] KX)
 	{
 		int blocksize = 64;
 		
@@ -294,7 +294,7 @@ public class HastyPuddingCipherService
 		return s0;
 	}
 	
-	public long decryptHPCShort(BigInteger s0, BigInteger[] KX)
+	public static long decryptHPCShort(BigInteger s0, BigInteger[] KX)
 	{
 		int blocksize = 64;
 		
@@ -364,5 +364,12 @@ public class HastyPuddingCipherService
 		System.out.println(val.toString(2));
 		BigInteger rotated = shiftLeft(new BigInteger("14142135623730950488"), 10, bitSize);
 		System.out.println(rotated.toString(2));
+		
+		//testing encryption
+		BigInteger[] kx = createKeyExpansionTable(2, 64, 0);
+		BigInteger encrypted = HPCShort(1234567890l, kx);
+		System.out.print("Encrypted value: " + encrypted.toString());
+		Long decrypted = decryptHPCShort(encrypted, kx);
+		System.out.println("Decrypted value: " + decrypted);	
 	}
 }
