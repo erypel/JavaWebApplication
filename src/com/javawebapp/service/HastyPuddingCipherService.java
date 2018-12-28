@@ -244,15 +244,14 @@ public class HastyPuddingCipherService
 		 */
 		for(int i = 0; i < 8; i++)
 		{
+			System.out.println(s0);
 			BigInteger k = KX[s0.and(BigInteger.valueOf(255)).intValue()].add(spice[i]);
 			k.and(lmask);
 			s0 = s0.add(k.shiftLeft(8)).mod(MOD);
 			s0 = s0.and(lmask);
-			BigInteger testing = (k.shiftRight(GAP.intValue())).and(BigInteger.valueOf(~255));
-			s0 = s0.xor(testing);
+			s0 = s0.xor((k.shiftRight(GAP.intValue())).and(BigInteger.valueOf(~255)));
 			s0 = s0.and(lmask);
 			s0 = s0.add(s0.shiftLeft(LBH.intValue() + i)).mod(MOD);
-			
 			s0 = s0.and(lmask);
 			BigInteger t = spice[(i ^ 7)];
 			s0 = s0.xor(t);
@@ -268,8 +267,7 @@ public class HastyPuddingCipherService
 			k = k.and(lmask);
 			s0 = s0.xor(k.shiftLeft(8)).mod(MOD);
 			s0 = s0.and(lmask);
-			BigInteger test = k.shiftRight(GAP.intValue()).and(BigInteger.valueOf(~255));
-			s0 = s0.subtract(test).mod(MOD);
+			s0 = s0.subtract(k.shiftRight(GAP.intValue()).and(BigInteger.valueOf(~255))).mod(MOD);
 			s0 = s0.and(lmask);
 			s0 = s0.subtract(s0.shiftLeft(LBH.intValue())).mod(MOD);
 			s0 = s0.and(lmask);
@@ -283,7 +281,7 @@ public class HastyPuddingCipherService
 			s0 = s0.xor(s0.shiftRight(LBQ.intValue()));
 			s0 = s0.and(lmask);
 			int and = s0.and(BigInteger.valueOf(15)).intValue();
-			s0 = s0.add(permb[and]).mod(MOD);
+	//		s0 = s0.add(permb[and]).mod(MOD);
 			s0 = s0.and(lmask);
 			t = spice[(i^2)];
 			s0 = s0.xor(t.shiftRight(GAP.intValue()+4));
@@ -294,6 +292,7 @@ public class HastyPuddingCipherService
 			s0 = s0.and(lmask);
 			s0 = s0.xor(s0.shiftRight(LBH.intValue()));
 			s0 = s0.and(lmask);
+			System.out.println(s0);
 		}
 		return s0;
 	}
@@ -321,8 +320,8 @@ public class HastyPuddingCipherService
 			t = spice[(i^2)];
 			s0 = s0.xor(t.shiftRight(GAP.intValue()+4));
 			
-			int and = 13;//s0.and(BigInteger.valueOf(15)).intValue();
-			s0 = s0.subtract(permbi[and]).mod(MOD);
+			int and = s0.and(BigInteger.valueOf(15)).intValue();
+//			s0 = s0.subtract(permbi[and]).mod(MOD);
 			
 			//Inverse of s0 = s0.xor(s0.shiftRight(LBQ.intValue())); is this:
 			s0 = s0.xor(s0.shiftRight(LBQ.intValue()));
@@ -337,21 +336,22 @@ public class HastyPuddingCipherService
 			BigInteger k = KX[t.intValue()];
 			k = k.xor(spice[(i ^ 4)]);
 			k = KX[t.intValue()+3*i+1].add(k.shiftRight(23)).add(k.shiftLeft(41)).mod(MOD);
-			BigInteger test = k.shiftRight(GAP.intValue()).and(BigInteger.valueOf(~255));
-			s0 = s0.add(test).mod(MOD);
+			s0 = s0.add(k.shiftRight(GAP.intValue()).and(BigInteger.valueOf(~255))).mod(MOD);
 			s0 = s0.xor(k.shiftLeft(8)).mod(MOD);
+			t = spice[(i ^ 7)];
 			s0 = s0.xor(s0.shiftRight(LBH.intValue()));;
 			s0 = s0.subtract(t.shiftRight(13));
 			s0 = s0.add(t.shiftRight(GAP.intValue()+i));
-			t = spice[i^7];
 			s0 = s0.xor(t);
 			s0 = s0.subtract(s0.shiftLeft(LBH.intValue() + i)).mod(MOD);
 			k = KX[s0.and(BigInteger.valueOf(255)).intValue()].add(spice[i]);
 			s0 = s0.xor((k.shiftRight(GAP.intValue())).and(BigInteger.valueOf(~255)));
 			s0 = s0.subtract(k.shiftLeft(8)).mod(MOD);
 			//s0.and(BigInteger.valueOf(0xffffffffffffffffl));
-			//BigInteger k = KX[s0.and(BigInteger.valueOf(255)).intValue()]; //+ spice[i]
 		}
+		
+		s0 = s0.subtract(KX[blocksize]).mod(MOD);
+		
 		return s0.longValue();
 	}
 	
@@ -384,6 +384,6 @@ public class HastyPuddingCipherService
 		BigInteger encrypted = HPCShort(1234567890l, kx);
 		System.out.print("Encrypted value: " + encrypted.toString());
 		Long decrypted = decryptHPCShort(encrypted, kx);
-		System.out.println("Decrypted value: " + decrypted);	
+		System.out.println(" Decrypted value: " + decrypted);	
 	}
 }
