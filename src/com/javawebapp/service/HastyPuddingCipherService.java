@@ -262,15 +262,16 @@ public class HastyPuddingCipherService
 			k = KX[t.intValue()];
 			k = k.xor(spice[(i ^ 4)]);
 			k.and(lmask);
-			k = KX[t.intValue()+3*i+1].add(k.shiftRight(23)).add(k.shiftLeft(41));
+			
+			k = KX[t.intValue()+3*i+1].add(k.shiftRight(23)).add(k.shiftLeft(41)).mod(MOD);
 			k = k.and(lmask);
 			s0 = s0.xor(k.shiftLeft(8));
 			s0 = s0.and(lmask);
 			s0 = s0.subtract(k.shiftRight(GAP.intValue()).and(BigInteger.valueOf(~255))).mod(MOD);
 			s0 = s0.and(lmask);
-			s0 = s0.subtract(s0.shiftLeft(LBH.intValue()));
+			s0 = s0.subtract(s0.shiftLeft(LBH.intValue())).mod(MOD);
 			s0 = s0.and(lmask);
-			t = spice[(i ^ 1)].xor(PI19.add(BigInteger.valueOf(blocksize)));
+			t = spice[(i ^ 1)].xor(PI19.add(BigInteger.valueOf(blocksize)).mod(MOD));
 			s0 = s0.add(t.shiftLeft(3)).mod(MOD);
 			s0 = s0.and(lmask);
 			s0 = s0.xor(t.shiftRight(GAP.intValue()+2));
@@ -279,7 +280,8 @@ public class HastyPuddingCipherService
 			s0 = s0.and(lmask);
 			s0 = s0.xor(s0.shiftRight(LBQ.intValue()));
 			s0 = s0.and(lmask);
-			s0 = s0.add(permb[s0.and(BigInteger.valueOf(15)).intValue()]).mod(MOD);
+			int and = s0.and(BigInteger.valueOf(15)).intValue();
+			s0 = s0.add(permb[and]).mod(MOD);
 			s0 = s0.and(lmask);
 			t = spice[(i^2)];
 			s0 = s0.xor(t.shiftRight(GAP.intValue()+4));
@@ -306,22 +308,37 @@ public class HastyPuddingCipherService
 		
 		for(int i = 7; i >= 0; i--)
 		{
-			s0 = s0.xor(s0.shiftLeft(LBH.intValue()));
+			s0 = s0.xor(s0.shiftRight(LBH.intValue()));
 			BigInteger t = spice[(i^2)];
 			s0 = s0.subtract(t).mod(MOD);
+			
+			// Inverse of s0 = s0.add(s0.shiftLeft(LBT.intValue() + s0.and(BigInteger.valueOf(15)).intValue())).mod(MOD);
 			t = LBT.add(s0.and(BigInteger.valueOf(15)));
-			s0 = s0.subtract(s0.subtract(s0.shiftLeft(t.intValue())).shiftLeft(t.intValue()));
-			s0 = s0.xor(t.shiftLeft(GAP.intValue()+4));
-			s0 = s0.subtract(permbi[s0.and(BigInteger.valueOf(15)).intValue()]).mod(MOD);
+			s0 = s0.subtract(s0.subtract(s0.shiftLeft(t.intValue())).shiftLeft(t.intValue())).mod(MOD);
+			
+			t = spice[(i^2)];
+			s0 = s0.xor(t.shiftRight(GAP.intValue()+4));
+			
+			int and = 13;//s0.and(BigInteger.valueOf(15)).intValue();
+			s0 = s0.subtract(permbi[and]).mod(MOD);
+			
+			//Inverse of s0 = s0.xor(s0.shiftRight(LBQ.intValue())); is this:
 			s0 = s0.xor(s0.shiftRight(LBQ.intValue()));
 			s0 = s0.xor(s0.shiftRight(LBQ.multiply(BigInteger.valueOf(2)).intValue()));
+			
+			t = spice[(i ^ 1)].xor(PI19.add(BigInteger.valueOf(blocksize)).mod(MOD));
 			s0 = s0.add(t).mod(MOD);
-			s0 = s0.xor(t.shiftLeft(GAP.intValue()+2));
-			s0 = s0.add(t.shiftRight(3)).mod(MOD);
-			t = spice[i^1].xor((PI19.add(BigInteger.valueOf(blocksize))));
-			s0 = s0.add(s0.shiftRight(LBH.intValue()));
+			s0 = s0.xor(t.shiftRight(GAP.intValue()+2));
+			s0 = s0.subtract(t.shiftLeft(3)).mod(MOD);
+			s0 = s0.add(s0.shiftLeft(LBH.intValue())).mod(MOD);
+			
+			
+			//TODO start debugging from here
+			t = spice[(i ^ 7)];
+			t = s0.and(BigInteger.valueOf(255));
+			
 			BigInteger k = KX[t.intValue()+3*i+1];
-			k = k.subtract(k.shiftLeft(23)).subtract(k.shiftRight(41));
+			k = k.subtract(k.shiftLeft(23)).subtract(k.shiftRight(41)).mod(MOD);
 			s0 = s0.subtract(k.shiftLeft(GAP.intValue()).and(BigInteger.valueOf(255))).mod(MOD);
 			s0 = s0.xor(k.shiftRight(8));
 			k = k.xor(spice[i^4]);
