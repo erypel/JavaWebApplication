@@ -248,9 +248,11 @@ public class HastyPuddingCipherService
 			k.and(lmask);
 			s0 = s0.add(k.shiftLeft(8)).mod(MOD);
 			s0 = s0.and(lmask);
-			s0 = s0.xor((k.shiftRight(GAP.intValue())).and(BigInteger.valueOf(~255)));
+			BigInteger testing = (k.shiftRight(GAP.intValue())).and(BigInteger.valueOf(~255));
+			s0 = s0.xor(testing);
 			s0 = s0.and(lmask);
 			s0 = s0.add(s0.shiftLeft(LBH.intValue() + i)).mod(MOD);
+			
 			s0 = s0.and(lmask);
 			BigInteger t = spice[(i ^ 7)];
 			s0 = s0.xor(t);
@@ -262,12 +264,12 @@ public class HastyPuddingCipherService
 			k = KX[t.intValue()];
 			k = k.xor(spice[(i ^ 4)]);
 			k.and(lmask);
-			
 			k = KX[t.intValue()+3*i+1].add(k.shiftRight(23)).add(k.shiftLeft(41)).mod(MOD);
 			k = k.and(lmask);
-			s0 = s0.xor(k.shiftLeft(8));
+			s0 = s0.xor(k.shiftLeft(8)).mod(MOD);
 			s0 = s0.and(lmask);
-			s0 = s0.subtract(k.shiftRight(GAP.intValue()).and(BigInteger.valueOf(~255))).mod(MOD);
+			BigInteger test = k.shiftRight(GAP.intValue()).and(BigInteger.valueOf(~255));
+			s0 = s0.subtract(test).mod(MOD);
 			s0 = s0.and(lmask);
 			s0 = s0.subtract(s0.shiftLeft(LBH.intValue())).mod(MOD);
 			s0 = s0.and(lmask);
@@ -331,28 +333,23 @@ public class HastyPuddingCipherService
 			s0 = s0.xor(t.shiftRight(GAP.intValue()+2));
 			s0 = s0.subtract(t.shiftLeft(3)).mod(MOD);
 			s0 = s0.add(s0.shiftLeft(LBH.intValue())).mod(MOD);
-			
-			
-			//TODO start debugging from here
-			t = spice[(i ^ 7)];
 			t = s0.and(BigInteger.valueOf(255));
-			
-			BigInteger k = KX[t.intValue()+3*i+1];
-			k = k.subtract(k.shiftLeft(23)).subtract(k.shiftRight(41)).mod(MOD);
-			s0 = s0.subtract(k.shiftLeft(GAP.intValue()).and(BigInteger.valueOf(255))).mod(MOD);
-			s0 = s0.xor(k.shiftRight(8));
-			k = k.xor(spice[i^4]);
-			t = s0.and(BigInteger.valueOf(255));
-			k = KX[t.intValue()];
-			s0 = s0.xor(s0.shiftLeft(LBH.intValue()));
-			s0 = s0.subtract(t.shiftLeft(13));
-			s0 = s0.add(t.shiftLeft(GAP.intValue()+i));
-			s0 = s0.xor(t);
+			BigInteger k = KX[t.intValue()];
+			k = k.xor(spice[(i ^ 4)]);
+			k = KX[t.intValue()+3*i+1].add(k.shiftRight(23)).add(k.shiftLeft(41)).mod(MOD);
+			BigInteger test = k.shiftRight(GAP.intValue()).and(BigInteger.valueOf(~255));
+			s0 = s0.add(test).mod(MOD);
+			s0 = s0.xor(k.shiftLeft(8)).mod(MOD);
+			s0 = s0.xor(s0.shiftRight(LBH.intValue()));;
+			s0 = s0.subtract(t.shiftRight(13));
+			s0 = s0.add(t.shiftRight(GAP.intValue()+i));
 			t = spice[i^7];
-			s0 = s0.subtract(s0.shiftRight(LBH.intValue() + i)).mod(MOD);
-			s0 = s0.xor((k.shiftLeft(GAP.intValue())).and(BigInteger.valueOf(~255)));
-			s0 = s0.subtract(k.shiftRight(8)).mod(MOD);
-			s0.and(BigInteger.valueOf(0xffffffffffffffffl));
+			s0 = s0.xor(t);
+			s0 = s0.subtract(s0.shiftLeft(LBH.intValue() + i)).mod(MOD);
+			k = KX[s0.and(BigInteger.valueOf(255)).intValue()].add(spice[i]);
+			s0 = s0.xor((k.shiftRight(GAP.intValue())).and(BigInteger.valueOf(~255)));
+			s0 = s0.subtract(k.shiftLeft(8)).mod(MOD);
+			//s0.and(BigInteger.valueOf(0xffffffffffffffffl));
 			//BigInteger k = KX[s0.and(BigInteger.valueOf(255)).intValue()]; //+ spice[i]
 		}
 		return s0.longValue();
