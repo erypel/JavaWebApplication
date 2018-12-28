@@ -65,6 +65,18 @@ public class HastyPuddingCipherService
 			BigInteger.valueOf(0xA784D9045190CFEFl)
 		};
 	
+	//Defaulting to all 0's
+	BigInteger[] spice = new BigInteger[] {
+			BigInteger.ZERO,
+			BigInteger.ZERO,
+			BigInteger.ZERO,
+			BigInteger.ZERO,
+			BigInteger.ZERO,
+			BigInteger.ZERO,
+			BigInteger.ZERO,
+			BigInteger.ZERO
+	};
+	
 	// A few internal "random" numbers used in the cipher:
 	// Theoretically, BigInteger provides perfect accuracy
 	BigInteger PI19 = new BigInteger("3141592653589793238");
@@ -232,7 +244,7 @@ public class HastyPuddingCipherService
 		 */
 		for(int i = 0; i < 8; i++)
 		{
-			BigInteger k = KX[s0.and(BigInteger.valueOf(255)).intValue()]; //+ spice[i]
+			BigInteger k = KX[s0.and(BigInteger.valueOf(255)).intValue()].add(spice[i]);
 			k.and(lmask);
 			s0 = s0.add(k.shiftLeft(8)).mod(MOD);
 			s0 = s0.and(lmask);
@@ -240,15 +252,15 @@ public class HastyPuddingCipherService
 			s0 = s0.and(lmask);
 			s0 = s0.add(s0.shiftLeft(LBH.intValue() + i)).mod(MOD);
 			s0 = s0.and(lmask);
-			//  t = spice[i^7]
-			// s0 ^= t
-			// s0 -= t>>(GAP+i)
-			// s0 += t>>13
+			BigInteger t = spice[(i ^ 7)];
+			s0 = s0.xor(t);
+			s0 = s0.subtract(t.shiftRight(GAP.intValue() + i)).mod(MOD);
+			s0 = s0.add(t.shiftRight(13)).mod(MOD);
 			s0 = s0.xor(s0.shiftRight(LBH.intValue()));
 			s0 = s0.and(lmask);
-			BigInteger t = s0.and(BigInteger.valueOf(255));
+			t = s0.and(BigInteger.valueOf(255));
 			k = KX[t.intValue()];
-			//k ^= spice[i^4]
+			k = k.xor(spice[(i ^ 4)]);
 			k.and(lmask);
 			k = KX[t.intValue()+3*i+1].add(k.shiftRight(23)).add(k.shiftLeft(41));
 			k = k.and(lmask);
@@ -258,7 +270,7 @@ public class HastyPuddingCipherService
 			s0 = s0.and(lmask);
 			s0 = s0.subtract(s0.shiftLeft(LBH.intValue()));
 			s0 = s0.and(lmask);
-			//t = spice[i^1] ^ (PI19+blocksize)
+			t = spice[(i ^ 1)].xor(PI19.add(BigInteger.valueOf(blocksize)));
 			s0 = s0.add(t.shiftLeft(3)).mod(MOD);
 			s0 = s0.and(lmask);
 			s0 = s0.xor(t.shiftRight(GAP.intValue()+2));
@@ -269,7 +281,7 @@ public class HastyPuddingCipherService
 			s0 = s0.and(lmask);
 			s0 = s0.add(permb[s0.and(BigInteger.valueOf(15)).intValue()]).mod(MOD);
 			s0 = s0.and(lmask);
-			//t = spice[i^2]
+			t = spice[(i^2)];
 			s0 = s0.xor(t.shiftRight(GAP.intValue()+4));
 			s0 = s0.and(lmask);
 			s0 = s0.add(s0.shiftLeft(LBT.intValue() + s0.and(BigInteger.valueOf(15)).intValue())).mod(MOD);
@@ -294,53 +306,39 @@ public class HastyPuddingCipherService
 		
 		for(int i = 7; i >= 0; i--)
 		{
-			s0 = s0.and(lmask);
-			s0 = s0.xor(s0.shiftRight(LBH.intValue()));
-			s0 = s0.and(lmask);
-			s0 = s0.add(t).mod(MOD);
-			s0 = s0.and(lmask);
-			s0 = s0.add(s0.shiftLeft(LBT.intValue() + s0.and(BigInteger.valueOf(15)).intValue())).mod(MOD);
-			s0 = s0.and(lmask);
-			s0 = s0.xor(t.shiftRight(GAP.intValue()+4));
-			//t = spice[i^2]
-			s0 = s0.and(lmask);
-			s0 = s0.add(permb[s0.and(BigInteger.valueOf(15)).intValue()]).mod(MOD);
-			s0 = s0.and(lmask);
-			s0 = s0.xor(s0.shiftRight(LBQ.intValue()));
-			s0 = s0.and(lmask);
+			s0 = s0.xor(s0.shiftLeft(LBH.intValue()));
+			BigInteger t = spice[(i^2)];
 			s0 = s0.subtract(t).mod(MOD);
-			s0 = s0.and(lmask);
-			s0 = s0.xor(t.shiftRight(GAP.intValue()+2));
-			s0 = s0.and(lmask);
-			s0 = s0.add(t.shiftLeft(3)).mod(MOD);
-			//t = spice[i^1] ^ (PI19+blocksize)
-			s0 = s0.and(lmask);
-			s0 = s0.subtract(s0.shiftLeft(LBH.intValue()));
-			s0 = s0.and(lmask);
-			s0 = s0.subtract(k.shiftRight(GAP.intValue()).and(BigInteger.valueOf(~255))).mod(MOD);
-			s0 = s0.and(lmask);
-			s0 = s0.xor(k.shiftLeft(8));
-			k = k.and(lmask);
-			k = KX[t.intValue()+3*i+1].add(k.shiftRight(23)).add(k.shiftLeft(41));
-			k.and(lmask);
-			//k ^= spice[i^4]
+			t = LBT.add(s0.and(BigInteger.valueOf(15)));
+			s0 = s0.subtract(s0.subtract(s0.shiftLeft(t.intValue())).shiftLeft(t.intValue()));
+			s0 = s0.xor(t.shiftLeft(GAP.intValue()+4));
+			s0 = s0.subtract(permbi[s0.and(BigInteger.valueOf(15)).intValue()]).mod(MOD);
+			s0 = s0.xor(s0.shiftRight(LBQ.intValue()));
+			s0 = s0.xor(s0.shiftRight(LBQ.multiply(BigInteger.valueOf(2)).intValue()));
+			s0 = s0.add(t).mod(MOD);
+			s0 = s0.xor(t.shiftLeft(GAP.intValue()+2));
+			s0 = s0.add(t.shiftRight(3)).mod(MOD);
+			t = spice[i^1].xor((PI19.add(BigInteger.valueOf(blocksize))));
+			s0 = s0.add(s0.shiftRight(LBH.intValue()));
+			BigInteger k = KX[t.intValue()+3*i+1];
+			k = k.subtract(k.shiftLeft(23)).subtract(k.shiftRight(41));
+			s0 = s0.subtract(k.shiftLeft(GAP.intValue()).and(BigInteger.valueOf(255))).mod(MOD);
+			s0 = s0.xor(k.shiftRight(8));
+			k = k.xor(spice[i^4]);
+			t = s0.and(BigInteger.valueOf(255));
 			k = KX[t.intValue()];
-			BigInteger t = s0.and(BigInteger.valueOf(255));
-			s0 = s0.and(lmask);
-			s0 = s0.xor(s0.shiftRight(LBH.intValue()));
-			// s0 += t>>13
-			// s0 -= t>>(GAP+i)
-			// s0 ^= t
-			//  t = spice[i^7]
-			s0 = s0.and(lmask);
-			s0 = s0.add(s0.shiftLeft(LBH.intValue() + i)).mod(MOD);
-			s0 = s0.and(lmask);
-			s0 = s0.xor((k.shiftRight(GAP.intValue())).and(BigInteger.valueOf(~255)));
-			s0 = s0.and(lmask);
-			s0 = s0.add(k.shiftLeft(8)).mod(MOD);
-			k.and(lmask);
-			BigInteger k = KX[s0.and(BigInteger.valueOf(255)).intValue()]; //+ spice[i]
+			s0 = s0.xor(s0.shiftLeft(LBH.intValue()));
+			s0 = s0.subtract(t.shiftLeft(13));
+			s0 = s0.add(t.shiftLeft(GAP.intValue()+i));
+			s0 = s0.xor(t);
+			t = spice[i^7];
+			s0 = s0.subtract(s0.shiftRight(LBH.intValue() + i)).mod(MOD);
+			s0 = s0.xor((k.shiftLeft(GAP.intValue())).and(BigInteger.valueOf(~255)));
+			s0 = s0.subtract(k.shiftRight(8)).mod(MOD);
+			s0.and(BigInteger.valueOf(0xffffffffffffffffl));
+			//BigInteger k = KX[s0.and(BigInteger.valueOf(255)).intValue()]; //+ spice[i]
 		}
+		return s0.longValue();
 	}
 	
 	
