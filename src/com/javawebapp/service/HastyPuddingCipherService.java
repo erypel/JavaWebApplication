@@ -16,10 +16,17 @@ import java.math.BigInteger;
  */
 public class HastyPuddingCipherService
 {
-	final static int bitSize = 64;
+	// a few helpful variables
+	final static int blocksize = 64;
 	final static int NUM_PASSES = 3; // number of passes for stirring function
 	final static int NUM_WORDS = 256;
 	final static BigInteger MOD = BigInteger.valueOf(2).pow(64); //applied to all addition, subtraction, multiplication
+	
+	// A few internal "random" numbers used in the cipher:
+	// Theoretically, BigInteger provides perfect accuracy
+	final static BigInteger PI19 = new BigInteger("3141592653589793238");
+	final static BigInteger E19 = new BigInteger("2718281828459045235");
+	final static BigInteger R220 = new BigInteger("14142135623730950488");
 	
 	/*
 	 * 	Permb was derived from the hex expansion of e (2.718...).  The
@@ -77,12 +84,6 @@ public class HastyPuddingCipherService
 			BigInteger.ZERO
 	};
 	
-	// A few internal "random" numbers used in the cipher:
-	// Theoretically, BigInteger provides perfect accuracy
-	static BigInteger PI19 = new BigInteger("3141592653589793238");
-	static BigInteger E19 = new BigInteger("2718281828459045235");
-	static BigInteger R220 = new BigInteger("14142135623730950488");
-	
 	/**
 	 * Key Expansion (KX) Tables
 	 *
@@ -101,15 +102,18 @@ public class HastyPuddingCipherService
 	 * @param subCipherNumber: the sub-cipher number (from 1 to 5, 1 is HPC-Tiny)
 	 *        Hasty Pudding consists of 5 different sub-ciphers. The blocksize
 	 *        controls which sub-cipher is used. Each sub-cipher uses its own key
-	 *        expansion (KX) table, derived from the key.
+	 *        expansion (KX) table, derived from the key. FOR NOW ONLY 2 SHOULD EVER
+	 *        BE USED!!!
 	 *
 	 *
-	 *        HPC-Tiny 0 - 35 bits HPC-Short 36 - 64 bits HPC-Medium 65 - 128 bits
-	 *        HPC-Long 129 - 512 bits HPC-Extended 513+ bits
+	 *        1 HPC-Tiny 0 - 35 bits 
+	 *        2 HPC-Short 36 - 64 bits 
+	 *        3 HPC-Medium 65 - 128 bits
+	 *        4 HPC-Long 129 - 512 bits 
+	 *        5 HPC-Extended 513+ bits
 	 * @param keyLength: the key length in bits (a non-negative integer)
-	 * @param idx: a pointer to an array containing the key bits
 	 */
-	public static BigInteger[] createKeyExpansionTable(int subCipherNumber, int keyLength, int idx)
+	public static BigInteger[] createKeyExpansionTable(int subCipherNumber, int keyLength)
 	{
 		// The Key Expansion Table
 		BigInteger KX[] = new BigInteger[NUM_WORDS + 30]; //256 words with wrap-around
@@ -118,7 +122,7 @@ public class HastyPuddingCipherService
 		KX[0] = PI19.add(BigInteger.valueOf(subCipherNumber)).mod(MOD);
 		KX[1] = E19.multiply(BigInteger.valueOf(keyLength)).mod(MOD);
 		// TODO should subCipherNumber be the number of bits instead?
-		KX[2] = shiftLeft(R220, subCipherNumber, bitSize);
+		KX[2] = shiftLeft(R220, subCipherNumber, blocksize);
 		
 		/*
 		 * The remaining 253 words of the array are pseudo-randomly filled in with the
@@ -129,7 +133,7 @@ public class HastyPuddingCipherService
 		 */
 		for(int i = 3; i < NUM_WORDS; i++)
 		{
-			KX[i] = KX[i - 1].add(KX[i - 2].xor(KX[i - 3].shiftRight(23)).xor(shiftLeft(KX[i - 3], 41, bitSize))).mod(MOD);
+			KX[i] = KX[i - 1].add(KX[i - 2].xor(KX[i - 3].shiftRight(23)).xor(shiftLeft(KX[i - 3], 41, blocksize))).mod(MOD);
 		}
 		
 		// TODO? I don't think we'll ever need this many words
@@ -154,7 +158,6 @@ public class HastyPuddingCipherService
 			KX[256 + i] = KX[i];
 		}
 		
-		
 		return KX;
 	}
 	
@@ -163,9 +166,12 @@ public class HastyPuddingCipherService
 	 * allowing each bit to influence every other bit.
 	 * 
 	 * The function does several passes of the KX array, altering every word. The
-	 * default number of passes is 3. The backup feature causes additional passes.
+	 * default number of passes is 3. 
+	 * 
+	 * Yet to be implemented is the backup feature causing additional passes.
 	 * The number of extra passes is the sum of the global backup variable BACKUP
-	 * and the array entry BACKUPSUBCIPHER[0]. Normally both values are 0.
+	 * and the array entry BACKUPSUBCIPHER[0]. Normally both values are 0. As of 
+	 * right now, it is not necessary to implement this.
 	 */
 	public static void stir(BigInteger[] KX)
 	{
@@ -191,15 +197,15 @@ public class HastyPuddingCipherService
 			{
 				// Perform the individual word stirring algorithm
 				// BigInteger is immutable so need to reassign values like this:
-				s0 = s0.xor((KX[i].xor(KX[(i + 83) & 255]).add(KX[s0.and(BigInteger.valueOf(255)).intValue()]).mod(MOD))); // sometimes																							// lossy
+				s0 = s0.xor((KX[i].xor(KX[(i + 83) & 255]).add(KX[s0.and(BigInteger.valueOf(255)).intValue()]).mod(MOD))); // sometimes lossy
 				s2 = s2.add(KX[i]).mod(MOD); // necessary to prevent Wagner equivalent key problem
 				s1 = s1.add(s0).mod(MOD);
 				s3 = s3.xor(s2);
 				s5 = s5.subtract(s4).mod(MOD);
 				s7 = s7.xor(s6);
 				s3 = s3.add(s0.shiftRight(13)).mod(MOD);
-				s4 = s4.xor(shiftLeft(s1, 11, bitSize));
-				s5 = s5.xor(shiftLeft(s3, s1.and(BigInteger.valueOf(31)).intValue(), bitSize));
+				s4 = s4.xor(shiftLeft(s1, 11, blocksize));
+				s5 = s5.xor(shiftLeft(s3, s1.and(BigInteger.valueOf(31)).intValue(), blocksize));
 				s6 = s6.add(s2.shiftRight(17)).mod(MOD);
 				s7 = s7.or(s3.add(s4).mod(MOD)); // lossy
 				s2 = s2.subtract(s5).mod(MOD); // cross-link
@@ -215,7 +221,15 @@ public class HastyPuddingCipherService
 		}
 	}
 	
-	public static BigInteger HPCShort(Long plaintextDestTag, BigInteger[] KX)
+	/**
+	 * The encryption method for words of 36 - 64 bits. In this program, we plan on 
+	 * only using this method for mapping XRP destination tags, so it will be used 
+	 * for 10 digit Long values which should be 64 bits long.
+	 * @param plaintextDestTag: a Long value we want encrypted
+	 * @param KX: the key expansion table used for encryption
+	 * @return an encrypted value
+	 */
+	public static BigInteger encryptHPCShort(Long plaintextDestTag, BigInteger[] KX)
 	{
 		int blocksize = 64;
 		
@@ -295,10 +309,16 @@ public class HastyPuddingCipherService
 		return s0;
 	}
 	
+	/**
+	 * The decryption method for words of 36 - 64 bits. In this program, we plan on 
+	 * only using this method for mapping XRP destination tags, so it will be used 
+	 * for 10 digit Long values which should be 64 bits long.
+	 * @param s0: a value we want decrypted
+	 * @param KX: the key expansion table used for encryption
+	 * @return a decrypted value
+	 */
 	public static long decryptHPCShort(BigInteger s0, BigInteger[] KX)
 	{
-		int blocksize = 64;
-		
 		// Several shift sizes are calculated:
 		BigInteger LBH = BigInteger.valueOf((blocksize + 1) / 2); //division rounds down
 		BigInteger LBQ = (LBH.add(BigInteger.ONE)).divide(BigInteger.valueOf(2));
@@ -367,21 +387,5 @@ public class HastyPuddingCipherService
 		BigInteger topBits = value.shiftRight(bitSize - shift);
 		BigInteger mask = BigInteger.ONE.shiftLeft(bitSize).subtract(BigInteger.ONE);
 		return value.shiftLeft(shift).or(topBits).and(mask);
-	}
-	
-	// TODO move testing to another file
-	public static void main(String[] args)
-	{
-		BigInteger val = new BigInteger("14142135623730950488");
-		System.out.println(val.toString(2));
-		BigInteger rotated = shiftLeft(new BigInteger("14142135623730950488"), 10, bitSize);
-		System.out.println(rotated.toString(2));
-		
-		//testing encryption
-		BigInteger[] kx = createKeyExpansionTable(2, 64, 0);
-		BigInteger encrypted = HPCShort(1234567890l, kx);
-		System.out.print("Encrypted value: " + encrypted.toString());
-		Long decrypted = decryptHPCShort(encrypted, kx);
-		System.out.println(" Decrypted value: " + decrypted);	
 	}
 }
