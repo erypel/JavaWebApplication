@@ -1,4 +1,4 @@
-package com.javawebapp.service;
+package com.javawebapp.util;
 
 import java.math.BigInteger;
 
@@ -14,7 +14,7 @@ import java.math.BigInteger;
  * @author Evan
  *
  */
-public class HastyPuddingCipherService
+public class HastyPuddingCipherUtil
 {
 	// a few helpful variables
 	final static int blocksize = 64;
