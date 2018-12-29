@@ -12,5 +12,12 @@ import com.javawebapp.model.Transaction;
  */
 public class EscrowExecution extends Transaction
 {
+
+	@Override
+	public void prepareTransaction()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

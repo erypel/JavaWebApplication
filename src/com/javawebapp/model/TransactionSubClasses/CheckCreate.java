@@ -11,5 +11,12 @@ import com.javawebapp.model.Transaction;
  */
 public class CheckCreate extends Transaction
 {
+
+	@Override
+	public void prepareTransaction()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -11,5 +11,12 @@ import com.javawebapp.model.Transaction;
  */
 public class CheckCancel extends Transaction
 {
+
+	@Override
+	public void prepareTransaction()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

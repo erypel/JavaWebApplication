@@ -10,5 +10,12 @@ import com.javawebapp.model.Transaction;
  */
 public class Settings extends Transaction
 {
+
+	@Override
+	public void prepareTransaction()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
