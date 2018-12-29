@@ -16,6 +16,7 @@
 				<li><a href="createRSSFeed.action">Create RSS Feed</a></li>
 				<li><a href="navigateToUploadPodcast.action">Upload</a></li>
 				<li><a href="wallet.action">Wallet Web Socket</a></li>
+				<li><a href="xrpWallet.action">XRP Wallet</a></li>
 			</ul>
 		</div>
 	</div>
