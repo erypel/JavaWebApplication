@@ -1,4 +1,8 @@
 package com.javawebapp.model;
+
+import com.javawebapp.model.objectsforrippleapi.Instructions;
+import com.javawebapp.model.objectsforrippleapi.Promise;
+
 /**
  * The model for an XRP transaction within the platform.
  * Transactions are created using the Factory Method Pattern
@@ -7,7 +11,7 @@ package com.javawebapp.model;
  */
 public abstract class Transaction
 {
-	public abstract void prepareTransaction();
+	public abstract Promise<Object> prepareTransaction(String address, Object specification, Instructions instructions);
 	
 	public void sign() {
 		System.out.println("signed");

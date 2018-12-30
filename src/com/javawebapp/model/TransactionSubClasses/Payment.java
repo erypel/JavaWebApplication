@@ -1,6 +1,10 @@
 package com.javawebapp.model.TransactionSubClasses;
 
+import org.json.simple.JSONObject;
+
 import com.javawebapp.model.Transaction;
+import com.javawebapp.model.objectsforrippleapi.Instructions;
+import com.javawebapp.model.objectsforrippleapi.Promise;
 
 /**
  * A payment transaction represents a transfer of value from one account to
@@ -12,12 +16,19 @@ import com.javawebapp.model.Transaction;
  */
 public class Payment extends Transaction
 {
-
 	@Override
-	public void prepareTransaction()
+	public Promise<Object> prepareTransaction(String address, Object specification, Instructions instructions)
 	{
-		// TODO Auto-generated method stub
-		
+		Promise<Object> p = preparePayment(address, (Payment)specification, instructions);
+		return p;
 	}
 	
+	public Promise<Object> preparePayment(String address, Payment payment, Instructions instructions)
+	{
+		JSONObject json = new JSONObject();
+		Promise<Object> p = new Promise<Object>();
+		p.setTxJSON(json.toJSONString());
+		p.setInstructions(instructions);
+		return p;
+	}
 }
