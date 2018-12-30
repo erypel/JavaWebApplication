@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 
 import com.javawebapp.model.Transaction;
 import com.javawebapp.model.objectsforrippleapi.Instructions;
+import com.javawebapp.model.objectsforrippleapi.Payment;
 import com.javawebapp.model.objectsforrippleapi.Promise;
 
 /**
@@ -14,7 +15,7 @@ import com.javawebapp.model.objectsforrippleapi.Promise;
  * @author Evan
  *
  */
-public class Payment extends Transaction
+public class PaymentTransaction extends Transaction
 {
 	@Override
 	public Promise<Object> prepareTransaction(String address, Object specification, Instructions instructions)
@@ -25,6 +26,7 @@ public class Payment extends Transaction
 	
 	public Promise<Object> preparePayment(String address, Payment payment, Instructions instructions)
 	{
+		//TODO
 		JSONObject json = new JSONObject();
 		Promise<Object> p = new Promise<Object>();
 		p.setTxJSON(json.toJSONString());

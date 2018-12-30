@@ -5,7 +5,7 @@ public class Promise<E>
 	String txJSON; // The prepared transaction in rippled JSON format.
 	Object instructions; // The instructions for how to execute the transaction after adding automatic
 							// defaults.
-	Value instructionsFee; // An exact fee to pay for the transaction. See Transaction Fees for more
+	Amount instructionsFee; // An exact fee to pay for the transaction. See Transaction Fees for more
 							// information.
 	Sequence instructionsSequence; // The initiating account's sequence number for this transaction.
 	Integer instructionsMaxLedgerVersionInteger = null; // The highest ledger version that the transaction can be
@@ -17,7 +17,7 @@ public class Promise<E>
 		
 	}
 	
-	public Promise(String txJSON, Object instructions, Value instructionsFee, Sequence instructionsSequence,
+	public Promise(String txJSON, Object instructions, Amount instructionsFee, Sequence instructionsSequence,
 			Integer instructionsMaxLedgerVersionInteger, String instructionsMaxLedgerVersionString)
 	{
 		this.txJSON = txJSON;
@@ -48,12 +48,12 @@ public class Promise<E>
 		this.instructions = instructions;
 	}
 	
-	public Value getInstructionsFee()
+	public Amount getInstructionsFee()
 	{
 		return instructionsFee;
 	}
 	
-	public void setInstructionsFee(Value instructionsFee)
+	public void setInstructionsFee(Amount instructionsFee)
 	{
 		this.instructionsFee = instructionsFee;
 	}

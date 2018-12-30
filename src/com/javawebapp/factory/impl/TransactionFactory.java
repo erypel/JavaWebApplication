@@ -10,10 +10,10 @@ import com.javawebapp.model.TransactionSubClasses.EscrowCreation;
 import com.javawebapp.model.TransactionSubClasses.EscrowExecution;
 import com.javawebapp.model.TransactionSubClasses.Order;
 import com.javawebapp.model.TransactionSubClasses.OrderCancellation;
-import com.javawebapp.model.TransactionSubClasses.Payment;
 import com.javawebapp.model.TransactionSubClasses.PaymentChannelClaim;
 import com.javawebapp.model.TransactionSubClasses.PaymentChannelCreate;
 import com.javawebapp.model.TransactionSubClasses.PaymentChannelFund;
+import com.javawebapp.model.TransactionSubClasses.PaymentTransaction;
 import com.javawebapp.model.TransactionSubClasses.Settings;
 import com.javawebapp.model.TransactionSubClasses.Trustline;
 
@@ -63,7 +63,7 @@ public class TransactionFactory extends BaseTransactionFactory
 				tx = new OrderCancellation();
 				break;
 			case PAYMENT:
-				tx = new Payment();
+				tx = new PaymentTransaction();
 				break;
 			case PAYMENT_CHANNEL_CLAIM:
 				tx = new PaymentChannelClaim();
