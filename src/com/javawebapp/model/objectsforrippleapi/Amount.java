@@ -29,6 +29,23 @@ public class Amount
 	Value value; // Optional The quantity of the currency, denoted as a string to retain floating
 					// point precision
 	
+	public Amount(Currency currency, Address counterparty, Value value)
+	{
+		this.currency = currency;
+		this.counterparty = counterparty;
+		this.value = value;
+	}
+	
+	/**
+	 * Creates an XRP amount
+	 * @param value: value measured in drops
+	 */
+	public Amount(Value value)
+	{
+		this.currency = new Currency("drops"); //XRP
+		this.value = value;
+	}
+	
 	public Currency getCurrency()
 	{
 		return currency;

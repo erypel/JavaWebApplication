@@ -3,6 +3,7 @@ package com.javawebapp.model.TransactionSubClasses;
 import org.json.simple.JSONObject;
 
 import com.javawebapp.model.Transaction;
+import com.javawebapp.model.objectsforrippleapi.Amount;
 import com.javawebapp.model.objectsforrippleapi.Instructions;
 import com.javawebapp.model.objectsforrippleapi.Payment;
 import com.javawebapp.model.objectsforrippleapi.Promise;
@@ -26,11 +27,15 @@ public class PaymentTransaction extends Transaction
 	
 	public Promise<Object> preparePayment(String address, Payment payment, Instructions instructions)
 	{
-		//TODO
+		//TODO: the json builder
 		JSONObject json = new JSONObject();
 		Promise<Object> p = new Promise<Object>();
 		p.setTxJSON(json.toJSONString());
 		p.setInstructions(instructions);
+		p.setInstructionsFee(new Amount(instructions.getFee())); //TODO this only works for drops right now
+		p.setInstructionsSequence(instructions.getSequence());
+		p.setInstructionsMaxLedgerVersionInteger(instructions.getMaxLedgerVersionInteger());
+		p.setInstructionsMaxLedgerVersionString(instructions.getMaxLedgerVersionString());
 		return p;
 	}
 }
