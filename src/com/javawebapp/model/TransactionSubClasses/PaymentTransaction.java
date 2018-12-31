@@ -29,7 +29,7 @@ public class PaymentTransaction extends Transaction
 	
 	public Promise<Object> preparePayment(String address, Payment payment, Instructions instructions)
 	{
-		JSONObject json = new JSONObject();
+		JSONObject json = buildPaymentJson(address, payment, instructions);
 		Promise<Object> p = new Promise<Object>();
 		p.setTxJSON(json.toJSONString());
 		p.setInstructions(instructions);
@@ -40,17 +40,17 @@ public class PaymentTransaction extends Transaction
 		return p;
 	}
 	
-	//TODO: the json builder
-	public JSONObject buildPaymentJson(String address, Instructions instructions)
+	public JSONObject buildPaymentJson(String address, Payment payment, Instructions instructions)
 	{
 		JSONObject json = buildCommonFieldsJson();
 		json = instantiateCommonTransactionFields(json, address, instructions);
-		String account = address; // The unique address of the account that initiated the transaction
-		String transactionType = TransactionConstants.PAYMENT;
-		String fee = instructions.getFee().toString();
-		Integer sequence = instructions.getSequence().getSequence();
-		
-		
+		json = addDestination(json, payment);
+		return json;
+	}
+
+	private JSONObject addDestination(JSONObject json, Payment payment)
+	{
+		json.put(TransactionConstants.DESTINATION, payment.getDestinationAddressReceive().toString());
 		return json;
 	}
 
@@ -60,14 +60,34 @@ public class PaymentTransaction extends Transaction
 		json.replace(TransactionConstants.ACCOUNT, address);
 		json.replace(TransactionConstants.TRANSACTION_TYPE, TransactionConstants.PAYMENT);
 		json.put(TransactionConstants.FEE, instructions.getFee().toString()); // fee is in drops
-		json.put(TransactionConstants.SEQUENCE, "");
-		json.put(TransactionConstants.ACCOUNT_TXN_ID, "");
-		json.put(TransactionConstants.FLAGS, "");
-		json.put(TransactionConstants.LAST_LEDGER_SEQUENCE, "");
-		json.put(TransactionConstants.MEMOS, "");
-		json.put(TransactionConstants.SIGNERS, "");
-		json.put(TransactionConstants.SOURCE_TAG, "");
+		json.put(TransactionConstants.SEQUENCE, new Integer(instructions.getSequence().getSequence()));
+		
+		String acctTxnID = lookupAcctTxnID(address);
+		json.replace(TransactionConstants.ACCOUNT_TXN_ID, acctTxnID);
+		json.replace(TransactionConstants.FLAGS, getFlags());
+		json.put(TransactionConstants.LAST_LEDGER_SEQUENCE, instructions.getMaxLedgerVersionString()); //https://developers.ripple.com/reliable-transaction-submission.html
+		json.put(TransactionConstants.MEMOS, null);
+		json.put(TransactionConstants.SIGNERS, null);
+		json.put(TransactionConstants.SOURCE_TAG, getSourceTag(address));
 		
 		return json;
+	}
+
+	private Object getSourceTag(String address)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Object getFlags()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String lookupAcctTxnID(String address)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

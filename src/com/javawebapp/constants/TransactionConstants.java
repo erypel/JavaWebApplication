@@ -39,6 +39,9 @@ public class TransactionConstants
 	public static final String SIGNING_PUBLIC_KEY = "SigningPubKey";
 	public static final String TXN_SIGNATURE = "TxnSignature";
 	
+	// JSON fields for Payment Transactions
+	public static final String DESTINATION = "Destination";
+	
 	/**
 	 * The caller references the constants using
 	 * <tt>TransactionConstants.PAYMENT</tt>, and so on. Thus, the caller should be

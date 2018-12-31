@@ -14,7 +14,7 @@ public class Payment
 	Address sourceAddress;
 	Amount sourceAmount;
 	Integer sourceTag;
-	Amount sourceMaxAount;
+	Amount sourceMaxAmount;
 	Object destination;
 	Address destinationAddressReceive;
 	Amount destinationAmount;
@@ -70,12 +70,12 @@ public class Payment
 	
 	public Amount getSourceMaxAount()
 	{
-		return sourceMaxAount;
+		return sourceMaxAmount;
 	}
 	
 	public void setSourceMaxAount(Amount sourceMaxAount)
 	{
-		this.sourceMaxAount = sourceMaxAount;
+		this.sourceMaxAmount = sourceMaxAount;
 	}
 	
 	public Object getDestination()

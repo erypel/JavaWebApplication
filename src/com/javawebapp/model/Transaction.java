@@ -16,7 +16,7 @@ public abstract class Transaction
 {
 	public abstract Promise<Object> prepareTransaction(String address, Object specification, Instructions instructions);
 	
-	public abstract JSONObject instantiateCommonTransactionFields();
+	public abstract JSONObject instantiateCommonTransactionFields(JSONObject json, String address, Instructions instructions);
 	
 	public JSONObject buildCommonFieldsJson()
 	{

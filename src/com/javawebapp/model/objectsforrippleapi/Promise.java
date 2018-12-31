@@ -17,6 +17,7 @@ public class Promise<E>
 		
 	}
 	
+	//TODO all the instructions fields are in instructions. Don't have to pass them in, can pull them out
 	public Promise(String txJSON, Object instructions, Amount instructionsFee, Sequence instructionsSequence,
 			Integer instructionsMaxLedgerVersionInteger, String instructionsMaxLedgerVersionString)
 	{
