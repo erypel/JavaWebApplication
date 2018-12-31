@@ -2,6 +2,7 @@ package com.javawebapp.model.TransactionSubClasses;
 
 import org.json.simple.JSONObject;
 
+import com.javawebapp.constants.TransactionConstants;
 import com.javawebapp.model.Transaction;
 import com.javawebapp.model.objectsforrippleapi.Amount;
 import com.javawebapp.model.objectsforrippleapi.Instructions;
@@ -27,7 +28,6 @@ public class PaymentTransaction extends Transaction
 	
 	public Promise<Object> preparePayment(String address, Payment payment, Instructions instructions)
 	{
-		//TODO: the json builder
 		JSONObject json = new JSONObject();
 		Promise<Object> p = new Promise<Object>();
 		p.setTxJSON(json.toJSONString());
@@ -37,5 +37,16 @@ public class PaymentTransaction extends Transaction
 		p.setInstructionsMaxLedgerVersionInteger(instructions.getMaxLedgerVersionInteger());
 		p.setInstructionsMaxLedgerVersionString(instructions.getMaxLedgerVersionString());
 		return p;
+	}
+	
+	//TODO: the json builder
+	public JSONObject buildPaymentJson(String address, Instructions instructions)
+	{
+		JSONObject json = new JSONObject();
+		String account = address; // The unique address of the account that initiated the transaction
+		String transactionType = TransactionConstants.PAYMENT;
+		String fee = instructions.getFee().toString();
+		Integer sequence = instructions.getSequence().getSequence();
+		return json;
 	}
 }

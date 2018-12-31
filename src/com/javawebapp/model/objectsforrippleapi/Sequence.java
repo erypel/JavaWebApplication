@@ -26,4 +26,9 @@ public class Sequence
 		sequence++;
 		return sequence;
 	}
+	
+	public int getSequence()
+	{
+		return sequence;
+	}
 }
