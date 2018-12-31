@@ -17,6 +17,7 @@ import com.javawebapp.model.objectsforrippleapi.Promise;
  * @author Evan
  *
  */
+//TODO split into service and object
 public class PaymentTransaction extends Transaction
 {
 	@Override
@@ -42,11 +43,31 @@ public class PaymentTransaction extends Transaction
 	//TODO: the json builder
 	public JSONObject buildPaymentJson(String address, Instructions instructions)
 	{
-		JSONObject json = new JSONObject();
+		JSONObject json = buildCommonFieldsJson();
+		json = instantiateCommonTransactionFields(json, address, instructions);
 		String account = address; // The unique address of the account that initiated the transaction
 		String transactionType = TransactionConstants.PAYMENT;
 		String fee = instructions.getFee().toString();
 		Integer sequence = instructions.getSequence().getSequence();
+		
+		
+		return json;
+	}
+
+	@Override
+	public JSONObject instantiateCommonTransactionFields(JSONObject json, String address, Instructions instructions)
+	{
+		json.replace(TransactionConstants.ACCOUNT, address);
+		json.replace(TransactionConstants.TRANSACTION_TYPE, TransactionConstants.PAYMENT);
+		json.put(TransactionConstants.FEE, instructions.getFee().toString()); // fee is in drops
+		json.put(TransactionConstants.SEQUENCE, "");
+		json.put(TransactionConstants.ACCOUNT_TXN_ID, "");
+		json.put(TransactionConstants.FLAGS, "");
+		json.put(TransactionConstants.LAST_LEDGER_SEQUENCE, "");
+		json.put(TransactionConstants.MEMOS, "");
+		json.put(TransactionConstants.SIGNERS, "");
+		json.put(TransactionConstants.SOURCE_TAG, "");
+		
 		return json;
 	}
 }
