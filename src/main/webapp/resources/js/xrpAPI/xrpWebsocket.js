@@ -5,7 +5,6 @@
 
 // Production Web Socket
 //let webSocket = new WebSocket("wss://s2.ripple.com:443 ");
-
 // TestNet web socket
 /**
  * Test Credentials:
@@ -16,5 +15,14 @@
  * Private Key:
  * snKixQChzs9KcBxxrYWpm97sxnA1e
  */
-let webSocket = new WebSocket("wss://s.altnet.rippletest.net:51233");
 
+/**
+ * Second set of test credentials
+ * 
+ * Address 
+ * rntmtrrtSGS9dJD84krKvutJLeQ6mADgQp 
+ * Secret
+ * snzzPQHtaCt2oj6YEx5CmCLD3p9Qv 
+ * Balance 10,000 XRP
+ */
+let webSocket = new WebSocket("wss://s.altnet.rippletest.net:51233");

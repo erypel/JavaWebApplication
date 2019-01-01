@@ -11,5 +11,7 @@
 	<div id="balance">	
 		<h1>{{ ripple_wallet.usd }} USD / {{ ripple_wallet.xrp }} XRP</h1>			
 	</div>
+	<br>
+	<a href="paymentTransaction.action">Send Test Transaction</a>
 </body>
 </html>
