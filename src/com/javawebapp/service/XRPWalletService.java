@@ -5,14 +5,23 @@ import java.math.BigInteger;
 import org.springframework.stereotype.Component;
 
 import com.javawebapp.model.Transaction;
+import com.javawebapp.dao.LocalXRPLedgerDao;
+import com.javawebapp.dao.impl.LocalXRPLedgerDaoImpl;
 import com.javawebapp.model.LocalXRPLedger;
 
 @Component
 public class XRPWalletService
 {
-	public LocalXRPLedger createWallet()
+	LocalXRPLedgerDao dao = new LocalXRPLedgerDaoImpl();
+	
+	public LocalXRPLedger register(Long userID)
 	{
-		return null;
+		return dao.createWallet(userID);
+	}
+	
+	public LocalXRPLedger getWallet(Long ownerID)
+	{
+		return dao.getWallet(ownerID);
 	}
 	
 	public boolean sendXRPInternal()

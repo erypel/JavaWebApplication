@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.javawebapp.model.LocalXRPLedger;
 import com.javawebapp.model.Login;
 import com.javawebapp.model.User;
-import com.javawebapp.model.Wallet;
 import com.javawebapp.service.UserService;
-import com.javawebapp.service.WalletService;
+import com.javawebapp.service.XRPWalletService;
 
 @Controller
 public class LoginController
@@ -25,7 +25,7 @@ public class LoginController
 	UserService userService;
 	
 	@Autowired
-	WalletService walletService;
+	XRPWalletService walletService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +46,7 @@ public class LoginController
 		
 		if(user != null)
 		{
-			Wallet wallet = walletService.getWallet(user.getId()); 
+			LocalXRPLedger wallet = walletService.getWallet(user.getId()); 
 			
 			// create a wallet if the user does not have one for some reason
 			// this could occur if the user was created before wallet was implemented
@@ -56,7 +56,7 @@ public class LoginController
 			mav = new ModelAndView("welcome");
 			mav.addObject("firstname", user.getUserName());
 			mav.addObject("walletId", wallet.getWalletId());
-			mav.addObject("publicKey", wallet.getPublicKey());
+			mav.addObject("balance", wallet.getFunds());
 			
 			//Add a cookie
 			HttpSession session = request.getSession();

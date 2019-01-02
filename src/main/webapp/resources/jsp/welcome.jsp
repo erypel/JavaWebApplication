@@ -44,7 +44,7 @@
             <tr>
             	<td>Wallet</td>
             	<td>Wallet Id: ${walletId}</td>
-            	<td>Public Key: ${publicKey}</td>
+            	<td>Balance: ${funds}</td>
             </tr>
         </table>
     </body>

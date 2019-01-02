@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.javawebapp.model.Wallet;
-import com.javawebapp.service.WalletService;
+import com.javawebapp.model.LocalXRPLedger;
+import com.javawebapp.service.XRPWalletService;
 
 @Controller
 public class HomeController
 {
 	@Autowired
-	WalletService walletService;
+	XRPWalletService walletService;
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response)
@@ -25,13 +25,13 @@ public class HomeController
 		HttpSession session = request.getSession();
 		Long userId = Long.parseLong(session.getAttribute("userId").toString());
 		
-		Wallet wallet = walletService.getWallet(userId);
+		LocalXRPLedger wallet = walletService.getWallet(userId);
 		
 		ModelAndView mav = new ModelAndView("welcome");
 		
 		mav.addObject("firstname", session.getAttribute("user").toString());
 		mav.addObject("walletId", wallet.getWalletId());
-		mav.addObject("publicKey", wallet.getPublicKey());
+		mav.addObject("balance", wallet.getFunds());
 		
 		return mav;
 	}

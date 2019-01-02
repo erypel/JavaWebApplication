@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.javawebapp.model.LocalXRPLedger;
 import com.javawebapp.model.User;
-import com.javawebapp.model.Wallet;
 import com.javawebapp.service.UserService;
-import com.javawebapp.service.WalletService;
+import com.javawebapp.service.XRPWalletService;
 
 @Controller
 public class RegistrationController
@@ -24,7 +24,7 @@ public class RegistrationController
 	public UserService userService;
 	
 	@Autowired
-	public WalletService walletService;
+	public XRPWalletService walletService;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response)
@@ -39,12 +39,12 @@ public class RegistrationController
 			@ModelAttribute("user") User user)
 	{
 		userService.register(user);
-		Wallet wallet = walletService.register(user.getId());
+		LocalXRPLedger wallet = walletService.register(user.getId());
 		
 		ModelAndView mav = new ModelAndView("/resources/jsp/welcome.jsp", "userName", user.getUserName());
 		mav.addObject("firstname", user.getUserName());
 		mav.addObject("walletId", wallet.getWalletId());
-		mav.addObject("publicKey", wallet.getPublicKey());
+		mav.addObject("balance", wallet.getFunds());
 		mav.addObject("userId", user.getId());
 		
 		//Add a cookie
