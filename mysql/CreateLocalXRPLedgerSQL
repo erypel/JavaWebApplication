@@ -1,0 +1,12 @@
+//TODO do this via xml. Ant?? Maven??
+
+use javawebappdb;
+CREATE TABLE IF NOT EXISTS LocalXRPLedger(
+	ownerId BIGINT NOT NULL,
+	walletId BIGINT NOT NULL,
+	funds VARCHAR(500) NOT NULL DEFAULT "0.00",
+	DESTINATION_TAG VARCHAR(500),
+	SOURCE_TAG VARCHAR(500),
+	PRIMARY KEY (walletId),
+	FOREIGN KEY (ownerId) REFERENCES User(id) 
+);

@@ -5,12 +5,12 @@ import java.math.BigInteger;
 import org.springframework.stereotype.Component;
 
 import com.javawebapp.model.Transaction;
-import com.javawebapp.model.XRPWallet;
+import com.javawebapp.model.LocalXRPLedger;
 
 @Component
 public class XRPWalletService
 {
-	public XRPWallet createWallet()
+	public LocalXRPLedger createWallet()
 	{
 		return null;
 	}

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class WalletController
+public class XRPWebSocketController
 {
-	@RequestMapping(value = "/wallet", method = RequestMethod.GET)
+	@RequestMapping(value = "/xrpWebSocketClient", method = RequestMethod.GET)
 	public ModelAndView showRegisterPodcastHome(HttpServletRequest request, HttpServletResponse response)
 	{
 		ModelAndView mav = new ModelAndView("xrpWebSocketClient");
