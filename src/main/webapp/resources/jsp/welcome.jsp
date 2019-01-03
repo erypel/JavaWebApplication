@@ -40,11 +40,9 @@
             <tr>
             </tr>
             <tr>
-            </tr>
-            <tr>
-            	<td>Wallet</td>
-            	<td>Wallet Id: ${walletId}</td>
-            	<td>Balance: ${funds}</td>
+            	<td width="33%">Wallet</td>
+            	<td width="33%">Wallet Id: ${walletId}</td>
+            	<td width="33%">Balance: ${balance} XRP</td>
             </tr>
         </table>
     </body>

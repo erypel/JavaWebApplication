@@ -9,7 +9,7 @@
 <body>
 	<jsp:include page="header.jsp" />
 	<div id="balance">	
-		<h1>{{ ripple_wallet.usd }} USD / {{ ripple_wallet.xrp }} XRP</h1>			
+		<h1>UID: ${userID} / WID: ${walletID}  / ${balance} XRP</h1>			
 	</div>
 	<br>
 	<a href="paymentTransaction.action">Send Test Transaction</a>
