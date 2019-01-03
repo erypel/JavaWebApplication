@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.javawebapp.model.LocalXRPLedger;
 import com.javawebapp.service.XRPWalletService;
+import com.javawebapp.util.HastyPuddingCipherUtil;
 
 @Controller
 public class XRPWalletController
@@ -20,16 +21,34 @@ public class XRPWalletController
 	XRPWalletService walletService;
 	
 	@RequestMapping(value = "/xrpWallet", method = RequestMethod.GET)
-	public ModelAndView showRegisterPodcastHome(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView showXRPWallet(HttpServletRequest request, HttpServletResponse response)
+	{
+		return generateBasicXRPWalletView(request, getUserID(request));
+	}
+	
+	@RequestMapping(value = "/generateDestTag", method = RequestMethod.GET)
+	public ModelAndView generateDestTagAndLoadView(HttpServletRequest request, HttpServletResponse response)
+	{
+		long userID = getUserID(request);
+		ModelAndView mav = generateBasicXRPWalletView(request, userID);
+		mav.addObject("destTag", HastyPuddingCipherUtil.encryptHPCShort(userID));
+		return mav;
+	}
+	
+	public long getUserID(HttpServletRequest request)
 	{
 		// Get session and user
 		HttpSession session = request.getSession();
 		long userID = Long.parseLong(session.getAttribute("userId").toString());
-		
+		return userID;
+	}
+	
+	public ModelAndView generateBasicXRPWalletView(HttpServletRequest request, long userID)
+	{
 		// get user's wallet
-		LocalXRPLedger wallet = walletService.getWallet(userID); 
+		LocalXRPLedger wallet = walletService.getWallet(userID);
 		
-		//TODO add some null checks on wallet
+		// TODO add some null checks on wallet
 		
 		// return the view
 		ModelAndView mav = new ModelAndView("xrpWallet");

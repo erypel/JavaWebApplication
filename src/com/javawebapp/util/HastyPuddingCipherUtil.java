@@ -113,7 +113,7 @@ public class HastyPuddingCipherUtil
 	 *        5 HPC-Extended 513+ bits
 	 * @param keyLength: the key length in bits (a non-negative integer)
 	 */
-	public static BigInteger[] createKeyExpansionTable(int subCipherNumber, int keyLength)
+	private static BigInteger[] createKeyExpansionTable(int subCipherNumber, int keyLength)
 	{
 		// The Key Expansion Table
 		BigInteger KX[] = new BigInteger[NUM_WORDS + 30]; //256 words with wrap-around
@@ -173,7 +173,7 @@ public class HastyPuddingCipherUtil
 	 * and the array entry BACKUPSUBCIPHER[0]. Normally both values are 0. As of 
 	 * right now, it is not necessary to implement this.
 	 */
-	public static void stir(BigInteger[] KX)
+	private static void stir(BigInteger[] KX)
 	{
 		/*
 		 * The stirring function has 8 internal state variables, each an unsigned 64 bit
@@ -229,8 +229,9 @@ public class HastyPuddingCipherUtil
 	 * @param KX: the key expansion table used for encryption
 	 * @return an encrypted value
 	 */
-	public static BigInteger encryptHPCShort(Long plaintextDestTag, BigInteger[] KX)
+	public static BigInteger encryptHPCShort(Long plaintextDestTag)
 	{
+		BigInteger KX[] = createKeyExpansionTable(2, 10);
 		int blocksize = 64;
 		
 		/*
@@ -317,8 +318,10 @@ public class HastyPuddingCipherUtil
 	 * @param KX: the key expansion table used for encryption
 	 * @return a decrypted value
 	 */
-	public static long decryptHPCShort(BigInteger s0, BigInteger[] KX)
+	public static long decryptHPCShort(BigInteger s0)
 	{
+		BigInteger KX[] = createKeyExpansionTable(2, 10);
+		
 		// Several shift sizes are calculated:
 		BigInteger LBH = BigInteger.valueOf((blocksize + 1) / 2); //division rounds down
 		BigInteger LBQ = (LBH.add(BigInteger.ONE)).divide(BigInteger.valueOf(2));

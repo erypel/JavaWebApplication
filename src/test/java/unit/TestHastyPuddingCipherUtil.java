@@ -23,10 +23,10 @@ public class TestHastyPuddingCipherUtil
 	public void testEncryptDecrypt()
 	{
 		long beforeEncrypt = 1234567890l;
-		BigInteger[] kx = HastyPuddingCipherUtil.createKeyExpansionTable(2, 64);
-		BigInteger encrypted = HastyPuddingCipherUtil.encryptHPCShort(beforeEncrypt, kx);
+		//BigInteger[] kx = HastyPuddingCipherUtil.createKeyExpansionTable(2, 64);
+		BigInteger encrypted = HastyPuddingCipherUtil.encryptHPCShort(beforeEncrypt);
 		assertFalse(beforeEncrypt == encrypted.longValue());
-		Long decrypted = HastyPuddingCipherUtil.decryptHPCShort(encrypted, kx);
+		Long decrypted = HastyPuddingCipherUtil.decryptHPCShort(encrypted);
 		assertTrue(beforeEncrypt == decrypted);
 	}
 }
