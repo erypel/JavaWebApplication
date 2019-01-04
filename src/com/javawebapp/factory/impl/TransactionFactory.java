@@ -1,6 +1,6 @@
 package com.javawebapp.factory.impl;
 
-import com.javawebapp.base.factory.BaseTransactionFactory;
+import com.javawebapp.factory.base.BaseTransactionFactory;
 import com.javawebapp.model.Transaction;
 import com.javawebapp.model.TransactionSubClasses.CheckCancel;
 import com.javawebapp.model.TransactionSubClasses.CheckCash;

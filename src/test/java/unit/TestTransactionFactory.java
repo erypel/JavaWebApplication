@@ -4,7 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.javawebapp.base.factory.BaseTransactionFactory;
+import com.javawebapp.factory.base.BaseTransactionFactory;
 import com.javawebapp.factory.impl.TransactionFactory;
 import com.javawebapp.model.Transaction;
 

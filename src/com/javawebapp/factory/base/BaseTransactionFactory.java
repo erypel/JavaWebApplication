@@ -1,4 +1,4 @@
-package com.javawebapp.base.factory;
+package com.javawebapp.factory.base;
 
 import com.javawebapp.model.Transaction;
 

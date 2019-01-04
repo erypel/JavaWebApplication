@@ -1,10 +1,9 @@
 package com.javawebapp.service;
 
-import java.math.BigInteger;
-
 import org.springframework.stereotype.Component;
 
 import com.javawebapp.model.Transaction;
+import com.javawebapp.util.HastyPuddingCipherUtil;
 import com.javawebapp.dao.LocalXRPLedgerDao;
 import com.javawebapp.dao.impl.LocalXRPLedgerDaoImpl;
 import com.javawebapp.model.LocalXRPLedger;
@@ -34,9 +33,9 @@ public class XRPWalletService
 		return false;
 	}
 	
-	public BigInteger mapDestinationTag()
+	public long mapDestinationTag(long userID) throws Exception
 	{
-		return null;
+		return HastyPuddingCipherUtil.encryptHPCShort(userID);
 	}
 	
 	//check for collisions when mapping. maybe move to hpcUtil
