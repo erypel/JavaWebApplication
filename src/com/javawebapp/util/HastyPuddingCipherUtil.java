@@ -1,6 +1,8 @@
 package com.javawebapp.util;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+
 
 /**
  * This is an implementation of the Hasty Pudding Cipher. This algorithm will be
@@ -16,6 +18,9 @@ import java.math.BigInteger;
  */
 public class HastyPuddingCipherUtil
 {
+	//TODO since there are more BigIntegers possible than Longs, we will have to handle collisions on this data structure
+	static HashMap<Long, BigInteger> keyValues = new HashMap<Long, BigInteger>();
+	
 	// a few helpful variables
 	final static int blocksize = 64;
 	final static int NUM_PASSES = 3; // number of passes for stirring function
@@ -229,7 +234,7 @@ public class HastyPuddingCipherUtil
 	 * @param KX: the key expansion table used for encryption
 	 * @return an encrypted value
 	 */
-	public static BigInteger encryptHPCShort(Long plaintextDestTag)
+	public static long encryptHPCShort(Long plaintextDestTag)
 	{
 		BigInteger KX[] = createKeyExpansionTable(2, 10);
 		int blocksize = 64;
@@ -307,7 +312,18 @@ public class HastyPuddingCipherUtil
 			s0 = s0.xor(s0.shiftRight(LBH.intValue()));
 			s0 = s0.and(lmask);
 		}
-		return s0;
+		
+		//Hack to reduce BigInteger to 10 digits. 
+		//TODO reconsider
+		String digits = s0.toString(); // replace bigInteger with GrandTotal in your case
+		String lastTen = "";
+		int numberLength = digits.length();
+		for(int i = numberLength ; i > numberLength - 10; i--) {
+		    lastTen += digits.charAt(i-1) - '0';
+		}
+		long returnVal = Long.valueOf(lastTen);
+		keyValues.put(returnVal, s0);
+		return Long.valueOf(lastTen);
 	}
 	
 	/**
@@ -318,8 +334,10 @@ public class HastyPuddingCipherUtil
 	 * @param KX: the key expansion table used for encryption
 	 * @return a decrypted value
 	 */
-	public static long decryptHPCShort(BigInteger s0)
+	public static long decryptHPCShort(long ciphertext)
 	{
+		BigInteger s0 = keyValues.get(ciphertext);
+		
 		BigInteger KX[] = createKeyExpansionTable(2, 10);
 		
 		// Several shift sizes are calculated:
@@ -376,6 +394,10 @@ public class HastyPuddingCipherUtil
 		return s0.longValue();
 	}
 	
+	public static HashMap<Long, BigInteger> getKeyValues()
+	{
+		return keyValues;
+	}
 	
 	/**
 	 * helper method to rotate BigInt values left. Cuts off leading zeros
