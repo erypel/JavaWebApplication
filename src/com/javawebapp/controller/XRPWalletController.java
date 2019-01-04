@@ -27,7 +27,7 @@ public class XRPWalletController
 	}
 	
 	@RequestMapping(value = "/generateDestTag", method = RequestMethod.GET)
-	public ModelAndView generateDestTagAndLoadView(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView generateDestTagAndLoadView(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		long userID = getUserID(request);
 		ModelAndView mav = generateBasicXRPWalletView(request, userID);

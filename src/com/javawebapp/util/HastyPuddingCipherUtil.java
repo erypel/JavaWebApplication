@@ -233,8 +233,9 @@ public class HastyPuddingCipherUtil
 	 * @param plaintextDestTag: a Long value we want encrypted
 	 * @param KX: the key expansion table used for encryption
 	 * @return an encrypted value
+	 * @throws Exception 
 	 */
-	public static long encryptHPCShort(Long plaintextDestTag)
+	public static long encryptHPCShort(Long plaintextDestTag) throws Exception
 	{
 		BigInteger KX[] = createKeyExpansionTable(2, 10);
 		int blocksize = 64;
@@ -322,6 +323,8 @@ public class HastyPuddingCipherUtil
 		    lastTen += digits.charAt(i-1) - '0';
 		}
 		long returnVal = Long.valueOf(lastTen);
+		if(keyValues.containsKey(returnVal))
+			throw new Exception("Key Collision in HPC!");
 		keyValues.put(returnVal, s0);
 		return Long.valueOf(lastTen);
 	}
