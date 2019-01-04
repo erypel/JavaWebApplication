@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.javawebapp.model.LocalXRPLedger;
 import com.javawebapp.service.XRPWalletService;
-import com.javawebapp.util.HastyPuddingCipherUtil;
 
 @Controller
 public class XRPWalletController
@@ -31,7 +30,7 @@ public class XRPWalletController
 	{
 		long userID = getUserID(request);
 		ModelAndView mav = generateBasicXRPWalletView(request, userID);
-		mav.addObject("destTag", HastyPuddingCipherUtil.encryptHPCShort(userID));
+		mav.addObject("destTag", walletService.mapDestinationTag(userID));
 		return mav;
 	}
 	

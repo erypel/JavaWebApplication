@@ -12,8 +12,8 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import com.javawebapp.base.factory.BaseLocalXRPLedgerFactory;
 import com.javawebapp.dao.LocalXRPLedgerDao;
+import com.javawebapp.factory.base.BaseLocalXRPLedgerFactory;
 import com.javawebapp.factory.impl.LocalXRPLedgerFactory;
 import com.javawebapp.hibernate.HibernateUtil;
 import com.javawebapp.model.LocalXRPLedger;
