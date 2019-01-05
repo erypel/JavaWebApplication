@@ -3,19 +3,15 @@ package com.javawebapp.service;
 import org.springframework.stereotype.Component;
 
 import com.javawebapp.model.Transaction;
-import com.javawebapp.model.TransactionSubClasses.PaymentTransaction;
 import com.javawebapp.util.HastyPuddingCipherUtil;
-import com.javawebapp.constants.TransactionConstants;
 import com.javawebapp.dao.LocalXRPLedgerDao;
 import com.javawebapp.dao.impl.LocalXRPLedgerDaoImpl;
-import com.javawebapp.factory.base.BaseTransactionFactory;
-import com.javawebapp.factory.impl.TransactionFactory;
 import com.javawebapp.model.LocalXRPLedger;
 
 @Component
 public class XRPWalletService
 {
-	BaseTransactionFactory transactionFactory = new TransactionFactory();
+	TransactionService transactionService = new TransactionService();
 	LocalXRPLedgerDao dao = new LocalXRPLedgerDaoImpl();
 	
 	public LocalXRPLedger register(Long userID)
@@ -28,12 +24,21 @@ public class XRPWalletService
 		return dao.getWallet(ownerID);
 	}
 	
+	/**
+	 * Send xrp to an internal destination tag. Right now this is only implemented for tipping
+	 * @param fromUserID
+	 * @param toUserID
+	 * @param amount
+	 * @return
+	 * @throws Exception
+	 */
 	public boolean sendXRPInternal(long fromUserID, long toUserID, String amount) throws Exception
 	{
 		long sourceTag = mapSourceTag(fromUserID);
 		long destinationTag = mapDestinationTag(toUserID);
 		
-		Transaction tip = transactionFactory.createTransaction(TransactionConstants.PAYMENT);
+		Transaction tip = transactionService.createPaymentTransaction(sourceTag, destinationTag, amount);
+				
 		return false;
 	}
 	

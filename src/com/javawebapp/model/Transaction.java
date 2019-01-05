@@ -24,6 +24,36 @@ public abstract class Transaction
 		// Empty Constructor
 	}
 	
+	public String getTxID()
+	{
+		return txID;
+	}
+
+	public void setTxID(String txID)
+	{
+		this.txID = txID;
+	}
+
+	public Object getSpecification()
+	{
+		return specification;
+	}
+
+	public void setSpecification(Object specification)
+	{
+		this.specification = specification;
+	}
+
+	public Instructions getInstructions()
+	{
+		return instructions;
+	}
+
+	public void setInstructions(Instructions instructions)
+	{
+		this.instructions = instructions;
+	}
+
 	// helper methods. maybe put in a service? IDK yet. I want these accessible to the subclasses.
 	public abstract void buildSpecification();
 	

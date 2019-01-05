@@ -4,19 +4,25 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
 import com.javawebapp.constants.TransactionConstants;
+import com.javawebapp.factory.base.BaseSpecificationFactory;
 import com.javawebapp.factory.base.BaseTransactionFactory;
+import com.javawebapp.factory.impl.SpecificationFactory;
 import com.javawebapp.factory.impl.TransactionFactory;
 import com.javawebapp.model.Transaction;
 import com.javawebapp.model.TransactionSubClasses.PaymentTransaction;
 import com.javawebapp.model.objectsforrippleapi.Amount;
+import com.javawebapp.model.objectsforrippleapi.Destination;
 import com.javawebapp.model.objectsforrippleapi.Instructions;
 import com.javawebapp.model.objectsforrippleapi.Payment;
 import com.javawebapp.model.objectsforrippleapi.Promise;
+import com.javawebapp.model.objectsforrippleapi.Source;
+import com.javawebapp.model.objectsforrippleapi.Value;
 
 @Component
 public class TransactionService
 {
 	BaseTransactionFactory transactionFactory = new TransactionFactory();
+	BaseSpecificationFactory specificationFactory = new SpecificationFactory();
 	
 	//TODO ripped this all from PaymentTransaction.java for testing
 	public Promise<Object> prepareTransaction(String address, Object specification, Instructions instructions)
@@ -49,7 +55,7 @@ public class TransactionService
 
 	private JSONObject addDestination(JSONObject json, Payment payment)
 	{
-		json.put(TransactionConstants.DESTINATION, payment.getDestinationAddressReceive().toString());
+		json.put(TransactionConstants.DESTINATION, payment.getDestination().getAddress().toString());
 		return json;
 	}
 
@@ -91,10 +97,24 @@ public class TransactionService
 	// END TESTING STUFF
 	
 	// BELOW METHODS DEFINITELY BELONG HERE
+	/**
+	 * Creates a payment transaction. For right now, this is just being used to send 1 xrp transactions between 2 addresses.
+	 * @param sourceTag: an identifier for the sender
+	 * @param destinationTag: an identifier for the receiver 
+	 * @param amount: the amount to send
+	 * @return
+	 */
 	public Transaction createPaymentTransaction(long sourceTag, long destinationTag, String amount)
 	{
 		Transaction payment = transactionFactory.createTransaction(TransactionConstants.PAYMENT);
-		payment.
-		return null;
+		Source source = new Source(new Amount(new Value(amount)), sourceTag); //TODO this is way to tricky. make simpler with factory or something
+		Destination destination = new Destination(new Amount(new Value(amount)), destinationTag);
+		// expecting a payment specification object here
+		Payment specification = (Payment) specificationFactory.createSpecification(TransactionConstants.PAYMENT, source, destination);
+		payment.setSpecification(specification);
+		
+		Instructions instructions = new Instructions(); //instructions are optional, so not implementing yet
+		payment.setInstructions(instructions);
+		return payment;
 	}
 }

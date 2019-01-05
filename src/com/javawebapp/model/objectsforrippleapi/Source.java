@@ -12,6 +12,15 @@ public class Source
 	long tag; //Optional An arbitrary unsigned 32-bit integer that identifies a reason for payment or a non-Ripple account.
 	Amount maxAmount; //The maximum amount to send. (This field is exclusive with source.amount)
 	
+	// TODO think about this and iron out kinks
+	public Source(Amount amount, long sourceTag)
+	{
+		this.address = new Address("rwYQjHp9HZiKKpZB4i4fvc8eQvAtA7vdY6"); //TODO a test address for a test account. just want to see if value is transferred.
+		this.tag = sourceTag;
+		this.amount = amount;
+		this.maxAmount = amount; //might want to mess with this
+	}
+	
 	public Address getAddress()
 	{
 		return address;

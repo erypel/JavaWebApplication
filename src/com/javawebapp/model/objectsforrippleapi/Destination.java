@@ -12,6 +12,14 @@ public class Destination
 	long tag; //Optional An arbitrary unsigned 32-bit integer that identifies a reason for payment or a non-Ripple account.
 	Amount minAmount; //The minimum amount to be delivered. (This field is exclusive with destination.amount)
 	
+	public Destination(Amount amount, long destinationTag)
+	{
+		this.address = new Address("rntmtrrtSGS9dJD84krKvutJLeQ6mADgQp"); //TODO a test address just to see if value is transferred.
+		this.amount = amount;
+		this.tag = destinationTag;
+		this.minAmount = amount;
+	}
+	
 	public Address getAddress()
 	{
 		return address;

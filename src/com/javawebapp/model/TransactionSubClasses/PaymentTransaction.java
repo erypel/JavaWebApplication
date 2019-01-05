@@ -49,8 +49,8 @@ public class PaymentTransaction extends Transaction
 	}
 
 	private JSONObject addDestination(JSONObject json, Payment payment)
-	{
-		json.put(TransactionConstants.DESTINATION, payment.getDestinationAddressReceive().toString());
+	{ 
+		json.put(TransactionConstants.DESTINATION, payment.getDestination().getAddress().toString());
 		return json;
 	}
 

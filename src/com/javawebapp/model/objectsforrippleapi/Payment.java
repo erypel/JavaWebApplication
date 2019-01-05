@@ -19,7 +19,7 @@ public class Payment
 	boolean noDirectRipple;
 	String paths;
 	
-	public Object getSource()
+	public Source getSource()
 	{
 		return source;
 	}
@@ -29,7 +29,7 @@ public class Payment
 		this.source = source;
 	}
 	
-	public Object getDestination()
+	public Destination getDestination()
 	{
 		return destination;
 	}
