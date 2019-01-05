@@ -323,8 +323,9 @@ public class HastyPuddingCipherUtil
 		    lastTen += digits.charAt(i-1) - '0';
 		}
 		long returnVal = Long.valueOf(lastTen);
-		if(keyValues.containsKey(returnVal))
-			throw new Exception("Key Collision in HPC!");
+		//TODO uncomment for real usage
+		//if(keyValues.containsKey(returnVal))
+		//	throw new Exception("Key Collision in HPC!");
 		keyValues.put(returnVal, s0);
 		return Long.valueOf(lastTen);
 	}

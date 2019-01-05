@@ -10,6 +10,7 @@ import com.javawebapp.factory.impl.SpecificationFactory;
 import com.javawebapp.factory.impl.TransactionFactory;
 import com.javawebapp.model.Transaction;
 import com.javawebapp.model.TransactionSubClasses.PaymentTransaction;
+import com.javawebapp.model.objectsforrippleapi.Address;
 import com.javawebapp.model.objectsforrippleapi.Amount;
 import com.javawebapp.model.objectsforrippleapi.Destination;
 import com.javawebapp.model.objectsforrippleapi.Instructions;
@@ -116,5 +117,31 @@ public class TransactionService
 		Instructions instructions = new Instructions(); //instructions are optional, so not implementing yet
 		payment.setInstructions(instructions);
 		return payment;
+	}
+
+	public JSONObject buildPaymentJson(Transaction transaction)
+	{
+		Payment payment = (Payment)transaction.getSpecification();
+		String address = payment.getSource().getAddress().toString();
+		Instructions instructions = transaction.getInstructions();
+		JSONObject json = buildPaymentJson(address, payment, instructions);
+		return json;
+	}
+
+	/**
+	 * Get the secret key of the address sending a transaction
+	 * @param transaction
+	 * @return
+	 */
+	//TODO this will need to be properly implemented
+	public String getPaymentSecretKey(Transaction transaction)
+	{
+		Payment spec = (Payment) transaction.getSpecification();
+		Address address = spec.getSource().getAddress();
+		if(address.toString() == "rwYQjHp9HZiKKpZB4i4fvc8eQvAtA7vdY6")
+			return "snKixQChzs9KcBxxrYWpm97sxnA1e".toUpperCase();
+		else if(address.toString() == "rntmtrrtSGS9dJD84krKvutJLeQ6mADgQp")
+			return "snzzPQHtaCt2oj6YEx5CmCLD3p9Qv".toUpperCase();
+		return null;
 	}
 }
