@@ -9,7 +9,7 @@ public class Destination
 {
 	Address address; //The address to receive at.
 	Amount amount; //An exact amount to deliver to the recipient. If the counterparty is not specified, amounts with any counterparty may be used. (This field cannot be used with destination.minAmount.)
-	long tag; //Optional An arbitrary unsigned 32-bit integer that identifies a reason for payment or a non-Ripple account.
+	Long tag; //Optional An arbitrary unsigned 32-bit integer that identifies a reason for payment or a non-Ripple account.
 	Amount minAmount; //The minimum amount to be delivered. (This field is exclusive with destination.amount)
 	
 	public Destination(Amount amount, long destinationTag)

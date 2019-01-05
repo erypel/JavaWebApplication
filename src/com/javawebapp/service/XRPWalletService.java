@@ -6,6 +6,7 @@ import com.javawebapp.model.Transaction;
 import com.javawebapp.util.HastyPuddingCipherUtil;
 import com.javawebapp.dao.LocalXRPLedgerDao;
 import com.javawebapp.dao.impl.LocalXRPLedgerDaoImpl;
+import com.javawebapp.exception.InsufficientFundsException;
 import com.javawebapp.model.LocalXRPLedger;
 
 @Component
@@ -24,6 +25,11 @@ public class XRPWalletService
 		return dao.getWallet(ownerID);
 	}
 	
+	public String getWalletBalance(Long ownerID)
+	{
+		return dao.getWalletBalance(ownerID);
+	}
+	
 	/**
 	 * Send xrp to an internal destination tag. Right now this is only implemented for tipping
 	 * @param fromUserID
@@ -34,11 +40,15 @@ public class XRPWalletService
 	 */
 	public boolean sendXRPInternal(long fromUserID, long toUserID, String amount) throws Exception
 	{
+		String fromUserBalance = getWalletBalance(fromUserID);
+		if(Double.parseDouble(fromUserBalance) - Double.parseDouble(amount) < 0)
+			throw new InsufficientFundsException(fromUserID);
+		
 		long sourceTag = mapSourceTag(fromUserID);
 		long destinationTag = mapDestinationTag(toUserID);
 		
 		Transaction tip = transactionService.createPaymentTransaction(sourceTag, destinationTag, amount);
-				
+		//TODO finish up sending the transaction		
 		return false;
 	}
 	

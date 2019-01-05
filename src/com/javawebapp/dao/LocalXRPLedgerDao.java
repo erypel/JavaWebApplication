@@ -7,4 +7,6 @@ public interface LocalXRPLedgerDao
 	public LocalXRPLedger getWallet(long ownerId);
 	
 	public LocalXRPLedger createWallet(long ownerId);
+
+	public String getWalletBalance(long ownerID);
 }

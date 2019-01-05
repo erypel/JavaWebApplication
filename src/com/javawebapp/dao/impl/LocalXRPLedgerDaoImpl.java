@@ -59,7 +59,15 @@ public class LocalXRPLedgerDaoImpl implements LocalXRPLedgerDao
 			return null;
 		else
 			return results.get(0);
-	}		
+	}
+	
+	//TODO could implement this to solely retrieve the balance instead of the whole wallet. might be quicker/more effecient
+	@Override
+	public String getWalletBalance(long ownerID)
+	{
+		LocalXRPLedger wallet = getWallet(ownerID);
+		return wallet.getFunds();
+	}
 		
 	@Override
 	public LocalXRPLedger createWallet(long ownerId)
