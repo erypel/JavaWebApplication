@@ -1,5 +1,6 @@
 package com.javawebapp.factory.impl;
 
+import com.javawebapp.constants.TransactionConstants;
 import com.javawebapp.factory.base.BaseTransactionFactory;
 import com.javawebapp.model.Transaction;
 import com.javawebapp.model.TransactionSubClasses.CheckCancel;
@@ -38,46 +39,46 @@ public class TransactionFactory extends BaseTransactionFactory
 		Transaction tx;
 		switch(type)
 		{
-			case CHECK_CANCEL:
+			case TransactionConstants.CHECK_CANCEL:
 				tx = new CheckCancel();
 				break;
-			case CHECK_CASH:
+			case TransactionConstants.CHECK_CASH:
 				tx = new CheckCash();
 				break;
-			case CHECK_CREATE:
+			case TransactionConstants.CHECK_CREATE:
 				tx = new CheckCreate();
 				break;
-			case ESCROW_CANCELLATION:
+			case TransactionConstants.ESCROW_CANCEL:
 				tx = new EscrowCancellation();
 				break;
-			case ESCROW_CREATION:
+			case TransactionConstants.ESCROW_CREATE:
 				tx = new EscrowCreation();
 				break;
-			case ESCROW_EXECUTION:
+			case TransactionConstants.ESCROW_EXECUTION:
 				tx = new EscrowExecution();
 				break;
-			case ORDER:
+			case TransactionConstants.ORDER:
 				tx = new Order();
 				break;
-			case ORDER_CANCELLATION:
+			case TransactionConstants.ORDER_CANCELLATION:
 				tx = new OrderCancellation();
 				break;
-			case PAYMENT:
+			case TransactionConstants.PAYMENT:
 				tx = new PaymentTransaction();
 				break;
-			case PAYMENT_CHANNEL_CLAIM:
+			case TransactionConstants.PAYMENT_CHANNEL_CLAIM:
 				tx = new PaymentChannelClaim();
 				break;
-			case PAYMENT_CHANNEL_CREATE:
+			case TransactionConstants.PAYMENT_CHANNEL_CREATE:
 				tx = new PaymentChannelCreate();
 				break;
-			case PAYMENT_CHANNEL_FUND:
+			case TransactionConstants.PAYMENT_CHANNEL_FUND:
 				tx = new PaymentChannelFund();
 				break;
-			case SETTINGS:
+			case TransactionConstants.SETTINGS:
 				tx = new Settings();
 				break;
-			case TRUSTLINE:
+			case TransactionConstants.TRUSTLINE:
 				tx = new Trustline();
 				break;
 			default:

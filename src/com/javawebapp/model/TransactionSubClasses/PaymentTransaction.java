@@ -90,4 +90,19 @@ public class PaymentTransaction extends Transaction
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void buildSpecification()
+	{
+		Payment payment = new Payment();
+		
+		this.specification = payment;
+	}
+
+	@Override
+	public void buildInstructions()
+	{
+		Instructions instructions = new Instructions();
+		this.instructions = instructions;
+	}
 }

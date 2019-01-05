@@ -15,12 +15,12 @@ public class TestHastyPuddingCipherUtil
 	public void testShiftLeft()
 	{
 		BigInteger val = new BigInteger("14142135623730950488");
-		BigInteger rotated = HastyPuddingCipherUtil.shiftLeft(new BigInteger("14142135623730950488"), 10, 64);
+		BigInteger rotated = HastyPuddingCipherUtil.shiftLeft(val, 10, 64);
 		assertTrue(rotated.toString(2).equals("101111010101101011111010011110000101110001010110001100010001"));
 	}
 	
 	@Test
-	public void testEncryptDecrypt()
+	public void testEncryptDecrypt() throws Exception
 	{
 		long beforeEncrypt = 1234567890l;
 		//BigInteger[] kx = HastyPuddingCipherUtil.createKeyExpansionTable(2, 64);

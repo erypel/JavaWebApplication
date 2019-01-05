@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.javawebapp.model.LocalXRPLedger;
+import com.javawebapp.service.PodcastService;
 import com.javawebapp.service.XRPWalletService;
 
 @Controller
@@ -18,6 +20,9 @@ public class XRPWalletController
 {
 	@Autowired
 	XRPWalletService walletService;
+	
+	@Autowired
+	PodcastService podcastService;
 	
 	@RequestMapping(value = "/xrpWallet", method = RequestMethod.GET)
 	public ModelAndView showXRPWallet(HttpServletRequest request, HttpServletResponse response)
@@ -32,6 +37,15 @@ public class XRPWalletController
 		ModelAndView mav = generateBasicXRPWalletView(request, userID);
 		mav.addObject("destTag", walletService.mapDestinationTag(userID));
 		return mav;
+	}
+	
+	@RequestMapping(value = "/tip", method = RequestMethod.POST)
+	public void tip(HttpServletRequest request, HttpServletResponse response, @RequestParam("podcastID") String podID) throws Exception
+	{
+		long podcastID = Long.valueOf(podID);
+		long podcastOwnerID = podcastService.getPodcastOwnerID(podcastID);
+		long userID = getUserID(request);
+		walletService.sendXRPInternal(userID, podcastOwnerID, "1.00"); //TODO make tip amount dynamic
 	}
 	
 	public long getUserID(HttpServletRequest request)

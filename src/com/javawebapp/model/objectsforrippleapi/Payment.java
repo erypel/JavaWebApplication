@@ -10,17 +10,8 @@ package com.javawebapp.model.objectsforrippleapi;
  */
 public class Payment
 {
-	Object source;
-	Address sourceAddress;
-	Amount sourceAmount;
-	Integer sourceTag;
-	Amount sourceMaxAmount;
-	Object destination;
-	Address destinationAddressReceive;
-	Amount destinationAmount;
-	Integer destinationTag;
-	Address destinationAddressSendTo;
-	Amount destinationMinAmount;
+	Source source;
+	Destination destination;
 	boolean allowPartialPayment;
 	String invoiceId;
 	boolean limitQuality;
@@ -33,49 +24,9 @@ public class Payment
 		return source;
 	}
 	
-	public void setSource(Object source)
+	public void setSource(Source source)
 	{
 		this.source = source;
-	}
-	
-	public Address getSourceAddress()
-	{
-		return sourceAddress;
-	}
-	
-	public void setSourceAddress(Address sourceAddress)
-	{
-		this.sourceAddress = sourceAddress;
-	}
-	
-	public Amount getSourceAmount()
-	{
-		return sourceAmount;
-	}
-	
-	public void setSourceAmount(Amount sourceAmount)
-	{
-		this.sourceAmount = sourceAmount;
-	}
-	
-	public Integer getSourceTag()
-	{
-		return sourceTag;
-	}
-	
-	public void setSourceTag(Integer sourceTag)
-	{
-		this.sourceTag = sourceTag;
-	}
-	
-	public Amount getSourceMaxAount()
-	{
-		return sourceMaxAmount;
-	}
-	
-	public void setSourceMaxAount(Amount sourceMaxAount)
-	{
-		this.sourceMaxAmount = sourceMaxAount;
 	}
 	
 	public Object getDestination()
@@ -83,59 +34,9 @@ public class Payment
 		return destination;
 	}
 	
-	public void setDestination(Object destination)
+	public void setDestination(Destination destination)
 	{
 		this.destination = destination;
-	}
-	
-	public Address getDestinationAddressReceive()
-	{
-		return destinationAddressReceive;
-	}
-	
-	public void setDestinationAddressReceive(Address destinationAddressReceive)
-	{
-		this.destinationAddressReceive = destinationAddressReceive;
-	}
-	
-	public Amount getDestinationAmount()
-	{
-		return destinationAmount;
-	}
-	
-	public void setDestinationAmount(Amount destinationAmount)
-	{
-		this.destinationAmount = destinationAmount;
-	}
-	
-	public Integer getDestinationTag()
-	{
-		return destinationTag;
-	}
-	
-	public void setDestinationTag(Integer destinationTag)
-	{
-		this.destinationTag = destinationTag;
-	}
-	
-	public Address getDestinationAddressSendTo()
-	{
-		return destinationAddressSendTo;
-	}
-	
-	public void setDestinationAddressSendTo(Address destinationAddressSendTo)
-	{
-		this.destinationAddressSendTo = destinationAddressSendTo;
-	}
-	
-	public Amount getDestinationMinAmount()
-	{
-		return destinationMinAmount;
-	}
-	
-	public void setDestinationMinAmount(Amount destinationMinAmount)
-	{
-		this.destinationMinAmount = destinationMinAmount;
 	}
 	
 	public boolean isAllowPartialPayment()

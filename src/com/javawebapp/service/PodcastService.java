@@ -106,4 +106,10 @@ public class PodcastService
 		String basePath = "audio/";
 		return basePath + episodeName + ".mp3";
 	}
+	
+	public long getPodcastOwnerID(long podcastID)
+	{
+		Podcast podcast = getPodcast(podcastID);
+		return podcast.getOwnerId();
+	}
 }

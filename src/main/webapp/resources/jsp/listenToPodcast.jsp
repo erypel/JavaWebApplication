@@ -74,5 +74,10 @@
 			</div>
 		</div>
 	</div>
+	<br>
+	<!-- can't use href because href is only for get. don't worry too much as this will all be reworked when the backend is nearing completion -->
+	<form action="tip.action?podcastID=${podcastID}" method="post">
+		<input type="submit" value="Tip 1 XRP"/>
+	</form>
 </body>
 </html>

@@ -4,6 +4,8 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
 import com.javawebapp.constants.TransactionConstants;
+import com.javawebapp.factory.base.BaseTransactionFactory;
+import com.javawebapp.factory.impl.TransactionFactory;
 import com.javawebapp.model.Transaction;
 import com.javawebapp.model.TransactionSubClasses.PaymentTransaction;
 import com.javawebapp.model.objectsforrippleapi.Amount;
@@ -12,9 +14,11 @@ import com.javawebapp.model.objectsforrippleapi.Payment;
 import com.javawebapp.model.objectsforrippleapi.Promise;
 
 @Component
-//TODO ripped this all from PaymentTransaction.java for testing
 public class TransactionService
 {
+	BaseTransactionFactory transactionFactory = new TransactionFactory();
+	
+	//TODO ripped this all from PaymentTransaction.java for testing
 	public Promise<Object> prepareTransaction(String address, Object specification, Instructions instructions)
 	{
 		Promise<Object> p = preparePayment(address, (Payment)specification, instructions);
@@ -82,6 +86,15 @@ public class TransactionService
 	private String lookupAcctTxnID(String address)
 	{
 		// TODO Auto-generated method stub
+		return null;
+	}
+	// END TESTING STUFF
+	
+	// BELOW METHODS DEFINITELY BELONG HERE
+	public Transaction createPaymentTransaction(long sourceTag, long destinationTag, String amount)
+	{
+		Transaction payment = transactionFactory.createTransaction(TransactionConstants.PAYMENT);
+		payment.
 		return null;
 	}
 }

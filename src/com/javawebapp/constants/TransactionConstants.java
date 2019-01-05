@@ -19,9 +19,17 @@ public class TransactionConstants
 	public static final String ESCROW_CREATE = "EscrowCreate";
 	public static final String ESCROW_FINISH = "EscrowFinish";
 	public static final String ESCROW_CANCEL = "EscrowCancel";
+	public static final String ESCROW_EXECUTION = "EscrowExecution";
 	public static final String PAYMENT_CHANNEL_CREATE = "PaymentChannelCreate";
 	public static final String PAYMENT_CHANNEL_FUND = "PaymentChannelFund";
 	public static final String PAYMENT_CHANNEL_CLAIM = "PaymentChannelClaim";
+	public static final String CHECK_CANCEL = "CheckCancel";
+	public static final String CHECK_CASH = "CheckCash";
+	public static final String CHECK_CREATE = "CheckCreate";
+	public static final String ORDER = "Order";
+	public static final String ORDER_CANCELLATION = "OrderCancellation";
+	public static final String SETTINGS = "Settings";
+	public static final String TRUSTLINE = "Trustline";
 	
 	// JSON Fields
 	// A reference can be found here:

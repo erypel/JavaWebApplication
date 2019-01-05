@@ -3,14 +3,19 @@ package com.javawebapp.service;
 import org.springframework.stereotype.Component;
 
 import com.javawebapp.model.Transaction;
+import com.javawebapp.model.TransactionSubClasses.PaymentTransaction;
 import com.javawebapp.util.HastyPuddingCipherUtil;
+import com.javawebapp.constants.TransactionConstants;
 import com.javawebapp.dao.LocalXRPLedgerDao;
 import com.javawebapp.dao.impl.LocalXRPLedgerDaoImpl;
+import com.javawebapp.factory.base.BaseTransactionFactory;
+import com.javawebapp.factory.impl.TransactionFactory;
 import com.javawebapp.model.LocalXRPLedger;
 
 @Component
 public class XRPWalletService
 {
+	BaseTransactionFactory transactionFactory = new TransactionFactory();
 	LocalXRPLedgerDao dao = new LocalXRPLedgerDaoImpl();
 	
 	public LocalXRPLedger register(Long userID)
@@ -23,8 +28,12 @@ public class XRPWalletService
 		return dao.getWallet(ownerID);
 	}
 	
-	public boolean sendXRPInternal()
+	public boolean sendXRPInternal(long fromUserID, long toUserID, String amount) throws Exception
 	{
+		long sourceTag = mapSourceTag(fromUserID);
+		long destinationTag = mapDestinationTag(toUserID);
+		
+		Transaction tip = transactionFactory.createTransaction(TransactionConstants.PAYMENT);
 		return false;
 	}
 	
@@ -33,7 +42,30 @@ public class XRPWalletService
 		return false;
 	}
 	
+	/**
+	 * Maps a user ID to a destination tag. This is the same logic
+	 * as mapping a user ID to a source tag. Using different methods
+	 * to promote readability.
+	 * 
+	 * @param userID
+	 * @return
+	 * @throws Exception
+	 */
 	public long mapDestinationTag(long userID) throws Exception
+	{
+		return HastyPuddingCipherUtil.encryptHPCShort(userID);
+	}
+	
+	/**
+	 * Maps a user ID to a source tag. This is the same logic
+	 * as mapping a user ID to a destination tag. Using different methods
+	 * to promote readability.
+	 * 
+	 * @param userID
+	 * @return
+	 * @throws Exception
+	 */
+	public long mapSourceTag(long userID) throws Exception
 	{
 		return HastyPuddingCipherUtil.encryptHPCShort(userID);
 	}

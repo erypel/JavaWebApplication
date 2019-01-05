@@ -43,8 +43,10 @@ public class PodcastController
 		String path = podcastService.getFilePath(podcast.getEpisodeName());
 		//ModelAndView mav = new ModelAndView("listenToPodcast");
 		ModelAndView mav = new ModelAndView("listenToPodcast");
+		//TODO consider just passing podcast as an object
 		mav.addObject("episodePath", path);
 		mav.addObject("episodeName", podcast.getEpisodeName());
+		mav.addObject("podcastID", podcast.getID());
 		return mav;
 	}
 }

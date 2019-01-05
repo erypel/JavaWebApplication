@@ -14,6 +14,21 @@ import com.javawebapp.model.objectsforrippleapi.Promise;
  */
 public abstract class Transaction
 {
+	// Transaction fields
+	public String txID;
+	public Object specification;
+	public Instructions instructions;
+	
+	public Transaction()
+	{
+		// Empty Constructor
+	}
+	
+	// helper methods. maybe put in a service? IDK yet. I want these accessible to the subclasses.
+	public abstract void buildSpecification();
+	
+	public abstract void buildInstructions();
+	
 	public abstract Promise<Object> prepareTransaction(String address, Object specification, Instructions instructions);
 	
 	public abstract JSONObject instantiateCommonTransactionFields(JSONObject json, String address, Instructions instructions);
