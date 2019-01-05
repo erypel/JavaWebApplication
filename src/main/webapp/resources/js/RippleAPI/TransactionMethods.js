@@ -3,8 +3,9 @@
  * 
  * https://developers.ripple.com/rippleapi-reference.html#main_content_wrapper
  */ 
-const RippleAPI = require('ripple-lib').RippleAPI;
-const api = new RippleAPI({
+//Can't use ECMS6 because the ScriptEngine in Java doesn't support it cleanly
+var RippleAPI = require('ripple-lib').RippleAPI;
+var api = new RippleAPI({
 	server: "wss://s.altnet.rippletest.net:51233" // test server
 });
 

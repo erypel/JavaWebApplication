@@ -46,7 +46,8 @@ public class JavaWebAppUtils
 	public static Object invokeTransactionMethodJavaScript(String function, Object...params) throws ScriptException, IOException, NoSuchMethodException
 	{
 		ScriptEngineManager manager = new ScriptEngineManager();
-		ScriptEngine engine = manager.getEngineByName("JavaScript");
+		//Using "JavaScript" as script engine doesn't support const in file
+		ScriptEngine engine = manager.getEngineByName("nashorn");
 		
 		//read the script file
 		engine.eval(Files.newBufferedReader(Paths.get("C:/Users/Evan/workspace/JavaWebApplication/src/main/webapp/resources/js/RippleAPI/TransactionMethods.js"), StandardCharsets.UTF_8));

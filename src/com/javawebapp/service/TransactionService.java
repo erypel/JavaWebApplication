@@ -47,8 +47,8 @@ public class TransactionService
 	
 	public JSONObject buildPaymentJson(String address, Payment payment, Instructions instructions)
 	{
-		PaymentTransaction p = new PaymentTransaction();
-		JSONObject json = p.buildCommonFieldsJson();
+		PaymentTransaction p = new PaymentTransaction(); //TODO this is weird
+		JSONObject json = p.buildCommonFieldsJson(); //TODO so is this
 		json = instantiateCommonTransactionFields(json, address, instructions);
 		json = addDestination(json, payment);
 		return json;
@@ -64,13 +64,17 @@ public class TransactionService
 	{
 		json.replace(TransactionConstants.ACCOUNT, address);
 		json.replace(TransactionConstants.TRANSACTION_TYPE, TransactionConstants.PAYMENT);
-		json.put(TransactionConstants.FEE, instructions.getFee().toString()); // fee is in drops
-		json.put(TransactionConstants.SEQUENCE, new Integer(instructions.getSequence().getSequence()));
+		if(instructions.getFee() != null)
+			json.put(TransactionConstants.FEE, instructions.getFee().toString()); // fee is in drops
+		if(instructions.getSequence() != null)
+			json.put(TransactionConstants.SEQUENCE, new Integer(instructions.getSequence().getSequence()));
 		
 		String acctTxnID = lookupAcctTxnID(address);
-		json.replace(TransactionConstants.ACCOUNT_TXN_ID, acctTxnID);
+		if(acctTxnID != null)
+			json.replace(TransactionConstants.ACCOUNT_TXN_ID, acctTxnID);
 		json.replace(TransactionConstants.FLAGS, getFlags());
-		json.put(TransactionConstants.LAST_LEDGER_SEQUENCE, instructions.getMaxLedgerVersionString()); //https://developers.ripple.com/reliable-transaction-submission.html
+		if(instructions.getMaxLedgerVersionString()!= null)
+			json.put(TransactionConstants.LAST_LEDGER_SEQUENCE, instructions.getMaxLedgerVersionString()); //https://developers.ripple.com/reliable-transaction-submission.html
 		json.put(TransactionConstants.MEMOS, null);
 		json.put(TransactionConstants.SIGNERS, null);
 		json.put(TransactionConstants.SOURCE_TAG, getSourceTag(address));
