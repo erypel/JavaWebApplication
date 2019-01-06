@@ -11,8 +11,6 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import com.eclipsesource.v8.V8;
-
 public class JavaWebAppUtils
 {
 	/**
