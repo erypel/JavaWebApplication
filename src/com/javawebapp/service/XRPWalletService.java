@@ -97,7 +97,7 @@ public class XRPWalletService
 		//build transaction json
 		JSONObject txJSON = transactionService.buildPaymentJson(transaction);
 		String secret = transactionService.getPaymentSecretKey(transaction);
-		SignedTransaction signedTx = (SignedTransaction) JavaWebAppUtils.invokeTransactionMethodJavaScript("sign", txJSON, secret);
+		SignedTransaction signedTx = (SignedTransaction) JavaWebAppUtils.invokeTransactionMethodJavaScript("sign", txJSON.toString(), secret);
 		return signedTx;
 	}
 	

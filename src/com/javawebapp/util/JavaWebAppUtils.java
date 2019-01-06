@@ -11,6 +11,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import com.eclipsesource.v8.V8;
+
 public class JavaWebAppUtils
 {
 	/**
@@ -43,8 +45,11 @@ public class JavaWebAppUtils
 	 * @throws ScriptException 
 	 * @throws NoSuchMethodException 
 	 */
-	public static Object invokeTransactionMethodJavaScript(String function, Object...params) throws ScriptException, IOException, NoSuchMethodException
+	public static Object invokeTransactionMethodJavaScript(String function, String jsonTx, String secret, Object...params) throws ScriptException, IOException, NoSuchMethodException
 	{
+		/*
+		 * This didn't work for Node.js
+		 * 
 		ScriptEngineManager manager = new ScriptEngineManager();
 		//Using "JavaScript" as script engine doesn't support const in file
 		ScriptEngine engine = manager.getEngineByName("nashorn");
@@ -56,5 +61,41 @@ public class JavaWebAppUtils
 		// call the function from the script file
 		Object obj = inv.invokeFunction(function, params);
 		return obj;
+		*/
+		
+		/*
+		 * Can't use libraries with J2V8 very easily. 
+		 */
+		/*
+		V8 runtime = V8.createV8Runtime();
+		Object st= runtime.executeObjectScript("const RippleAPI = require('ripple-lib').RippleAPI;\r\n" + 
+				"const api = new RippleAPI({\r\n" + 
+				"	server: \"wss://s.altnet.rippletest.net:51233\" // test server\r\n" + 
+				"});\r\n" + 
+				"\r\n" + 
+				"api.on('error', (errorCode, errorMessage) => {\r\n" + 
+				"	  console.log(errorCode + ': ' + errorMessage);\r\n" + 
+				"	});\r\n" + 
+				"api.on('connected', () => {\r\n" + 
+				"	  console.log('connected');\r\n" + 
+				"	});\r\n" + 
+				"\r\n" + 
+				"api.on('disconnected', (code) => {\r\n" + 
+				"	// code - [close\r\n" + 
+				"	// code](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent) sent\r\n" + 
+				"	// by the server\r\n" + 
+				"	// will be 1000 if this was normal closure\r\n" + 
+				"	console.log('disconnected, code:', code);\r\n" + 
+				"	});\r\n" + 
+				"	\r\n" + 
+				"api.connect().then(() => {\r\n" + 
+				"	  \r\n" + 
+				"	}).then(() => {\r\n" + 
+				"	  return api.disconnect();\r\n" + 
+				"	}).catch(console.error);\r\n" + 
+				"\r\n" + 
+				"	api.sign("+jsonTx+", "+secret+");\r\n");
+				*/
+		return null;
 	}
 }
