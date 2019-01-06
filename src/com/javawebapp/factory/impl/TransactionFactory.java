@@ -88,10 +88,10 @@ public class TransactionFactory extends BaseTransactionFactory
 		// TODO consider not doing this automatically in all cases.
 		// maybe require a confirmation if a user wants to "tip" a
 		// content creator.
-		tx.prepareTransaction("", null, null);
+		/*tx.prepareTransaction("", null, null);
 		tx.sign();
 		tx.submit();
-		tx.verify();
+		tx.verify();*/
 		
 		return tx;
 	}

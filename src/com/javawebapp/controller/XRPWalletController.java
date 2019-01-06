@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.javawebapp.model.LocalXRPLedger;
+import com.javawebapp.model.Transaction;
+import com.javawebapp.model.objectsforrippleapi.SignedTransaction;
 import com.javawebapp.service.PodcastService;
 import com.javawebapp.service.XRPWalletService;
 
@@ -45,7 +47,8 @@ public class XRPWalletController
 		long podcastID = Long.valueOf(podID);
 		long podcastOwnerID = podcastService.getPodcastOwnerID(podcastID);
 		long userID = getUserID(request);
-		walletService.sendXRPInternal(userID, podcastOwnerID, "1.00"); //TODO make tip amount dynamic
+		Transaction tip = walletService.createXRPTipTransaction(userID, podcastOwnerID, "1.00"); //TODO make tip amount dynamic
+		SignedTransaction signedTip = walletService.signTransaction(tip);
 	}
 	
 	public long getUserID(HttpServletRequest request)

@@ -1,9 +1,16 @@
 package com.javawebapp.service;
 
+import java.io.IOException;
+
+import javax.script.ScriptException;
+
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
 import com.javawebapp.model.Transaction;
+import com.javawebapp.model.objectsforrippleapi.SignedTransaction;
 import com.javawebapp.util.HastyPuddingCipherUtil;
+import com.javawebapp.util.JavaWebAppUtils;
 import com.javawebapp.dao.LocalXRPLedgerDao;
 import com.javawebapp.dao.impl.LocalXRPLedgerDaoImpl;
 import com.javawebapp.exception.InsufficientFundsException;
@@ -38,18 +45,18 @@ public class XRPWalletService
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean sendXRPInternal(long fromUserID, long toUserID, String amount) throws Exception
+	public Transaction createXRPTipTransaction(long fromUserID, long toUserID, String amount) throws Exception
 	{
-		String fromUserBalance = getWalletBalance(fromUserID);
+		//TODO uncomment for real usage
+		/*String fromUserBalance = getWalletBalance(fromUserID);
 		if(Double.parseDouble(fromUserBalance) - Double.parseDouble(amount) < 0)
 			throw new InsufficientFundsException(fromUserID);
-		
+		*/
 		long sourceTag = mapSourceTag(fromUserID);
 		long destinationTag = mapDestinationTag(toUserID);
 		
-		Transaction tip = transactionService.createPaymentTransaction(sourceTag, destinationTag, amount);
-		//TODO finish up sending the transaction		
-		return false;
+		Transaction tip = transactionService.createPaymentTransaction(sourceTag, destinationTag, amount);	
+		return tip;
 	}
 	
 	public boolean sendXRPExternal()
@@ -83,6 +90,15 @@ public class XRPWalletService
 	public long mapSourceTag(long userID) throws Exception
 	{
 		return HastyPuddingCipherUtil.encryptHPCShort(userID);
+	}
+	
+	public SignedTransaction signTransaction(Transaction transaction) throws NoSuchMethodException, ScriptException, IOException
+	{
+		//build transaction json
+		JSONObject txJSON = transactionService.buildPaymentJson(transaction);
+		String secret = transactionService.getPaymentSecretKey(transaction);
+		SignedTransaction signedTx = (SignedTransaction) JavaWebAppUtils.invokeTransactionMethodJavaScript("sign", txJSON.toString(), secret);
+		return signedTx;
 	}
 	
 	//check for collisions when mapping. maybe move to hpcUtil

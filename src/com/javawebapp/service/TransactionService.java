@@ -10,6 +10,7 @@ import com.javawebapp.factory.impl.SpecificationFactory;
 import com.javawebapp.factory.impl.TransactionFactory;
 import com.javawebapp.model.Transaction;
 import com.javawebapp.model.TransactionSubClasses.PaymentTransaction;
+import com.javawebapp.model.objectsforrippleapi.Address;
 import com.javawebapp.model.objectsforrippleapi.Amount;
 import com.javawebapp.model.objectsforrippleapi.Destination;
 import com.javawebapp.model.objectsforrippleapi.Instructions;
@@ -46,8 +47,8 @@ public class TransactionService
 	
 	public JSONObject buildPaymentJson(String address, Payment payment, Instructions instructions)
 	{
-		PaymentTransaction p = new PaymentTransaction();
-		JSONObject json = p.buildCommonFieldsJson();
+		PaymentTransaction p = new PaymentTransaction(); //TODO this is weird
+		JSONObject json = p.buildCommonFieldsJson(); //TODO so is this
 		json = instantiateCommonTransactionFields(json, address, instructions);
 		json = addDestination(json, payment);
 		return json;
@@ -63,13 +64,17 @@ public class TransactionService
 	{
 		json.replace(TransactionConstants.ACCOUNT, address);
 		json.replace(TransactionConstants.TRANSACTION_TYPE, TransactionConstants.PAYMENT);
-		json.put(TransactionConstants.FEE, instructions.getFee().toString()); // fee is in drops
-		json.put(TransactionConstants.SEQUENCE, new Integer(instructions.getSequence().getSequence()));
+		if(instructions.getFee() != null)
+			json.put(TransactionConstants.FEE, instructions.getFee().toString()); // fee is in drops
+		if(instructions.getSequence() != null)
+			json.put(TransactionConstants.SEQUENCE, new Integer(instructions.getSequence().getSequence()));
 		
 		String acctTxnID = lookupAcctTxnID(address);
-		json.replace(TransactionConstants.ACCOUNT_TXN_ID, acctTxnID);
+		if(acctTxnID != null)
+			json.replace(TransactionConstants.ACCOUNT_TXN_ID, acctTxnID);
 		json.replace(TransactionConstants.FLAGS, getFlags());
-		json.put(TransactionConstants.LAST_LEDGER_SEQUENCE, instructions.getMaxLedgerVersionString()); //https://developers.ripple.com/reliable-transaction-submission.html
+		if(instructions.getMaxLedgerVersionString()!= null)
+			json.put(TransactionConstants.LAST_LEDGER_SEQUENCE, instructions.getMaxLedgerVersionString()); //https://developers.ripple.com/reliable-transaction-submission.html
 		json.put(TransactionConstants.MEMOS, null);
 		json.put(TransactionConstants.SIGNERS, null);
 		json.put(TransactionConstants.SOURCE_TAG, getSourceTag(address));
@@ -116,5 +121,31 @@ public class TransactionService
 		Instructions instructions = new Instructions(); //instructions are optional, so not implementing yet
 		payment.setInstructions(instructions);
 		return payment;
+	}
+
+	public JSONObject buildPaymentJson(Transaction transaction)
+	{
+		Payment payment = (Payment)transaction.getSpecification();
+		String address = payment.getSource().getAddress().toString();
+		Instructions instructions = transaction.getInstructions();
+		JSONObject json = buildPaymentJson(address, payment, instructions);
+		return json;
+	}
+
+	/**
+	 * Get the secret key of the address sending a transaction
+	 * @param transaction
+	 * @return
+	 */
+	//TODO this will need to be properly implemented
+	public String getPaymentSecretKey(Transaction transaction)
+	{
+		Payment spec = (Payment) transaction.getSpecification();
+		Address address = spec.getSource().getAddress();
+		if(address.toString() == "rwYQjHp9HZiKKpZB4i4fvc8eQvAtA7vdY6")
+			return "snKixQChzs9KcBxxrYWpm97sxnA1e".toUpperCase();
+		else if(address.toString() == "rntmtrrtSGS9dJD84krKvutJLeQ6mADgQp")
+			return "snzzPQHtaCt2oj6YEx5CmCLD3p9Qv".toUpperCase();
+		return null;
 	}
 }

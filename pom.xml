@@ -121,6 +121,12 @@
     		<artifactId>json-simple</artifactId>
     		<version>1.1.1</version>
 		</dependency>
+		<!-- for running Node.js on the JVM -->
+		<dependency>
+  			<groupId>com.eclipsesource.j2v8</groupId>
+  			<artifactId>j2v8_win32_x86_64</artifactId>
+  			<version>4.4.0</version>
+		</dependency>
 	</dependencies>
 	
 	<properties>
